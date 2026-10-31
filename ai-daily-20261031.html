@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 行业日报 · 2026年10月31日</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f7f4ef;
+    --paper-2: #f0ebe3;
+    --ink: #1c1b19;
+    --ink-soft: #4a4640;
+    --ink-faint: #8a8378;
+    --rule: #d9d2c5;
+    --accent: #b8431f;
+    --accent-soft: #f4e6df;
+    --gold: #c89b3c;
+    --silver: #9a9a9a;
+    --bronze: #b07d4f;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.75;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .container {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* ── Masthead ─────────────────────────────── */
+  .masthead {
+    padding: 64px 0 40px;
+    border-bottom: 3px double var(--ink);
+    margin-bottom: 56px;
+    text-align: center;
+  }
+
+  .masthead .eyebrow {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+    font-weight: 500;
+  }
+
+  .masthead h1 {
+    font-family: "Noto Serif SC", serif;
+    font-size: clamp(32px, 6vw, 56px);
+    font-weight: 900;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-bottom: 18px;
+  }
+
+  .masthead h1 .amp {
+    color: var(--accent);
+    font-style: italic;
+  }
+
+  .masthead .sub {
+    font-family: "Noto Serif SC", serif;
+    font-size: 17px;
+    color: var(--ink-soft);
+    font-weight: 400;
+    max-width: 540px;
+    margin: 0 auto 28px;
+    line-height: 1.7;
+  }
+
+  .meta-line {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12px;
+    color: var(--ink-faint);
+    letter-spacing: 0.08em;
+  }
+
+  .meta-line .dot {
+    width: 4px; height: 4px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  /* ── Section headings ─────────────────────── */
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 32px;
+  }
+
+  .section-label .num {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 13px;
+    color: var(--accent);
+    font-weight: 500;
+    letter-spacing: 0.1em;
+  }
+
+  .section-label h2 {
+    font-family: "Noto Serif SC", serif;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .section-label .rule {
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+
+  /* ── News cards ───────────────────────────── */
+  .news-list {
+    margin-bottom: 80px;
+  }
+
+  .news-card {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 24px;
+    padding: 28px 0;
+    border-bottom: 1px solid var(--rule);
+    transition: background 0.3s ease, padding 0.3s ease;
+    opacity: 0;
+    transform: translateY(16px);
+    animation: rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  @keyframes rise {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .news-card:hover {
+    background: var(--accent-soft);
+    padding-left: 16px;
+    padding-right: 16px;
+    border-radius: 4px;
+  }
+
+  .news-card .rank {
+    font-family: "Noto Serif SC", serif;
+    font-size: 38px;
+    font-weight: 900;
+    color: var(--rule);
+    line-height: 1;
+    transition: color 0.3s ease;
+  }
+
+  .news-card:hover .rank { color: var(--accent); }
+
+  .news-card .tag {
+    display: inline-block;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-soft);
+    padding: 3px 10px;
+    border-radius: 2px;
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
+
+  .news-card h3 {
+    font-family: "Noto Serif SC", serif;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.45;
+    margin-bottom: 10px;
+    letter-spacing: -0.005em;
+  }
+
+  .news-card .summary {
+    font-size: 15px;
+    color: var(--ink-soft);
+    line-height: 1.8;
+    margin-bottom: 12px;
+  }
+
+  .news-card .source {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    color: var(--ink-faint);
+    letter-spacing: 0.04em;
+  }
+
+  .news-card .source a {
+    color: var(--ink-faint);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--ink-faint);
+    transition: color 0.2s;
+  }
+
+  .news-card .source a:hover { color: var(--accent); }
+
+  /* ── Leaderboard ──────────────────────────── */
+  .leaderboard-section {
+    margin-bottom: 80px;
+  }
+
+  .lb-intro {
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin-bottom: 28px;
+    line-height: 1.8;
+  }
+
+  .lb-intro strong { color: var(--ink); font-weight: 600; }
+
+  .lb-table-wrap {
+    background: var(--paper-2);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  table.lb {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+
+  table.lb thead th {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-faint);
+    text-align: left;
+    padding: 14px 16px;
+    background: var(--paper);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  table.lb thead th.num { text-align: center; }
+  table.lb thead th.pct { text-align: right; }
+
+  table.lb tbody tr {
+    transition: background 0.25s ease;
+    border-bottom: 1px solid var(--rule);
+  }
+  table.lb tbody tr:last-child { border-bottom: none; }
+  table.lb tbody tr:hover { background: var(--accent-soft); }
+
+  table.lb td {
+    padding: 13px 16px;
+    vertical-align: middle;
+  }
+
+  table.lb td.num {
+    text-align: center;
+    font-family: "JetBrains Mono", monospace;
+    font-weight: 500;
+    color: var(--ink-faint);
+    width: 48px;
+  }
+
+  table.lb tr.top1 td.num { color: var(--gold); font-weight: 700; }
+  table.lb tr.top2 td.num { color: var(--silver); font-weight: 700; }
+  table.lb tr.top3 td.num { color: var(--bronze); font-weight: 700; }
+
+  table.lb td.model { font-weight: 600; color: var(--ink); }
+  table.lb td.model .variant {
+    font-weight: 400;
+    color: var(--ink-faint);
+    font-size: 12px;
+  }
+
+  table.lb td.lab {
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+
+  table.lb td.license {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+  }
+  .badge-prop { color: var(--accent); }
+  .badge-open { color: #2e7d5b; }
+
+  table.lb td.pct {
+    text-align: right;
+    font-family: "JetBrains Mono", monospace;
+    font-weight: 500;
+  }
+
+  .bar-cell {
+    position: relative;
+  }
+  .bar-cell .bar-bg {
+    position: absolute;
+    left: 0; top: 50%;
+    transform: translateY(-50%);
+    height: 22px;
+    background: var(--accent-soft);
+    border-radius: 2px;
+    z-index: 0;
+  }
+  .bar-cell .pct-text {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── Trend commentary ─────────────────────── */
+  .trend {
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 8px;
+    padding: 48px 44px;
+    margin-bottom: 64px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .trend::before {
+    content: "趋势";
+    position: absolute;
+    top: -12px;
+    left: 24px;
+    font-family: "Noto Serif SC", serif;
+    font-size: 120px;
+    font-weight: 900;
+    color: rgba(255,255,255,0.04);
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .trend .label {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .trend p {
+    font-family: "Noto Serif SC", serif;
+    font-size: 18px;
+    line-height: 1.9;
+    color: #e8e2d7;
+    position: relative;
+    z-index: 1;
+    max-width: 720px;
+  }
+
+  .trend p + p { margin-top: 16px; }
+
+  /* ── Footer ───────────────────────────────── */
+  footer {
+    border-top: 1px solid var(--rule);
+    padding: 32px 0 56px;
+    text-align: center;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    color: var(--ink-faint);
+    letter-spacing: 0.06em;
+    line-height: 2;
+  }
+
+  footer a {
+    color: var(--ink-faint);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--ink-faint);
+  }
+
+  /* ── Responsive ───────────────────────────── */
+  @media (max-width: 640px) {
+    .container { padding: 0 20px; }
+    .masthead { padding: 40px 0 28px; margin-bottom: 40px; }
+    .news-card { grid-template-columns: 40px 1fr; gap: 16px; padding: 22px 0; }
+    .news-card .rank { font-size: 28px; }
+    .news-card h3 { font-size: 17px; }
+    .trend { padding: 32px 24px; }
+    .trend p { font-size: 15px; }
+    table.lb { font-size: 12px; }
+    table.lb th, table.lb td { padding: 10px 8px; }
+    .hide-mobile { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- ═══ MASTHEAD ═══ -->
+  <header class="masthead">
+    <div class="eyebrow">AI Industry Daily · Vol. 1031</div>
+    <h1>AI 行业<span class="amp">日报</span></h1>
+    <p class="sub">产品、融资、技术与监管的交汇点 —— 过去 24 小时值得追踪的八条动态，以及 Arena 智能体榜单 Top 20。</p>
+    <div class="meta-line">
+      <span>2026.10.31 · FRI</span>
+      <span class="dot"></span>
+      <span>北京时间</span>
+      <span class="dot"></span>
+      <span>数据截至发稿</span>
+    </div>
+  </header>
+
+  <!-- ═══ NEWS SECTION ═══ -->
+  <section>
+    <div class="section-label">
+      <span class="num">01 / 热点</span>
+      <h2>今日要闻</h2>
+      <span class="rule"></span>
+    </div>
+
+    <div class="news-list">
+
+      <article class="news-card" style="animation-delay:0.05s">
+        <div class="rank">01</div>
+        <div>
+          <span class="tag">行业标准 · 数据治理</span>
+          <h3>四大 AI 实验室统一训练数据退出令牌</h3>
+          <p class="summary">OpenAI、Google、Microsoft、Anthropic 达成一致，共同支持单一 robots.txt 指令 <code style="font-family:'JetBrains Mono',monospace;font-size:13px;background:var(--paper-2);padding:1px 6px;border-radius:2px">__usage_ai-training</code>，出版商可用一条规则从全部四家的训练中退出内容。Anthropic 已即刻生效，其余三家将在 2027 年内陆续落地。</p>
+          <div class="source">来源：AIToolsRecap · 2026-10-31</div>
+        </div>
+      </article>
+
+      <article class="news-card" style="animation-delay:0.1s">
+        <div class="rank">02</div>
+        <div>
+          <span class="tag">融资 · 生成式视频</span>
+          <h3>快手可灵 AI 完成 198 亿元融资</h3>
+          <p class="summary">快手旗下视频生成模型主体北京可灵完成约 198 亿元人民币外部融资交割，阿里、腾讯、百度齐聚股东名单，创全球视频大模型领域最大单笔融资纪录，凸显视频生成赛道的资本热度。</p>
+          <div class="source">来源：TechWeb / 快手港交所公告 · 2026-10-31</div>
+        </div>
+      </article>
+
+      <article class="news-card" style="animation-delay:0.15s">
+        <div class="rank">03</div>
+        <div>
+          <span class="tag">安全事件 · 供应链</span>
+          <h3>Cursor 市场出现带 SSH 后门的恶意 Claude Code 扩展</h3>
+          <p class="summary">伪装成 Anthropic.claude-code 的恶意版本（v2.1.312 / 2.1.313）在 Cursor 插件市场上架约 11 小时，窃取主机信息并尝试植入 SSH 反向隧道持久化后门，Cursor 明确表示"非 Anthropic 开发"，建议用户检查 authorized_keys 中的 svc-telemetry 条目。</p>
+          <div class="source">来源：Cursor Security Notice / AIToolsRecap · 2026-10-31</div>
+        </div>
+      </article>
+
+      <article class="news-card" style="animation-delay:0.2s">
+        <div class="rank">04</div>
+        <div>
+          <span class="tag">产品 · 定价</span>
+          <h3>Anthropic 将 Max 20x 更名为 Ultra，验证账户取消 5 小时限额</h3>
+          <p class="summary">Anthropic 重构消费级订阅命名：Max 20x → Ultra（$200/月）、Max 5x → Max（$100/月）。已验证 Ultra 账户不再受 5 小时会话上限约束，周限额仍保留。这是 Agent 高频使用场景下的产品定价调整信号。</p>
+          <div class="source">来源：Anthropic Plans &amp; Pricing · 2026-10-31</div>
+        </div>
+      </article>
+
+      <article class="news-card" style="animation-delay:0.25s">
+        <div class="rank">05</div>
+        <div>
+          <span class="tag">产品 · Agent 经济</span>
+          <h3>xAI 为 Grok Bot 接入支付能力，可自主完成购物结账</h3>
+          <p class="summary">Grok Bot 现可通过 Link 连接支付凭证并自动结账，配套 Auto Review 规则引擎（最多 20 条"自动允许"与 20 条"先询问"规则）。继 Anthropic 虚拟卡之后，Agent 钱包正式成为消费级产品类别。</p>
+          <div class="source">来源：xAI News / dev.to AI Daily Digest · 2026-10-31</div>
+        </div>
+      </article>
+
+      <article class="news-card" style="animation-delay:0.3s">
+        <div class="rank">06</div>
+        <div>
+          <span class="tag">产品 · 生态合作</span>
+          <h3>苹果 Apple Intelligence 接入阿里千问，12 月登陆中国</h3>
+          <p class="summary">苹果宣布与阿里巴巴合作，将千问大模型接入 Apple Intelligence，11 月 4 日起随 iOS 开发者 Beta 开放测试，12 月随 iOS 27.3 正式面向中国用户推出，首批仅支持 iPhone。</p>
+          <div class="source">来源：苹果官方 / 微博 · 2026-10-31</div>
+        </div>
+      </article>
+
+      <article class="news-card" style="animation-delay:0.35s">
+        <div class="rank">07</div>
+        <div>
+          <span class="tag">监管 · 欧盟 AI Act</span>
+          <h3>欧盟发布首个 AI Act 协调标准 EN 18286:2026</h3>
+          <p class="summary">CEN/CENELEC 制定的 EN 18286:2026 已在欧盟官方公报发布，为高风险 AI 系统提供商满足 AI Act 第 17 条质量管理体系要求提供明确合规路径，是 AI Act 落地执行层面的首个协调标准。</p>
+          <div class="source">来源：European Commission Digital Strategy · 2026-10</div>
+        </div>
+      </article>
+
+      <article class="news-card" style="animation-delay:0.4s">
+        <div class="rank">08</div>
+        <div>
+          <span class="tag">研究 · 自主科研 Agent</span>
+          <h3>"Infinity Machine"：自我改进 AI 研究 Agent 产出 4 项量子信息 SOTA</h3>
+          <p class="summary">arXiv 论文报告了一个自我改进的研究 Agent，在 6 天内以约 180 美元模型成本，针对 14 个问题产出 4 项超越已发表 SOTA 的量子信息结果，包括去极化信道阈值点与 Golay 态制备深度，标志着 AI 自主科研的新进展。</p>
+          <div class="source">来源：arXiv:2610.35579 · 2026-10</div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ═══ LEADERBOARD ═══ -->
+  <section class="leaderboard-section">
+    <div class="section-label">
+      <span class="num">02 / 榜单</span>
+      <h2>Arena 智能体排行榜 · Top 20</h2>
+      <span class="rule"></span>
+    </div>
+
+    <p class="lb-intro">
+      数据来源 <a href="https://arena.ai/leaderboard/agent" style="color:var(--accent)">arena.ai/leaderboard/agent</a>，按 <strong>净提升度（Net Improvement）</strong> 排序，基于 2,557,423 场真实 Agent 会话。下表同时列出确认成功率与褒贬比两个关键信号。<br>
+      <span style="font-size:12px;color:var(--ink-faint)">同步日期：2026-10-26 · 共 55 个模型参评</span>
+    </p>
+
+    <div class="lb-table-wrap">
+      <table class="lb">
+        <thead>
+          <tr>
+            <th class="num">#</th>
+            <th>模型</th>
+            <th class="hide-mobile">机构</th>
+            <th class="hide-mobile">类型</th>
+            <th class="pct">净提升度</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="top1">
+            <td class="num">1</td>
+            <td class="model">Claude Opus 5.5 <span class="variant">(Max)</span></td>
+            <td class="lab hide-mobile">Anthropic</td>
+            <td class="license hide-mobile"><span class="badge-prop">Proprietary</span></td>
+            <td class="pct bar-cell"><div class="bar-bg" style="width:100%"></div><span class="pct-text">20.77%</span></td>
+          </tr>
+          <tr class="top2">
+            <td class="num">2</td>
+            <td class="model">Claude Sonnet 5.5 <span class="variant">(Max)</span></td>
+            <td class="lab hide-mobile">Anthropic</td>
+            <td class="license hide-mobile"><span class="badge-prop">Proprietary</span></td>
+            <td class="pct bar-cell"><div class="bar-bg" style="width:67.4%"></div><span class="pct-text">13.99%</span></td>
+          </tr>
+          <tr class="top3">
+            <td class="num">3</td>
+            <td class="model">GPT-6 Astra <span class="variant">(Max)</span></td>
+            <td class="lab hide-mobile">OpenAI</td>
+            <td class="license hide-mobile"><span class="badge-prop">Proprietary</span></td>
+            <td class="pct bar-cell"><div class="bar-bg" style="width:67.2%"></div><span class="pct-text">13.96%</span></td>
+          </tr>
+          <tr>
+            <td class="num">4</td>
+            <td class="model">Claude Fable 5.1 <span class="variant">(Max)</span></td>
+            <td class="lab hide-mobile">Anthropic</td>
+            <td class="license hide-mobile"><span class="badge-prop">Proprietary</span></td>
+            <td class="pct bar-cell"><div class="bar-bg" style="width:67.1%"></div><span class="pct-text">13.94%</span></td>
+          </tr>
+          <tr>
+            <td class="num">5</td>
+            <td class="model">GPT-6.1 Sol <span class="variant">(Max)</span></td>
+            <td class="lab hide-mobile">OpenAI</td>
+            <td class="license hide-mobile"><span class="badge-prop">Proprietary</span></td>
+            <td class="pct bar-cell"><div class="bar-bg" style="width:65.7%"></div><span class="pct-text">13.64%</span></td>
+          </tr>
+          <tr>
+            <td class="num">6</td>
+            <td class="model">Gemini 4 Argon <span class="variant">(High)</span></td>
+            <td class="lab hide-mobile">Google</td>
+            <td class="license hide-mobile"><span class="badge-prop">Proprietary</span></td>
+            <td class="pct bar-cell"><div class="bar-bg" style="width:56.6%"></div><span class="pct-text">11.75%</span></td>
+          </tr>
+          <tr>
+            <td class="num">7</td>
+            <td class="model">Muse Wonder Full <span class="variant">(Max)</span></td>
+            <td class="lab hide-mobile">Meta</td>
+            <td class="license hide-mobile"><span class="badge-prop">Proprietary</span></td>
+            <td class="pct bar-cell"><div class="bar-bg" style="width:51.7%"></div><span class="pct-text">10.74%</span></td>
+          </tr>
+          <tr>
+            <td class="num">8</td>
+            <td class="model">GPT-6 Sol <span class="variant">(Max)</span></td>
+            <td class="lab hide-mobile">OpenAI</td>
+            <td class="license hide-mobile"><span class="badge-prop">Proprietary</span></td>
+            <td class="pct bar-cell"><div class="bar-bg" style="width:41.3%"></div><span class="pct-text">8.57%</span></td>
+          </tr>
+          <tr>
+            <td class="num">9</td>
+            <td class="model">Claude Opus 5 <span class="variant">(Max)</span></td>
+            <td class="lab hide-mobile">Anthropic</td>
+            <td class="license hide-mobile"><span class="badge-prop">Proprietary</span></td>
+            <td class="pct bar-cell"><div class="bar-bg" style="width:39.6%"></div><span class="pct-text">8.22%</span></td>
+          </tr>
+          <tr>
+            <td class="num">10</td>
+            <td class="model">Claude Fable 5 <span class="variant">(High)</span></td>
+            <td class="lab hide-mobile">Anthropic</td>
+            <td class="license hide-mobile"><span class="badge-prop">Proprietary</span></td>
+            <td class="pct bar-cell"><div class="bar-bg" style="width:37.3%"></div><span class="pct-text">7.75%</span></td>
+          </tr>
+          <tr>
+            <td class="num">11</td>
+            <td class="model">Kimi K3.1 Pro <span class="variant">(Max) · Prelim</span></td>
+            <td class="lab hide-mobile">Moonshot</td>
+            <td class="license hide-mobile"><span class="badge-prop">Proprietary</span></td>
+            <td class="pct bar-cell"><div class="bar-bg" style="width:36.6%"></div><span class="pct-text">7.61%</span></td>
+          </tr>
+          <tr>
+            <td class="num">12</td>
+            <td class="model">GPT-5.6 Sol <span class="variant">(xHigh)</span></td>
+            <td class="lab hide-mobile">OpenAI</td>
+            <td class="license hide-mobile"><span class="badge-prop">Proprietary</span></td>
+            <td class="pct bar-cell"><div class="bar-bg" style="width:29.2%"></div><span class="pct-text">6.06%</span></td>
+          </tr>
+          <tr>
+            <td class="num">13</td>
+            <td class="model">DeepSeek-V4.1-Flash <span class="variant">(Max)</span></td>
+            <td class="lab hide-mobile">DeepSeek</td>
+            <td class="license hide-mobile"><span class="badge-open">Open</span></td>
+            <td class="pct bar-cell"><div class="bar-bg" style="width:21.0%"></div><span class="pct-text">4.37%</span></td>
+          </tr>
+          <tr>
+            <td class="num">14</td>
+            <td class="model">Claude Sonnet 5 <span class="variant">(High)</span></td>
+            <td class="lab hide-mobile">Anthropic</td>
+            <td class="license hide-mobile"><span class="badge-prop">Proprietary</span></td>
+            <td class="pct bar-cell"><div class="bar-bg" style="width:18.1%"></div><span class="pct-text">3.75%</span></td>
+          </tr>
+          <tr>
+            <td class="num">15</td>
+            <td class="model">Muse Wonder <span class="variant">(Max)</span></td>
+            <td class="lab hide-mobile">Meta</td>
+            <td class="license hide-mobile"><span class="badge-prop">Proprietary</span></td>
+            <td class="pct bar-cell"><div class="bar-bg" style="width:15.9%"></div><span class="pct-text">3.31%</span></td>
+          </tr>
+          <tr>
+            <td class="num">16</td>
+            <td class="model">MiMo-V2.6-Pro</td>
+            <td class="lab hide-mobile">Xiaomi</td>
+            <td class="license hide-mobile"><span class="badge-open">Open</span></td>
+            <td class="pct bar-cell"><div class="bar-bg" style="width:15.9%"></div><span class="pct-text">3.30%</span></td>
+          </tr>
+          <tr>
+            <td class="num">17</td>
+            <td class="model">Gemini 3.8 Flash <span class="variant">(High)</span></td>
+            <td class="lab hide-mobile">Google</td>
+            <td class="license hide-mobile"><span class="badge-prop">Proprietary</span></td>
+            <td class="pct bar-cell"><div class="bar-bg" style="width:15.3%"></div><span class="pct-text">3.17%</span></td>
+          </tr>
+          <tr>
+            <td class="num">18</td>
+            <td class="model">Muse Spark 1.3 <span class="variant">(Max)</span></td>
+            <td class="lab hide-mobile">Meta</td>
+            <td class="license hide-mobile"><span class="badge-prop">Proprietary</span></td>
+            <td class="pct bar-cell"><div class="bar-bg" style="width:14.7%"></div><span class="pct-text">3.05%</span></td>
+          </tr>
+          <tr>
+            <td class="num">19</td>
+            <td class="model">Grok 4.7 <span class="variant">(xHigh)</span></td>
+            <td class="lab hide-mobile">xAI</td>
+            <td class="license hide-mobile"><span class="badge-prop">Proprietary</span></td>
+            <td class="pct bar-cell"><div class="bar-bg" style="width:14.5%"></div><span class="pct-text">3.02%</span></td>
+          </tr>
+          <tr>
+            <td class="num">20</td>
+            <td class="model">GPT-6 Luna <span class="variant">(Max)</span></td>
+            <td class="lab hide-mobile">OpenAI</td>
+            <td class="license hide-mobile"><span class="badge-prop">Proprietary</span></td>
+            <td class="pct bar-cell"><div class="bar-bg" style="width:13.4%"></div><span class="pct-text">2.79%</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ═══ TREND COMMENTARY ═══ -->
+  <section class="trend">
+    <div class="label">Today's Take</div>
+    <p>今日的主线是"<strong style="color:var(--paper)">AI 产业链从模型竞争转向基础设施与治理竞争</strong>"——四大实验室在训练数据退出标准上罕见对齐，欧盟首个 AI Act 协调标准落地，而 Cursor 后门事件则暴露了 AI 工具供应链的软腹。</p>
+    <p>商业端，198 亿视频模型融资与 Agent 钱包的出现，意味着资本正押注"生成式 + 自主行动"的下一阶段；技术端，自我改进研究 Agent 在量子信息领域产出 SOTA，提示 AI 科研闭环正在成型。模型能力的差距在缩小，而谁能定义规则、守住供应链、率先把 Agent 接入真实世界，将决定下一轮格局。</p>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer>
+    <div>本报告由公开来源信息自动整理 · 数据以原始来源为准</div>
+    <div>新闻来源：AIToolsRecap · dev.to AI Daily Digest · 36氪 · TechWeb · European Commission · arXiv</div>
+    <div>榜单来源：<a href="https://arena.ai/leaderboard/agent">arena.ai</a>（经 agientry.com 镜像同步于 2026-10-26）</div>
+    <div style="margin-top:8px">Generated 2026-10-31</div>
+  </footer>
+
+</div>
+
+</body>
+</html>
