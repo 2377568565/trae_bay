@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>上海成品油月度价格观察 2024.01—2026.10</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;900&family=Noto+Sans+SC:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f5f1e8;
+    --paper-2:#eee8dc;
+    --ink:#16130e;
+    --ink-soft:#403a31;
+    --muted:#857c6e;
+    --rule:rgba(22,19,14,.14);
+    --rust:#b0441e;
+    --teal:#4c6a63;
+    --serif:"Noto Serif SC","Songti SC",serif;
+    --sans:"Noto Sans SC","PingFang SC",sans-serif;
+    --mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:var(--sans);font-weight:400;line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+  }
+  body::after{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.10;
+    mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  }
+  ::selection{background:var(--rust);color:var(--paper)}
+
+  .wrap{max-width:1120px;margin:0 auto;padding:0 48px}
+  @media (max-width:760px){.wrap{padding:0 22px}}
+
+  /* ---------- 页眉 ---------- */
+  .masthead{padding:84px 0 56px;border-bottom:1px solid var(--ink)}
+  .topbar{
+    display:flex;justify-content:space-between;align-items:center;
+    font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--muted);margin-bottom:64px;
+  }
+  .topbar b{color:var(--rust);font-weight:500}
+  .kicker{
+    font-family:var(--mono);font-size:11px;letter-spacing:.26em;text-transform:uppercase;
+    color:var(--muted);margin-bottom:22px;
+  }
+  h1{
+    font-family:var(--serif);font-weight:900;letter-spacing:-.01em;
+    font-size:clamp(44px,7.4vw,92px);line-height:1.02;margin:0;
+  }
+  h1 em{font-style:normal;color:var(--rust)}
+  .deck{
+    font-family:var(--serif);font-size:clamp(17px,2vw,23px);line-height:1.85;
+    color:var(--ink-soft);max-width:58ch;margin:34px 0 0;
+  }
+  .meta-row{
+    display:flex;flex-wrap:wrap;gap:10px 26px;margin-top:38px;
+    font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--muted);
+  }
+  .meta-row span{display:flex;align-items:center;gap:8px}
+  .meta-row i{width:5px;height:5px;background:var(--rust);display:block}
+
+  /* ---------- KPI ---------- */
+  .kpis{
+    display:grid;grid-template-columns:repeat(5,1fr);
+    border-bottom:1px solid var(--rule);margin-top:-1px;
+  }
+  .kpi{padding:38px 24px 34px;border-right:1px solid var(--rule)}
+  .kpi:last-child{border-right:0}
+  .kpi .k{
+    font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--muted);margin-bottom:14px;
+  }
+  .kpi .v{
+    font-family:var(--mono);font-weight:500;font-size:30px;line-height:1;letter-spacing:-.02em;
+  }
+  .kpi .v small{font-size:12px;font-weight:400;color:var(--muted);margin-left:4px}
+  .kpi .d{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.6}
+  .kpi .v.up{color:var(--rust)}
+  @media (max-width:900px){
+    .kpis{grid-template-columns:repeat(2,1fr)}
+    .kpi{border-bottom:1px solid var(--rule)}
+    .kpi:nth-child(2n){border-right:0}
+    .kpi:last-child{border-bottom:0}
+  }
+
+  /* ---------- 章节 ---------- */
+  section{padding:78px 0 0}
+  .sec-head{display:flex;align-items:baseline;gap:18px;margin-bottom:12px}
+  .sec-no{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--rust)}
+  .sec-head h2{
+    font-family:var(--serif);font-weight:600;font-size:clamp(24px,3vw,32px);
+    margin:0;line-height:1.35;
+  }
+  .sec-sub{color:var(--muted);font-size:13px;margin:0 0 34px 40px}
+  @media (max-width:760px){.sec-sub{margin-left:0}}
+
+  .panel{
+    border:1px solid var(--rule);background:rgba(255,255,255,.34);
+    padding:28px 26px 20px;position:relative;
+  }
+  .panel-head{
+    display:flex;justify-content:space-between;align-items:baseline;gap:16px;
+    margin-bottom:8px;flex-wrap:wrap;
+  }
+  .panel-head h3{
+    font-family:var(--sans);font-weight:500;font-size:14px;margin:0;letter-spacing:.02em;
+  }
+  .legend{display:flex;gap:20px;font-family:var(--mono);font-size:11px;color:var(--muted)}
+  .legend span{display:flex;align-items:center;gap:7px}
+  .legend i{width:18px;height:3px;display:block;border-radius:2px}
+  .legend i.dash{height:0;border-top:2px dashed var(--teal)}
+
+  .chart-wrap{position:relative;margin-top:6px}
+  svg{display:block;width:100%;height:auto;overflow:visible}
+  .chart-svg .grid{stroke:var(--rule);stroke-width:1}
+  .chart-svg .sep{stroke:rgba(22,19,14,.22);stroke-width:1;stroke-dasharray:2 6}
+  .chart-svg .axis{fill:var(--muted);font:400 12px var(--mono)}
+  .chart-svg .year{fill:var(--ink);font:500 12px var(--mono);letter-spacing:.12em}
+  .chart-svg .line{fill:none;stroke-linecap:round;stroke-linejoin:round}
+  .chart-svg .l92{stroke:var(--rust);stroke-width:2.6}
+  .chart-svg .l95{stroke:var(--ink);stroke-width:1.4;opacity:.75}
+  .chart-svg .l0{stroke:var(--teal);stroke-width:1.6;stroke-dasharray:5 4}
+  .chart-svg .mk{fill:var(--paper);stroke-width:2}
+  .chart-svg .lbl{
+    font:500 12px var(--mono);fill:var(--ink);
+    paint-order:stroke;stroke:var(--paper);stroke-width:5;stroke-linejoin:round;
+  }
+  .chart-svg .lbl-rust{fill:var(--rust)}
+
+  .tip{
+    position:absolute;pointer-events:none;opacity:0;transition:opacity .12s;
+    background:var(--ink);color:var(--paper);border-radius:6px;
+    padding:10px 12px;font-family:var(--mono);font-size:11px;line-height:1.85;
+    box-shadow:0 10px 24px -12px rgba(0,0,0,.5);white-space:nowrap;z-index:5;
+  }
+  .tip b{color:#f0c9b9;font-weight:500}
+  .tip .tt{font-family:var(--sans);font-size:12px;color:#cfc6b6;letter-spacing:.06em;margin-bottom:4px}
+
+  .panel-foot{
+    display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+    border-top:1px solid var(--rule);margin-top:16px;padding-top:12px;
+    font-size:11px;color:var(--muted);font-family:var(--mono);
+  }
+
+  /* ---------- 结论 ---------- */
+  .findings{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--rule)}
+  .finding{padding:30px 26px 30px 0;border-right:1px solid var(--rule)}
+  .finding:nth-child(2){padding-left:26px}
+  .finding:last-child{border-right:0;padding-left:26px}
+  .finding .n{font-family:var(--mono);font-size:11px;color:var(--rust);letter-spacing:.14em}
+  .finding h3{
+    font-family:var(--serif);font-weight:600;font-size:19px;line-height:1.5;
+    margin:12px 0 10px;
+  }
+  .finding p{font-size:13.5px;color:var(--ink-soft);line-height:1.9;margin:0}
+  @media (max-width:900px){
+    .findings{grid-template-columns:1fr}
+    .finding,.finding:nth-child(2),.finding:last-child{padding:26px 0;border-right:0;border-bottom:1px solid var(--rule)}
+    .finding:last-child{border-bottom:0}
+  }
+
+  /* ---------- 表格 ---------- */
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{padding:13px 10px;border-bottom:1px solid var(--rule);text-align:right}
+  th:first-child,td:first-child{text-align:left}
+  thead th{
+    font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--muted);font-weight:400;border-bottom:1px solid var(--ink);
+  }
+  td.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+  .up{color:var(--rust)}
+  .down{color:var(--teal)}
+  .badge{
+    display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.06em;
+    padding:1px 7px;border:1px solid currentColor;border-radius:100px;
+  }
+
+  /* ---------- 方法 ---------- */
+  .method{margin-top:84px;border-top:1px solid var(--ink);padding:36px 0 80px}
+  .method h3{
+    font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--muted);margin:0 0 20px;font-weight:400;
+  }
+  .method ul{margin:0;padding-left:18px;color:var(--ink-soft);font-size:13px;line-height:2}
+  .method li{margin-bottom:4px}
+  .method .src{
+    margin-top:22px;font-family:var(--mono);font-size:11px;color:var(--muted);line-height:2;
+  }
+
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  @media (prefers-reduced-motion:reduce){
+    .reveal{opacity:1;transform:none;transition:none}
+  }
+
+  @media print{
+    body{background:#fff}
+    body::after{display:none}
+    .panel{break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="topbar">
+      <span>Shanghai / Refined Oil</span>
+      <span><b>数据报告</b> · 2026.10</span>
+    </div>
+
+    <div class="kicker">Monthly Retail Price · 2024.01 — 2026.10</div>
+
+    <h1>上海成品油<br><em>月度价格观察</em></h1>
+
+    <p class="deck">
+      以 92 号、95 号汽油与 0 号柴油的最高零售价为观测口径，
+      记录 34 个月里 55 次调价形成的价格轨迹：一轮高位震荡，一段持续下行，以及一次罕见的剧烈反弹。
+    </p>
+
+    <div class="meta-row">
+      <span><i></i>官方调价记录 55 条</span>
+      <span><i></i>覆盖 34 个月</span>
+      <span><i></i>单位：元 / 升</span>
+      <span><i></i>来源：上海市发展和改革委员会</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="kpis">
+    <div class="kpi">
+      <div class="k">期末价格 · 2026.10</div>
+      <div class="v">8.85</div>
+      <div class="d">92 号汽油，元/升<br>月度序列最高点</div>
+    </div>
+    <div class="kpi">
+      <div class="k">区间变动</div>
+      <div class="v up">+13.6<small>%</small></div>
+      <div class="d">较 2024.01 上涨 1.06 元/升</div>
+    </div>
+    <div class="kpi">
+      <div class="k">区间最低</div>
+      <div class="v">6.67</div>
+      <div class="d">2025.12 · 92 号汽油</div>
+    </div>
+    <div class="kpi">
+      <div class="k">振幅</div>
+      <div class="v">2.18</div>
+      <div class="d">最高与最低之差，元/升<br>相当于低点的 32.7%</div>
+    </div>
+    <div class="kpi">
+      <div class="k">调价次数</div>
+      <div class="v">55</div>
+      <div class="d">上调 28 次 / 下调 26 次</div>
+    </div>
+  </div>
+</div>
+
+<main class="wrap">
+
+  <!-- 01 主线 -->
+  <section>
+    <div class="sec-head"><span class="sec-no">01</span><h2>三条曲线的三年</h2></div>
+    <p class="sec-sub">月末口径：取每月最后一次调价后的最高零售价；当月未调价的，沿用上月价格。</p>
+
+    <div class="panel reveal">
+      <div class="panel-head">
+        <h3>上海成品油最高零售价 · 月度</h3>
+        <div class="legend">
+          <span><i style="background:var(--rust)"></i>92 号汽油</span>
+          <span><i style="background:var(--ink);opacity:.75"></i>95 号汽油</span>
+          <span><i class="dash"></i>0 号柴油</span>
+        </div>
+      </div>
+
+      <div class="chart-wrap">
+        <svg class="chart-svg" id="priceChart" viewBox="0 0 1000 440" role="img"
+             aria-label="2024年1月至2026年10月上海92号、95号汽油与0号柴油月度价格折线图"></svg>
+        <div class="tip" id="priceTip"></div>
+      </div>
+
+      <div class="panel-foot">
+        <span>阴影为 92 号汽油价格带</span>
+        <span>竖向虚线标记年度分界</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 环比 -->
+  <section>
+    <div class="sec-head"><span class="sec-no">02</span><h2>每个月的方向感</h2></div>
+    <p class="sec-sub">相邻月份的月末价差。柱子越靠上，涨得越猛；越靠下，跌得越深。</p>
+
+    <div class="panel reveal">
+      <div class="panel-head">
+        <h3>92 号汽油月度环比变动</h3>
+        <div class="legend">
+          <span><i style="background:var(--rust)"></i>上涨</span>
+          <span><i style="background:var(--teal)"></i>下跌</span>
+        </div>
+      </div>
+
+      <div class="chart-wrap">
+        <svg class="chart-svg" id="momChart" viewBox="0 0 1000 250" role="img"
+             aria-label="92号汽油月度环比变动柱状图"></svg>
+      </div>
+
+      <div class="panel-foot">
+        <span>最大单月涨幅 +1.49 元 · 2026.03</span>
+        <span>最大单月跌幅 −0.84 元 · 2026.06</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 结论 -->
+  <section>
+    <div class="sec-head"><span class="sec-no">03</span><h2>三个值得注意的结构</h2></div>
+    <p class="sec-sub">把三年的噪声去掉之后，剩下的才是可以拿来做判断的东西。</p>
+
+    <div class="findings reveal">
+      <div class="finding">
+        <div class="n">A</div>
+        <h3>先下台阶，再上台阶</h3>
+        <p>2024 年在 7.33–8.15 区间高位震荡；2025 年单边下行，年末跌至 6.67，较 2024 年开局低 14.4%；2026 年 3 月单月跳涨 1.49 元，走出 V 型反转。</p>
+        </div>
+      <div class="finding">
+        <div class="n">B</div>
+        <h3>涨跌次数对称，幅度并不对称</h3>
+        <p>55 次调价中上调 28 次、下调 26 次，几乎一比一；可 2026 年 3 月 23 日单次上调 0.93 元，7 月 3 日单次下调 0.76 元，说明调整节奏跟随原油，而非平滑处理。</p>
+      </div>
+      <div class="finding">
+        <div class="n">C</div>
+        <h3>价差是刚性的</h3>
+        <p>全区间 95 号恒比 92 号贵 0.49 元/升，0 号柴油恒比 92 号便宜 0.32 元/升，55 次调价没有一次破坏这个结构——品质差与税费结构比原油波动稳定得多。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 年度 -->
+  <section>
+    <div class="sec-head"><span class="sec-no">04</span><h2>年度剖面</h2></div>
+    <p class="sec-sub">年度均价按当年各月月末价算术平均；2026 年仅含 1—10 月。</p>
+
+    <div class="panel reveal" style="padding:8px 26px 6px">
+      <table>
+        <thead>
+          <tr>
+            <th>年份</th><th>均价</th><th>最低</th><th>最高</th><th>年末</th><th>调价次数</th><th>形态</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>2024</td>
+            <td class="num">7.74</td><td class="num">7.33</td><td class="num">8.15</td><td class="num">7.40</td><td class="num">18</td>
+            <td><span class="badge">高位震荡</span></td>
+          </tr>
+          <tr>
+            <td>2025</td>
+            <td class="num">7.11</td><td class="num">6.67</td><td class="num">7.73</td><td class="num">6.67</td><td class="num">18</td>
+            <td><span class="badge">持续下行</span></td>
+          </tr>
+          <tr>
+            <td>2026*</td>
+            <td class="num">8.08</td><td class="num">6.74</td><td class="num">8.85</td><td class="num">8.85</td><td class="num">19</td>
+            <td><span class="badge">V 型反转</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="panel-foot" style="margin-top:0">
+        <span>* 2026 年统计截至 10 月 29 日</span>
+        <span>三年均价 7.62 元/升</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 事件 -->
+  <section>
+    <div class="sec-head"><span class="sec-no">05</span><h2>八次改变方向的调价</h2></div>
+    <p class="sec-sub">按 92 号汽油单次调整幅度绝对值排序，取前八。</p>
+
+    <div class="panel reveal" style="padding:8px 26px 6px">
+      <table>
+        <thead>
+          <tr><th>生效日期</th><th>方向</th><th>调整幅度</th><th>调整后 92#</th><th>备注</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="num">2026-03-23</td><td><span class="badge up">上调</span></td><td class="num up">+0.93</td><td class="num">8.53</td><td>区间最大单次上调</td></tr>
+          <tr><td class="num">2026-07-03</td><td><span class="badge down">下调</span></td><td class="num down">−0.76</td><td class="num">7.14</td><td>区间最大单次下调</td></tr>
+          <tr><td class="num">2026-03-09</td><td><span class="badge up">上调</span></td><td class="num up">+0.56</td><td class="num">7.60</td><td>反弹起点</td></tr>
+          <tr><td class="num">2026-07-31</td><td><span class="badge up">上调</span></td><td class="num up">+0.55</td><td class="num">7.93</td><td>快速回补</td></tr>
+          <tr><td class="num">2026-09-24</td><td><span class="badge up">上调</span></td><td class="num up">+0.52</td><td class="num">8.57</td><td>逼近区间高点</td></tr>
+          <tr><td class="num">2026-04-21</td><td><span class="badge down">下调</span></td><td class="num down">−0.44</td><td class="num">8.42</td><td>高点回落</td></tr>
+          <tr><td class="num">2026-06-04</td><td><span class="badge down">下调</span></td><td class="num down">−0.43</td><td class="num">8.31</td><td>二季度转弱</td></tr>
+          <tr><td class="num">2026-06-18</td><td><span class="badge down">下调</span></td><td class="num down">−0.41</td><td class="num">7.90</td><td>连续下调</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 方法 -->
+  <div class="method">
+    <h3>口径与方法</h3>
+    <ul>
+      <li>价格为上海市发改委公布的<strong>车用汽、柴油最高零售价</strong>（元/升），加油站实际成交价可能低于该上限。</li>
+      <li>月度值取当月<strong>最后一次调价</strong>执行后的价格；当月无调价通知时沿用上月，因此 2024-02、2024-12、2025-09 为持平月。</li>
+      <li>调价通知的执行时间为发布日 24 时，本报告日期按<strong>发布日期</strong>标注。</li>
+      <li>国内成品油调价设有 50 元/吨左右的调价门槛，这正是部分月份“零调价”的原因，而非数据缺失。</li>
+      <li>全部 55 条记录逐条取自官方原文，经吨升换算与相邻值校验；未作插值、平滑或修正。</li>
+    </ul>
+    <div class="src">
+      数据来源：上海市发展和改革委员会 · 价格管理（车用汽、柴油价格的通知，2024-01-03 至 2026-10-29）<br>
+      图表为本报告据原始数据计算绘制；分析结论仅描述历史统计特征，不构成价格预测。
+    </div>
+  </div>
+</main>
+
+<script>
+(function(){
+  const MONTHS = ["2024-01","2024-02","2024-03","2024-04","2024-05","2024-06","2024-07","2024-08","2024-09","2024-10","2024-11","2024-12","2025-01","2025-02","2025-03","2025-04","2025-05","2025-06","2025-07","2025-08","2025-09","2025-10","2025-11","2025-12","2026-01","2026-02","2026-03","2026-04","2026-05","2026-06","2026-07","2026-08","2026-09","2026-10"];
+  const P92 = [7.79,7.79,7.89,8.15,7.96,7.98,7.95,7.71,7.33,7.52,7.40,7.40,7.73,7.59,7.26,7.06,6.88,7.14,7.22,7.08,7.08,6.81,6.85,6.67,6.74,7.04,8.53,8.42,8.74,7.90,7.93,8.05,8.57,8.85];
+  const P95 = [8.29,8.29,8.39,8.67,8.47,8.49,8.46,8.20,7.80,8.00,7.88,7.88,8.23,8.08,7.73,7.51,7.32,7.60,7.68,7.53,7.53,7.24,7.29,7.10,7.17,7.49,9.07,8.96,9.29,8.41,8.44,8.56,9.12,9.41];
+  const P0  = [7.47,7.47,7.57,7.84,7.65,7.67,7.64,7.39,7.00,7.19,7.07,7.07,7.41,7.27,6.93,6.72,6.53,6.80,6.88,6.73,6.73,6.45,6.50,6.31,6.39,6.70,8.24,8.12,8.45,7.59,7.62,7.74,8.28,8.57];
+
+  const NS = 'http://www.w3.org/2000/svg';
+  const el = (name, attrs) => {
+    const e = document.createElementNS(NS, name);
+    for (const k in attrs) e.setAttribute(k, attrs[k]);
+    return e;
+  };
+
+  /* ---------- 折线图 ---------- */
+  function drawPrice(){
+    const svg = document.getElementById('priceChart');
+    const W = 1000, H = 440, L = 62, R = 30, T = 30, B = 48;
+    const n = MONTHS.length;
+    const X = i => L + i * (W - L - R) / (n - 1);
+    const Y = v => H - B - (v - 6.0) / (9.6 - 6.0) * (H - T - B);
+
+    const defs = el('defs', {});
+    const grad = el('linearGradient', {id:'areaGrad', x1:'0', y1:'0', x2:'0', y2:'1'});
+    grad.appendChild(el('stop', {offset:'0%', 'stop-color':'#b0441e', 'stop-opacity':'0.16'}));
+    grad.appendChild(el('stop', {offset:'100%', 'stop-color':'#b0441e', 'stop-opacity':'0.01'}));
+    defs.appendChild(grad);
+    svg.appendChild(defs);
+
+    [6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5].forEach(t => {
+      svg.appendChild(el('line', {x1:L, x2:W-R, y1:Y(t), y2:Y(t), 'class':'grid'}));
+      const tx = el('text', {x:L-12, y:Y(t)+4, 'class':'axis', 'text-anchor':'end'});
+      tx.textContent = t.toFixed(1);
+      svg.appendChild(tx);
+    });
+
+    [12,24].forEach(i => {
+      svg.appendChild(el('line', {x1:X(i), x2:X(i), y1:T, y2:H-B, 'class':'sep'}));
+    });
+
+    for (let i = 0; i < n; i += 3) {
+      const lab = MONTHS[i].slice(2).replace('-', '.');
+      const tx = el('text', {x:X(i), y:H-B+24, 'class':'axis', 'text-anchor':'middle'});
+      tx.textContent = lab;
+      svg.appendChild(tx);
+    }
+
+    [['2024', 0], ['2025', 12], ['2026', 24]].forEach(([yr, i]) => {
+      const tx = el('text', {x:X(i)+2, y:H-12, 'class':'year', 'text-anchor':'start'});
+      tx.textContent = yr;
+      svg.appendChild(tx);
+    });
+
+    const pathOf = arr => arr.map((v,i) => (i? 'L' : 'M') + X(i).toFixed(1) + ' ' + Y(v).toFixed(1)).join(' ');
+
+    svg.appendChild(el('path', {
+      d: pathOf(P92) + ' L ' + X(n-1) + ' ' + (H-B) + ' L ' + X(0) + ' ' + (H-B) + ' Z',
+      fill: 'url(#areaGrad)', stroke: 'none'
+    }));
+
+    const line0 = el('path', {d: pathOf(P0), 'class':'line l0'});
+    const line95 = el('path', {d: pathOf(P95), 'class':'line l95'});
+    const line92 = el('path', {d: pathOf(P92), 'class':'line l92'});
+    svg.appendChild(line0); svg.appendChild(line95); svg.appendChild(line92);
+
+    // 极值标注
+    const trough = P92.indexOf(Math.min(...P92));
+    const peak = P92.indexOf(Math.max(...P92));
+
+    const addMark = (i, v, color, label, dy, anchor, dx) => {
+      svg.appendChild(el('circle', {cx:X(i), cy:Y(v), r:4, 'class':'mk', stroke:color}));
+      const tx = el('text', {x:X(i)+dx, y:Y(v)+dy, 'class':'lbl', 'text-anchor':anchor});
+      tx.textContent = label;
+      svg.appendChild(tx);
+    };
+
+    addMark(trough, P92[trough], '#b0441e', '6.67 · 2025.12', 30, 'middle', 0);
+    addMark(peak, P92[peak], '#b0441e', '8.85 · 2026.10', -16, 'end', -10);
+
+    // 交互层
+    const hoverLine = el('line', {y1:T, y2:H-B, stroke:'#16130e', 'stroke-width':'1', 'stroke-dasharray':'3 4', opacity:'0', 'pointer-events':'none'});
+    const dots = [0,1,2].map(k => el('circle', {r:4.5, fill:'#f5f1e8', 'stroke-width':2, opacity:'0', 'pointer-events':'none'}));
+    dots[0].setAttribute('stroke', '#b0441e');
+    dots[1].setAttribute('stroke', '#16130e');
+    dots[2].setAttribute('stroke', '#4c6a63');
+    svg.appendChild(hoverLine); dots.forEach(d => svg.appendChild(d));
+
+    const tip = document.getElementById('priceTip');
+    const wrap = svg.parentElement;
+
+    const onMove = e => {
+      const rect = svg.getBoundingClientRect();
+      const px = (e.clientX - rect.left) / rect.width * W;
+      let i = Math.round((px - L) / ((W - L - R) / (n - 1)));
+      i = Math.max(0, Math.min(n - 1, i));
+      hoverLine.setAttribute('x1', X(i)); hoverLine.setAttribute('x2', X(i)); hoverLine.setAttribute('opacity', '1');
+      [[dots[0], P92], [dots[1], P95], [dots[2], P0]].forEach(([d, arr]) => {
+        d.setAttribute('cx', X(i)); d.setAttribute('cy', Y(arr[i])); d.setAttribute('opacity', '1');
+      });
+      tip.innerHTML = '<div class="tt">' + MONTHS[i] + '</div>'
+        + '92# <b>' + P92[i].toFixed(2) + '</b>　95# <b>' + P95[i].toFixed(2) + '</b><br>'
+        + '0# <b>' + P0[i].toFixed(2) + '</b>';
+      tip.style.opacity = '1';
+      const cx = X(i) / W * rect.width;
+      const cy = Y(P92[i]) / H * rect.height;
+      const tw = tip.offsetWidth;
+      tip.style.left = Math.max(0, Math.min(rect.width - tw, cx + 14)) + 'px';
+      tip.style.top = Math.max(0, cy - 64) + 'px';
+    };
+    const onLeave = () => {
+      tip.style.opacity = '0';
+      hoverLine.setAttribute('opacity', '0');
+      dots.forEach(d => d.setAttribute('opacity', '0'));
+    };
+    svg.addEventListener('mousemove', onMove);
+    svg.addEventListener('mouseleave', onLeave);
+
+    [line92, line95, line0].forEach((p, k) => {
+      const len = p.getTotalLength();
+      p.style.strokeDasharray = k === 2 ? '5 4' : len;
+      p.style.strokeDashoffset = k === 2 ? '0' : len;
+    });
+    window.__animLines = () => {
+      [line92, line95].forEach((p, k) => {
+        p.style.transition = 'stroke-dashoffset 1.4s cubic-bezier(.25,.7,.3,1) ' + (k * .15) + 's';
+        p.style.strokeDashoffset = '0';
+      });
+    };
+  }
+
+  /* ---------- 环比柱状 ---------- */
+  function drawMom(){
+    const svg = document.getElementById('momChart');
+    const W = 1000, H = 250, L = 62, R = 30, T = 18, B = 46;
+    const n = MONTHS.length;
+    const vals = [];
+    for (let i = 1; i < n; i++) vals.push({i, v: +(P92[i] - P92[i-1]).toFixed(2)});
+    const X = i => L + i * (W - L - R) / (n - 1);
+    const maxA = 1.6, minA = -1.0;
+    const Y = v => T + (maxA - v) / (maxA - minA) * (H - T - B);
+    const bw = ((W - L - R) / (n - 1)) * 0.58;
+
+    [1.5, 1.0, 0.5, 0, -0.5, -1.0].forEach(t => {
+      svg.appendChild(el('line', {
+        x1:L, x2:W-R, y1:Y(t), y2:Y(t),
+        stroke: t === 0 ? 'rgba(22,19,14,.45)' : 'var(--rule)', 'stroke-width': t === 0 ? 1.2 : 1
+      }));
+      const tx = el('text', {x:L-12, y:Y(t)+4, 'class':'axis', 'text-anchor':'end'});
+      tx.textContent = (t > 0 ? '+' : '') + t.toFixed(1);
+      svg.appendChild(tx);
+    });
+
+    [12,24].forEach(i => {
+      svg.appendChild(el('line', {x1:X(i), x2:X(i), y1:T, y2:H-B, 'class':'sep'}));
+    });
+
+    vals.forEach(({i, v}) => {
+      const top = Math.min(Y(v), Y(0));
+      const h = Math.abs(Y(v) - Y(0));
+      const rect = el('rect', {
+        x: X(i) - bw/2, y: top, width: bw, height: Math.max(h, 1),
+        fill: v >= 0 ? '#b0441e' : '#4c6a63', opacity: v >= 0 ? .9 : .8, rx: 1.5
+      });
+      const t = el('title', {});
+      t.textContent = MONTHS[i] + ' 环比 ' + (v > 0 ? '+' : '') + v.toFixed(2) + ' 元/升';
+      rect.appendChild(t);
+      svg.appendChild(rect);
+    });
+
+    for (let i = 0; i < n; i += 3) {
+      const lab = MONTHS[i].slice(2).replace('-', '.');
+      const tx = el('text', {x:X(i), y:H-B+22, 'class':'axis', 'text-anchor':'middle'});
+      tx.textContent = lab;
+      svg.appendChild(tx);
+    }
+
+    const peak = vals.reduce((a, b) => b.v > a.v ? b : a);
+    const low = vals.reduce((a, b) => b.v < a.v ? b : a);
+    const lab1 = el('text', {x:X(peak.i), y:Y(peak.v)-8, 'class':'lbl', 'text-anchor':'middle'});
+    lab1.textContent = '+' + peak.v.toFixed(2);
+    svg.appendChild(lab1);
+    const lab2 = el('text', {x:X(low.i), y:Y(low.v)+16, 'class':'lbl', 'text-anchor':'middle'});
+    lab2.textContent = low.v.toFixed(2);
+    svg.appendChild(lab2);
+  }
+
+  drawPrice();
+  drawMom();
+
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('in');
+      if (e.target.querySelector('#priceChart') && window.__animLines) window.__animLines();
+      io.unobserve(e.target);
+    });
+  }, {threshold: .15});
+  document.querySelectorAll('.reveal').forEach(p => io.observe(p));
+})();
+</script>
+</body>
+</html>
