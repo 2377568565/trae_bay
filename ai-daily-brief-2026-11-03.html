@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI SIGNAL · 2026.11.03 日报</title>
+<meta name="description" content="过去 24 小时 AI 行业热点：Marvell 1150 亿美元并购 Lumentum、Anthropic 修订招股书、中国 AI 立法、DeepSeek V5 昇腾预训练、OpenAI LifeVal、SemiAnalysis GDPx，以及 Arena 文本模型 Top 20。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F5F2EA;
+    --paper-2:#EDE9DF;
+    --ink:#151513;
+    --ink-soft:#3B3A34;
+    --muted:#767165;
+    --line:rgba(21,21,19,.14);
+    --line-strong:rgba(21,21,19,.32);
+    --accent:#B23A1C;
+    --accent-soft:rgba(178,58,28,.075);
+    --serif:"Noto Serif SC","Source Han Serif SC","Songti SC","STSong","SimSun",Georgia,serif;
+    --sans:"Inter","Noto Sans SC","PingFang SC","HarmonyOS Sans SC","Microsoft YaHei",sans-serif;
+    --mono:"JetBrains Mono","IBM Plex Mono",SFMono-Regular,Menlo,Consolas,monospace;
+    --max:1180px;
+    --ease:cubic-bezier(.22,.61,.36,1);
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(178,58,28,.045), transparent 60%),
+      linear-gradient(180deg,#F7F4ED 0%,var(--paper) 42%,#F1EDE3 100%);
+    color:var(--ink);
+    font-family:var(--sans);
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    overflow-x:hidden;
+  }
+  ::selection{background:var(--accent);color:var(--paper)}
+  a{color:inherit;text-decoration:none}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+
+  /* ---------- top bar ---------- */
+  .progress{
+    position:fixed;top:0;left:0;height:2px;width:0;z-index:50;
+    background:var(--accent);transition:width .12s linear;
+  }
+  .topbar{
+    position:sticky;top:0;z-index:40;
+    background:rgba(245,242,234,.88);
+    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line);
+  }
+  .topbar-inner{
+    max-width:var(--max);margin:0 auto;padding:16px 0;
+    display:flex;align-items:center;justify-content:space-between;gap:24px;
+  }
+  .brand{
+    font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.22em;
+    display:flex;align-items:center;gap:10px;
+  }
+  .brand .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);display:inline-block}
+  .brand span{font-family:var(--serif);font-weight:600;letter-spacing:.1em;color:var(--muted);font-size:12px}
+  .nav{display:flex;gap:26px;font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;color:var(--muted)}
+  .nav a{position:relative;padding:4px 0;transition:color .25s var(--ease)}
+  .nav a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:1px;background:var(--accent);transition:width .3s var(--ease)}
+  .nav a:hover{color:var(--ink)}
+  .nav a:hover::after{width:100%}
+  .top-date{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;color:var(--muted);white-space:nowrap}
+
+  /* ---------- layout ---------- */
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  .section{padding:76px 0 0}
+  .section-head{
+    display:flex;align-items:flex-end;gap:20px;
+    padding-bottom:18px;border-bottom:1px solid var(--line-strong);
+  }
+  .sec-num{
+    font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.18em;
+    color:var(--accent);padding-bottom:4px;
+  }
+  .section-head h2{
+    font-family:var(--serif);font-size:clamp(24px,3vw,34px);font-weight:600;line-height:1;
+    letter-spacing:.01em;
+  }
+  .sec-note{
+    margin-left:auto;font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;
+    color:var(--muted);text-transform:uppercase;padding-bottom:4px;text-align:right;
+  }
+
+  /* ---------- hero ---------- */
+  .hero{padding:64px 0 0;position:relative}
+  .hero-grid{display:grid;grid-template-columns:minmax(0,1fr) 270px;gap:56px;align-items:end}
+  .eyebrow{
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;color:var(--accent);
+    text-transform:uppercase;margin-bottom:26px;display:flex;align-items:center;gap:12px;
+  }
+  .eyebrow::before{content:"";width:34px;height:1px;background:var(--accent);display:inline-block}
+  .hero h1{
+    font-family:var(--serif);font-weight:700;
+    font-size:clamp(44px,7.4vw,92px);
+    line-height:1.06;letter-spacing:-.025em;
+  }
+  .hero h1 em{
+    font-family:Georgia,"Times New Roman",var(--serif);
+    font-style:italic;font-weight:400;color:var(--accent);letter-spacing:-.01em;
+  }
+  .hero h1 .thin{font-weight:400;color:var(--ink-soft)}
+  .dek{
+    margin-top:30px;max-width:640px;
+    font-family:var(--serif);font-size:clamp(16px,1.7vw,19px);line-height:1.9;
+    color:var(--ink-soft);
+  }
+  .hero-meta{
+    border-left:1px solid var(--line);padding-left:28px;
+    display:flex;flex-direction:column;gap:26px;
+  }
+  .meta-block label{
+    display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;
+    color:var(--muted);margin-bottom:6px;
+  }
+  .meta-block strong{
+    display:block;font-family:var(--mono);font-size:26px;font-weight:700;line-height:1;letter-spacing:-.02em;
+  }
+  .meta-block span{display:block;font-size:11px;color:var(--muted);margin-top:6px;letter-spacing:.03em}
+  .hero-rule{margin-top:58px;height:1px;background:var(--line-strong);position:relative}
+  .hero-rule::before{
+    content:"";position:absolute;left:0;top:-1px;width:86px;height:3px;background:var(--accent);
+  }
+
+  /* ---------- news ---------- */
+  .news-list{margin-top:8px}
+  .news{
+    display:grid;grid-template-columns:74px minmax(0,1fr) 42px;
+    gap:22px;align-items:start;
+    padding:34px 0 32px;border-bottom:1px solid var(--line);
+    position:relative;transition:background .3s var(--ease);
+  }
+  .news::before{
+    content:"";position:absolute;left:-24px;right:-24px;top:0;bottom:0;
+    background:var(--accent-soft);opacity:0;transition:opacity .3s var(--ease);pointer-events:none;
+  }
+  .news:hover::before{opacity:1}
+  .news-rank{
+    font-family:var(--mono);font-size:clamp(26px,3vw,36px);font-weight:700;line-height:1;
+    letter-spacing:-.04em;color:var(--muted);padding-top:2px;
+    transition:color .3s var(--ease),transform .3s var(--ease);
+  }
+  .news:hover .news-rank{color:var(--accent);transform:translateX(3px)}
+  .news-body{min-width:0}
+  .news-meta{
+    display:flex;align-items:center;gap:14px;margin-bottom:12px;
+    font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;color:var(--muted);
+  }
+  .tag{
+    color:var(--accent);background:var(--accent-soft);padding:3px 7px;
+    border:1px solid rgba(178,58,28,.2);letter-spacing:.18em;font-weight:500;
+  }
+  .news h3{
+    font-family:var(--serif);font-size:clamp(20px,2.5vw,29px);font-weight:600;
+    line-height:1.42;letter-spacing:-.01em;
+  }
+  .news h3 a{
+    background-image:linear-gradient(var(--accent),var(--accent));
+    background-repeat:no-repeat;background-position:0 100%;background-size:0 1px;
+    transition:background-size .4s var(--ease),color .3s var(--ease);
+  }
+  .news:hover h3 a{background-size:100% 1px}
+  .news p{
+    margin-top:12px;max-width:780px;
+    font-family:var(--serif);font-size:14.5px;line-height:1.92;color:var(--ink-soft);
+  }
+  .source{
+    margin-top:16px;font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--muted);
+  }
+  .source a{
+    color:var(--ink-soft);border-bottom:1px solid var(--line);
+    transition:color .2s,border-color .2s;
+  }
+  .source a:hover{color:var(--accent);border-color:var(--accent)}
+  .news-arrow{
+    font-family:var(--mono);font-size:18px;color:var(--accent);
+    opacity:0;transform:translate(-6px,6px);transition:opacity .3s var(--ease),transform .3s var(--ease);
+    padding-top:26px;
+  }
+  .news:hover .news-arrow{opacity:1;transform:translate(0,0)}
+
+  /* ---------- leaderboard ---------- */
+  .lb-meta{
+    display:flex;flex-wrap:wrap;gap:8px 28px;align-items:center;
+    padding:18px 0 0;font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--muted);
+  }
+  .lb-meta b{color:var(--ink);font-weight:500}
+  .lb-meta .flag{color:var(--accent)}
+
+  .podium{
+    display:grid;grid-template-columns:1.15fr 1fr 1fr;gap:14px;margin-top:26px;
+  }
+  .pod{
+    background:rgba(255,255,255,.32);
+    border:1px solid var(--line);
+    padding:26px 24px 22px;position:relative;overflow:hidden;
+    transition:transform .35s var(--ease),border-color .35s var(--ease),background .35s;
+  }
+  .pod:hover{transform:translateY(-4px);border-color:var(--line-strong);background:rgba(255,255,255,.6)}
+  .pod.first{border-top:3px solid var(--accent);background:rgba(255,255,255,.55)}
+  .pod-top{
+    display:flex;justify-content:space-between;align-items:center;
+    font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;color:var(--muted);margin-bottom:22px;
+  }
+  .pod.first .pod-top{color:var(--accent)}
+  .pod h3{
+    font-family:var(--serif);font-size:clamp(19px,2.2vw,25px);font-weight:600;line-height:1.3;
+    letter-spacing:-.015em;
+  }
+  .pod .lab{
+    font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;color:var(--muted);
+    margin-top:8px;text-transform:uppercase;
+  }
+  .pod-score{
+    display:flex;align-items:baseline;gap:8px;margin-top:20px;
+    font-family:var(--mono);
+  }
+  .pod-score .num{font-size:38px;font-weight:700;letter-spacing:-.05em;line-height:1}
+  .pod-score .pm{font-size:10px;color:var(--muted)}
+  .bar{
+    height:3px;background:rgba(21,21,19,.1);margin-top:16px;overflow:hidden;position:relative;
+  }
+  .bar i{
+    display:block;height:100%;width:var(--w,0%);background:var(--ink);
+    transform-origin:left;transition:width 1.1s var(--ease);
+  }
+  .pod.first .bar i{background:var(--accent)}
+  .pod .rank-watermark{
+    position:absolute;right:-8px;bottom:-22px;font-family:var(--mono);font-size:96px;font-weight:700;
+    color:rgba(21,21,19,.045);letter-spacing:-.08em;pointer-events:none;
+  }
+
+  .lb-table{margin-top:34px;border-top:1px solid var(--line-strong)}
+  .lb-row{
+    display:grid;grid-template-columns:56px minmax(0,1fr) 92px 84px 168px;
+    gap:16px;align-items:center;
+    padding:15px 0;border-bottom:1px solid var(--line);
+    transition:background .25s var(--ease),padding-left .25s var(--ease);
+    position:relative;
+  }
+  .lb-row:hover{background:rgba(255,255,255,.38);padding-left:6px}
+  .lb-row .r{
+    font-family:var(--mono);font-size:13px;font-weight:500;color:var(--muted);letter-spacing:.02em;
+  }
+  .lb-row.top .r{color:var(--accent);font-weight:700}
+  .lb-model{min-width:0}
+  .lb-model strong{
+    display:block;font-family:var(--serif);font-size:16px;font-weight:600;line-height:1.35;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  .lb-model span{
+    display:block;font-family:var(--mono);font-size:9px;letter-spacing:.14em;color:var(--muted);
+    margin-top:4px;text-transform:uppercase;
+  }
+  .license{
+    font-family:var(--mono);font-size:8.5px;letter-spacing:.14em;color:var(--muted);
+    text-transform:uppercase;
+  }
+  .license.open{color:var(--accent)}
+  .lb-score{
+    font-family:var(--mono);font-size:14px;font-weight:700;letter-spacing:-.02em;text-align:right;
+  }
+  .lb-score small{font-weight:400;font-size:9px;color:var(--muted);margin-left:3px}
+  .lb-bar{display:flex;align-items:center;gap:10px}
+  .lb-bar .track{flex:1;height:2px;background:rgba(21,21,19,.1);overflow:hidden}
+  .lb-bar .track i{display:block;height:100%;width:var(--w,0%);background:rgba(21,21,19,.65);transition:width 1.1s var(--ease)}
+  .lb-row.top .track i{background:var(--accent)}
+  .lb-bar em{font-family:var(--mono);font-style:normal;font-size:9px;color:var(--muted);min-width:34px;text-align:right}
+
+  .lb-head{
+    display:grid;grid-template-columns:56px minmax(0,1fr) 92px 84px 168px;
+    gap:16px;padding:0 0 10px;font-family:var(--mono);font-size:9px;
+    letter-spacing:.18em;color:var(--muted);text-transform:uppercase;
+  }
+  .lb-head span:nth-child(4){text-align:right}
+  .lb-note{
+    margin-top:22px;font-family:var(--mono);font-size:9.5px;line-height:1.9;
+    color:var(--muted);letter-spacing:.04em;max-width:860px;
+  }
+
+  /* ---------- takeaway ---------- */
+  .takeaway{
+    margin-top:84px;padding:58px 0 64px;border-top:1px solid var(--line-strong);border-bottom:1px solid var(--line-strong);
+    background:
+      linear-gradient(90deg,var(--accent-soft) 0%,transparent 55%);
+  }
+  .takeaway-grid{display:grid;grid-template-columns:170px minmax(0,1fr);gap:40px}
+  .takeaway-label{
+    font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;color:var(--accent);
+    text-transform:uppercase;line-height:1.9;
+  }
+  .takeaway-label span{display:block;color:var(--muted);letter-spacing:.1em;margin-top:6px}
+  .takeaway blockquote{
+    font-family:var(--serif);font-weight:500;
+    font-size:clamp(21px,3vw,34px);line-height:1.68;letter-spacing:-.01em;
+  }
+  .takeaway blockquote .hl{color:var(--accent)}
+  .takeaway blockquote p+p{margin-top:18px}
+  .signature{
+    margin-top:26px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--muted);
+  }
+
+  /* ---------- footer ---------- */
+  footer{padding:56px 0 70px}
+  .foot-grid{display:grid;grid-template-columns:1fr 1fr;gap:44px}
+  .foot-title{
+    font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;color:var(--accent);
+    text-transform:uppercase;margin-bottom:14px;
+  }
+  .foot-list{list-style:none;display:flex;flex-direction:column;gap:8px}
+  .foot-list li{
+    font-family:var(--mono);font-size:10px;line-height:1.7;color:var(--muted);
+    padding-bottom:8px;border-bottom:1px dotted var(--line);
+  }
+  .foot-list a{color:var(--ink-soft);border-bottom:1px solid transparent;transition:color .2s,border-color .2s}
+  .foot-list a:hover{color:var(--accent);border-color:var(--accent)}
+  .colophon{
+    margin-top:38px;padding-top:18px;border-top:1px solid var(--line);
+    display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;color:var(--muted);
+  }
+  .colophon b{color:var(--ink);font-weight:500}
+
+  #toTop{
+    position:fixed;right:26px;bottom:26px;z-index:30;
+    width:42px;height:42px;border:1px solid var(--line-strong);background:var(--paper);
+    color:var(--ink);font-family:var(--mono);font-size:14px;cursor:pointer;
+    opacity:0;transform:translateY(10px);pointer-events:none;
+    transition:opacity .3s var(--ease),transform .3s var(--ease),background .2s,color .2s;
+  }
+  #toTop.show{opacity:1;transform:translateY(0);pointer-events:auto}
+  #toTop:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+
+  /* ---------- reveal ---------- */
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+  .reveal.in{opacity:1;transform:translateY(0)}
+  .hero h1,.hero .dek,.eyebrow,.hero-meta{opacity:0;transform:translateY(16px);animation:rise .9s var(--ease) forwards}
+  .eyebrow{animation-delay:.05s}
+  .hero h1{animation-delay:.14s}
+  .hero .dek{animation-delay:.26s}
+  .hero-meta{animation-delay:.34s}
+  @keyframes rise{to{opacity:1;transform:translateY(0)}}
+
+  /* ---------- responsive ---------- */
+  @media (max-width:920px){
+    .hero-grid{grid-template-columns:1fr;gap:34px}
+    .hero-meta{border-left:0;border-top:1px solid var(--line);padding-left:0;padding-top:22px;flex-direction:row;flex-wrap:wrap;gap:28px 40px}
+    .podium{grid-template-columns:1fr}
+    .takeaway-grid{grid-template-columns:1fr;gap:22px}
+    .foot-grid{grid-template-columns:1fr}
+  }
+  @media (max-width:720px){
+    .wrap{padding:0 20px}
+    .nav{display:none}
+    .hero{padding-top:44px}
+    .section{padding-top:58px}
+    .section-head{flex-wrap:wrap;gap:10px}
+    .sec-note{margin-left:0;width:100%;text-align:left;padding-top:2px}
+    .news{grid-template-columns:48px minmax(0,1fr);gap:16px;padding:26px 0}
+    .news-arrow{display:none}
+    .news h3{font-size:20px}
+    .news p{font-size:14px;line-height:1.85}
+    .lb-head{display:none}
+    .lb-row{
+      grid-template-columns:40px minmax(0,1fr) 66px;
+      grid-template-areas:"r model score" "r bar bar";
+      gap:6px 12px;padding:14px 0;
+    }
+    .lb-row .r{grid-area:r;align-self:center}
+    .lb-model{grid-area:model}
+    .license{display:none}
+    .lb-score{grid-area:score}
+    .lb-bar{grid-area:bar;margin-top:2px}
+    .lb-model strong{font-size:15px}
+    .lb-bar .track{height:2px}
+    .takeaway blockquote{font-size:20px}
+    .pod-score .num{font-size:32px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation:none!important;transition:none!important}
+    .reveal{opacity:1;transform:none}
+    html{scroll-behavior:auto}
+  }
+  @media print{
+    .topbar,#toTop,.progress,.news-arrow{display:none}
+    body{background:#fff}
+    .reveal{opacity:1;transform:none}
+    .section{padding-top:38px;break-inside:avoid}
+    .news,.lb-row,.pod{break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <div class="brand"><span class="dot"></span>AI SIGNAL<span>／ 日报</span></div>
+    <nav class="nav" aria-label="页内导航">
+      <a href="#brief">01 快讯</a>
+      <a href="#leaderboard">02 榜单</a>
+      <a href="#takeaway">03 点评</a>
+    </nav>
+    <div class="top-date">2026.11.03 · MON · CST</div>
+  </div>
+</header>
+
+<main>
+  <section class="hero wrap" aria-labelledby="hero-title">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">Daily Intelligence Brief · Issue 001</div>
+        <h1 id="hero-title">过去 24 小时，<br><span class="thin">AI 世界的</span> <em>七</em> 个信号</h1>
+        <p class="dek">从 1150 亿美元的光互连并购，到覆盖全生命周期的中国 AI 监管；从 DeepSeek 把预训练搬上昇腾，到“能不能干完活”的新一代评测——资本、算力与合规，正在重写竞争的坐标系。</p>
+      </div>
+      <aside class="hero-meta" aria-label="本期概览">
+        <div class="meta-block">
+          <label>WINDOW</label>
+          <strong>24H</strong>
+          <span>11.02 — 11.03</span>
+        </div>
+        <div class="meta-block">
+          <label>STORIES</label>
+          <strong>07</strong>
+          <span>技术 · 资本 · 治理</span>
+        </div>
+        <div class="meta-block">
+          <label>LEADERBOARD</label>
+          <strong>20</strong>
+          <span>Text Arena · Top 20</span>
+        </div>
+      </aside>
+    </div>
+    <div class="hero-rule" aria-hidden="true"></div>
+  </section>
+
+  <!-- ================= BRIEF ================= -->
+  <section class="section wrap" id="brief" aria-labelledby="brief-title">
+    <div class="section-head">
+      <span class="sec-num">01</span>
+      <h2 id="brief-title">24 小时快讯</h2>
+      <span class="sec-note">按重要性排序 / Sorted by impact</span>
+    </div>
+
+    <div class="news-list">
+      <article class="news reveal">
+        <div class="news-rank">01</div>
+        <div class="news-body">
+          <div class="news-meta"><span class="tag">并购</span><span>2026.11.02</span></div>
+          <h3><a href="https://investor.marvell.com/news-events/press-releases/detail/1040/marvell-and-lumentum-to-combine-creating-a-category-leader-in-ai-connectivity" target="_blank" rel="noopener">Marvell 以 1150 亿美元全股票收购 Lumentum，组建 AI 互连巨头</a></h3>
+          <p>交易隐含企业价值约 1150 亿美元，合并后公司企业价值超过 2750 亿美元；双方把增长押在 AI 数据中心的光互连与高速连接上，预计 2028 年上半年完成交割。</p>
+          <div class="source">来源 <a href="https://investor.marvell.com/news-events/press-releases/detail/1040/marvell-and-lumentum-to-combine-creating-a-category-leader-in-ai-connectivity" target="_blank" rel="noopener">Marvell Investor Relations</a> · <a href="http://news.qq.com/rain/a/20261103A08L2D00" target="_blank" rel="noopener">腾讯新闻</a></div>
+        </div>
+        <div class="news-arrow" aria-hidden="true">↗</div>
+      </article>
+
+      <article class="news reveal">
+        <div class="news-rank">02</div>
+        <div class="news-body">
+          <div class="news-meta"><span class="tag">IPO</span><span>2026.11.02</span></div>
+          <h3><a href="http://m.163.com/dy/article/LAQP3QI00534A4SC.html" target="_blank" rel="noopener">Anthropic 修订招股书：三季度营收 169.6 亿美元，GAAP 营业利润转负</a></h3>
+          <p>营收同比增长约 12 倍，但短期算力采购把 GAAP 营业利润从二季度的 9.74 亿美元盈利拉回 5.67 亿美元亏损；已签约算力义务合计约 8950 亿美元，PitchBook 已将其目标估值下调至 1.42 万亿美元。</p>
+          <div class="source">来源 <a href="http://m.163.com/dy/article/LAQP3QI00534A4SC.html" target="_blank" rel="noopener">界面新闻</a> · <a href="https://www.sec.gov/cgi-bin/browse-edgar?company=anthropic&amp;CIK=&amp;type=S-1&amp;dateb=&amp;owner=include&amp;count=40" target="_blank" rel="noopener">SEC EDGAR</a></div>
+        </div>
+        <div class="news-arrow" aria-hidden="true">↗</div>
+      </article>
+
+      <article class="news reveal">
+        <div class="news-rank">03</div>
+        <div class="news-body">
+          <div class="news-meta"><span class="tag">监管</span><span>2026.11.03</span></div>
+          <h3><a href="https://news.qq.com/rain/a/20261103A09LPY00" target="_blank" rel="noopener">中国发改委宣布加快 AI 立法，建立全生命周期安全标准</a></h3>
+          <p>新框架覆盖数据、算力、算法全链条，配套过渡期、分行业监管沙盒与就业替代风险监测；官方同时确认 11 月将举行中美人工智能对话。</p>
+          <div class="source">来源 <a href="https://news.qq.com/rain/a/20261103A09LPY00" target="_blank" rel="noopener">凤凰网财经（引 Bloomberg）</a></div>
+        </div>
+        <div class="news-arrow" aria-hidden="true">↗</div>
+      </article>
+
+      <article class="news reveal">
+        <div class="news-rank">04</div>
+        <div class="news-body">
+          <div class="news-meta"><span class="tag">收购</span><span>2026.11.02</span></div>
+          <h3><a href="https://www.salesforce.com/news/stories/salesforce-signs-definitive-agreement-to-acquire-cresta/" target="_blank" rel="noopener">Salesforce 签约收购 Cresta，把语音智能体并入 Service Cloud</a></h3>
+          <p>Cresta 的语音代理、坐席实时辅助与会话分析将被整合进 Salesforce 客服栈；交易金额未披露，预计在 Salesforce FY2028 第一季度完成。</p>
+          <div class="source">来源 <a href="https://www.salesforce.com/news/stories/salesforce-signs-definitive-agreement-to-acquire-cresta/" target="_blank" rel="noopener">Salesforce Newsroom</a> · <a href="https://www.unite.ai/salesforce-agrees-to-buy-cresta-for-voice-led-customer-service-ai/" target="_blank" rel="noopener">Unite.AI</a></div>
+        </div>
+        <div class="news-arrow" aria-hidden="true">↗</div>
+      </article>
+
+      <article class="news reveal">
+        <div class="news-rank">05</div>
+        <div class="news-body">
+          <div class="news-meta"><span class="tag">算力</span><span>2026.11.03</span></div>
+          <h3><a href="http://m.163.com/dy/article/LAQLR5570550B1DU.html" target="_blank" rel="noopener">DeepSeek V5 计划基于华为昇腾芯片进行预训练</a></h3>
+          <p>若落地，这将是国产顶尖大模型首次把基础预训练搬到国产算力上；此前昇腾主要承担 DeepSeek 的推理负载，训练侧仍依赖英伟达生态。</p>
+          <div class="source">来源 <a href="http://m.163.com/dy/article/LAQLR5570550B1DU.html" target="_blank" rel="noopener">科创板日报</a></div>
+        </div>
+        <div class="news-arrow" aria-hidden="true">↗</div>
+      </article>
+
+      <article class="news reveal">
+        <div class="news-rank">06</div>
+        <div class="news-body">
+          <div class="news-meta"><span class="tag">评测</span><span>2026.11.02</span></div>
+          <h3><a href="https://openai.com/index/lifeval/" target="_blank" rel="noopener">OpenAI 发布 LifeVal，GPT-6 Astra 日常任务平均奖励达 80.6%</a></h3>
+          <p>新评测基于近 4000 人问卷挑选“日常生活最需要帮助的任务”，把模型能力从答题推向订票、购物、照护等真实流程；GPT-5.2 在同一基准上仅为 49.3%。</p>
+          <div class="source">来源 <a href="https://openai.com/index/lifeval/" target="_blank" rel="noopener">OpenAI</a> · <a href="https://fourweekmba.com/ai-openais-lifeval-puts-gpt-6-astra-at-80-6-on-everyday-tasks/" target="_blank" rel="noopener">FourWeekMBA</a></div>
+        </div>
+        <div class="news-arrow" aria-hidden="true">↗</div>
+      </article>
+
+      <article class="news reveal">
+        <div class="news-rank">07</div>
+        <div class="news-body">
+          <div class="news-meta"><span class="tag">基准</span><span>2026.11.02</span></div>
+          <h3><a href="https://www.aichatdaily.com/ai-models/semianalysis-launches-gdpx-benchmark-where-best-ai-model" target="_blank" rel="noopener">SemiAnalysis 推出 GDPx：最强模型 8 小时工作只完成 12%</a></h3>
+          <p>覆盖芯片设计、法律、金融、生物等 11 个领域的模拟职场任务；Claude Opus 5.5 综合第一，GPT-6 Astra 赢得递归自我改进单项，Gemini 4 Carbon 领先生物。</p>
+          <div class="source">来源 <a href="https://www.aichatdaily.com/ai-models/semianalysis-launches-gdpx-benchmark-where-best-ai-model" target="_blank" rel="noopener">AI Chat Daily</a> · <a href="https://semianalysis.com/" target="_blank" rel="noopener">SemiAnalysis</a></div>
+        </div>
+        <div class="news-arrow" aria-hidden="true">↗</div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ================= LEADERBOARD ================= -->
+  <section class="section wrap" id="leaderboard" aria-labelledby="lb-title">
+    <div class="section-head">
+      <span class="sec-num">02</span>
+      <h2 id="lb-title">模型排行榜 · Text Arena</h2>
+      <span class="sec-note">arena.ai / top 20</span>
+    </div>
+
+    <div class="lb-meta">
+      <span>快照 <b>2026.10.20</b></span>
+      <span>累计投票 <b>8,900,458</b></span>
+      <span>收录模型 <b>417</b></span>
+      <span class="flag">Anthropic 占据 20 席中的 9 席</span>
+    </div>
+
+    <div class="podium">
+      <div class="pod first reveal">
+        <span class="rank-watermark" aria-hidden="true">01</span>
+        <div class="pod-top"><span>TOP 01</span><span>▲ LEADER</span></div>
+        <h3>Gemini 4 Argon</h3>
+        <div class="lab">Google · High effort · Proprietary</div>
+        <div class="pod-score"><span class="num">1524</span><span class="pm">± 9</span></div>
+        <div class="bar"><i style="--w:100%"></i></div>
+      </div>
+      <div class="pod reveal">
+        <span class="rank-watermark" aria-hidden="true">02</span>
+        <div class="pod-top"><span>TOP 02</span><span>META</span></div>
+        <h3>Muse Wonder</h3>
+        <div class="lab">Meta · Max · Proprietary</div>
+        <div class="pod-score"><span class="num">1510</span><span class="pm">± 9</span></div>
+        <div class="bar"><i style="--w:69.6%"></i></div>
+      </div>
+      <div class="pod reveal">
+        <span class="rank-watermark" aria-hidden="true">03</span>
+        <div class="pod-top"><span>TOP 03</span><span>ANTHROPIC</span></div>
+        <h3>Claude Opus 5.5</h3>
+        <div class="lab">Anthropic · High · Proprietary</div>
+        <div class="pod-score"><span class="num">1509</span><span class="pm">± 7</span></div>
+        <div class="bar"><i style="--w:67.4%"></i></div>
+      </div>
+    </div>
+
+    <div class="lb-head" aria-hidden="true">
+      <span>#</span><span>模型 / 实验室</span><span>许可</span><span>分数</span><span>相对强度</span>
+    </div>
+
+    <div class="lb-table" role="table" aria-label="Text Arena 前 20 名">
+      <div class="lb-row top reveal"><span class="r">01</span><div class="lb-model"><strong>Gemini 4 Argon (High)</strong><span>Google</span></div><span class="license">Proprietary</span><div class="lb-score">1524<small>±9</small></div><div class="lb-bar"><div class="track"><i style="--w:100%"></i></div><em>1524</em></div></div>
+      <div class="lb-row top reveal"><span class="r">02</span><div class="lb-model"><strong>Muse Wonder (Max)</strong><span>Meta</span></div><span class="license">Proprietary</span><div class="lb-score">1510<small>±9</small></div><div class="lb-bar"><div class="track"><i style="--w:69.6%"></i></div><em>1510</em></div></div>
+      <div class="lb-row top reveal"><span class="r">03</span><div class="lb-model"><strong>Claude Opus 5.5 (High)</strong><span>Anthropic</span></div><span class="license">Proprietary</span><div class="lb-score">1509<small>±7</small></div><div class="lb-bar"><div class="track"><i style="--w:67.4%"></i></div><em>1509</em></div></div>
+      <div class="lb-row reveal"><span class="r">04</span><div class="lb-model"><strong>Claude Fable 5 (High)</strong><span>Anthropic</span></div><span class="license">Proprietary</span><div class="lb-score">1504<small>±4</small></div><div class="lb-bar"><div class="track"><i style="--w:56.5%"></i></div><em>1504</em></div></div>
+      <div class="lb-row reveal"><span class="r">05</span><div class="lb-model"><strong>Claude Opus 4.6 (High)</strong><span>Anthropic</span></div><span class="license">Proprietary</span><div class="lb-score">1503<small>±3</small></div><div class="lb-bar"><div class="track"><i style="--w:54.3%"></i></div><em>1503</em></div></div>
+      <div class="lb-row reveal"><span class="r">06</span><div class="lb-model"><strong>Claude Fable 5.1 (Max)</strong><span>Anthropic</span></div><span class="license">Proprietary</span><div class="lb-score">1503<small>±6</small></div><div class="lb-bar"><div class="track"><i style="--w:54.3%"></i></div><em>1503</em></div></div>
+      <div class="lb-row reveal"><span class="r">07</span><div class="lb-model"><strong>Claude Opus 4.7 (High)</strong><span>Anthropic</span></div><span class="license">Proprietary</span><div class="lb-score">1501<small>±4</small></div><div class="lb-bar"><div class="track"><i style="--w:50%"></i></div><em>1501</em></div></div>
+      <div class="lb-row reveal"><span class="r">08</span><div class="lb-model"><strong>Claude Opus 4.6</strong><span>Anthropic</span></div><span class="license">Proprietary</span><div class="lb-score">1497<small>±3</small></div><div class="lb-bar"><div class="track"><i style="--w:41.3%"></i></div><em>1497</em></div></div>
+      <div class="lb-row reveal"><span class="r">09</span><div class="lb-model"><strong>Gemini 3.8 Flash (High)</strong><span>Google</span></div><span class="license">Proprietary</span><div class="lb-score">1496<small>±5</small></div><div class="lb-bar"><div class="track"><i style="--w:39.1%"></i></div><em>1496</em></div></div>
+      <div class="lb-row reveal"><span class="r">10</span><div class="lb-model"><strong>Muse Spark 1.3 (Max)</strong><span>Meta</span></div><span class="license">Proprietary</span><div class="lb-score">1495<small>±5</small></div><div class="lb-bar"><div class="track"><i style="--w:37%"></i></div><em>1495</em></div></div>
+      <div class="lb-row reveal"><span class="r">11</span><div class="lb-model"><strong>Claude Opus 4.7</strong><span>Anthropic</span></div><span class="license">Proprietary</span><div class="lb-score">1494<small>±4</small></div><div class="lb-bar"><div class="track"><i style="--w:34.8%"></i></div><em>1494</em></div></div>
+      <div class="lb-row reveal"><span class="r">12</span><div class="lb-model"><strong>Muse Spark 1.2 (xHigh)</strong><span>Meta</span></div><span class="license">Proprietary</span><div class="lb-score">1491<small>±7</small></div><div class="lb-bar"><div class="track"><i style="--w:28.3%"></i></div><em>1491</em></div></div>
+      <div class="lb-row reveal"><span class="r">13</span><div class="lb-model"><strong>Claude Opus 5 (Max)</strong><span>Anthropic</span></div><span class="license">Proprietary</span><div class="lb-score">1491<small>±5</small></div><div class="lb-bar"><div class="track"><i style="--w:28.3%"></i></div><em>1491</em></div></div>
+      <div class="lb-row reveal"><span class="r">14</span><div class="lb-model"><strong>Claude Opus 5 (High)</strong><span>Anthropic</span></div><span class="license">Proprietary</span><div class="lb-score">1491<small>±4</small></div><div class="lb-bar"><div class="track"><i style="--w:28.3%"></i></div><em>1491</em></div></div>
+      <div class="lb-row reveal"><span class="r">15</span><div class="lb-model"><strong>Muse Spark 1.1</strong><span>Meta</span></div><span class="license">Proprietary</span><div class="lb-score">1490<small>±4</small></div><div class="lb-bar"><div class="track"><i style="--w:26.1%"></i></div><em>1490</em></div></div>
+      <div class="lb-row reveal"><span class="r">16</span><div class="lb-model"><strong>Gemini 3.7 Flash (High)</strong><span>Google</span></div><span class="license">Proprietary</span><div class="lb-score">1490<small>±5</small></div><div class="lb-bar"><div class="track"><i style="--w:26.1%"></i></div><em>1490</em></div></div>
+      <div class="lb-row reveal"><span class="r">17</span><div class="lb-model"><strong>Muse Spark</strong><span>Meta</span></div><span class="license">Proprietary</span><div class="lb-score">1489<small>±6</small></div><div class="lb-bar"><div class="track"><i style="--w:23.9%"></i></div><em>1489</em></div></div>
+      <div class="lb-row reveal"><span class="r">18</span><div class="lb-model"><strong>Kimi K3 (Max)</strong><span>Moonshot</span></div><span class="license open">Open Source</span><div class="lb-score">1487<small>±4</small></div><div class="lb-bar"><div class="track"><i style="--w:19.6%"></i></div><em>1487</em></div></div>
+      <div class="lb-row reveal"><span class="r">19</span><div class="lb-model"><strong>Gemini 3.1 Pro Preview</strong><span>Google</span></div><span class="license">Proprietary</span><div class="lb-score">1487<small>±3</small></div><div class="lb-bar"><div class="track"><i style="--w:19.6%"></i></div><em>1487</em></div></div>
+      <div class="lb-row reveal"><span class="r">20</span><div class="lb-model"><strong>Gemini 3 Pro</strong><span>Google</span></div><span class="license">Proprietary</span><div class="lb-score">1486<small>±4</small></div><div class="lb-bar"><div class="track"><i style="--w:17.4%"></i></div><em>1486</em></div></div>
+    </div>
+
+    <p class="lb-note">读数说明：第 01–11 名直接抓取自 arena.ai/leaderboard/chat/text（2026.10.20 快照）；第 12–20 名取自 Arena 官方榜单同步镜像（2026.10.26）。分数为 Arena 人类偏好 Elo，括号内为置信区间；“相对强度”按 1478–1524 区间线性映射，仅用于视觉比较，不代表胜率。</p>
+  </section>
+
+  <!-- ================= TAKEAWAY ================= -->
+  <section class="takeaway" id="takeaway" aria-labelledby="take-title">
+    <div class="wrap takeaway-grid">
+      <div class="takeaway-label">03<br>今日趋势点评<span>Editor's note</span></div>
+      <div>
+        <blockquote id="take-title">
+          <p>今天的三条主线其实是一条：AI 竞争正在从“模型能力”转向“系统能力”。Marvell 买下 Lumentum，是在为算力集群修光路；Anthropic 的招股书则证明，收入可以涨 12 倍，利润仍会被算力账单吞掉；DeepSeek 把预训练搬上昇腾、中国把监管铺到全生命周期，说明<span class="hl">供应链与合规正在成为模型之外的胜负手</span>。</p>
+          <p>当 OpenAI 的 LifeVal 和 SemiAnalysis 的 GDPx 都把评测从“会不会答”改成“能不能干完活”，真正的分水岭，已经落在谁能把 token 变成可交付的结果。</p>
+        </blockquote>
+        <div class="signature">— AI SIGNAL 编辑部 · 2026.11.03</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-title">新闻来源 / Sources</div>
+        <ul class="foot-list">
+          <li><a href="https://investor.marvell.com/news-events/press-releases/detail/1040/marvell-and-lumentum-to-combine-creating-a-category-leader-in-ai-connectivity" target="_blank" rel="noopener">Marvell &amp; Lumentum to Combine — Marvell IR</a></li>
+          <li><a href="http://m.163.com/dy/article/LAQP3QI00534A4SC.html" target="_blank" rel="noopener">Anthropic 三季度营业利润由盈转亏 — 界面新闻</a></li>
+          <li><a href="https://news.qq.com/rain/a/20261103A09LPY00" target="_blank" rel="noopener">中国正在给狂奔的人工智能装上“安全阀” — 凤凰网财经</a></li>
+          <li><a href="https://www.unite.ai/salesforce-agrees-to-buy-cresta-for-voice-led-customer-service-ai/" target="_blank" rel="noopener">Salesforce Agrees to Buy Cresta — Unite.AI</a></li>
+          <li><a href="http://m.163.com/dy/article/LAQLR5570550B1DU.html" target="_blank" rel="noopener">DeepSeek V5 计划用昇腾芯片预训练 — 科创板日报</a></li>
+          <li><a href="https://openai.com/index/lifeval/" target="_blank" rel="noopener">LifeVal: Measuring AI progress on everyday tasks — OpenAI</a></li>
+          <li><a href="https://www.aichatdaily.com/ai-models/semianalysis-launches-gdpx-benchmark-where-best-ai-model" target="_blank" rel="noopener">SemiAnalysis launches GDPx — AI Chat Daily</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="foot-title">榜单与说明 / Leaderboard</div>
+        <ul class="foot-list">
+          <li><a href="https://arena.ai/leaderboard/chat/text" target="_blank" rel="noopener">Arena Text Leaderboard — arena.ai</a>（直接抓取 01–11）</li>
+          <li><a href="https://agientry.com/en/leaderboard#arena-text" target="_blank" rel="noopener">Arena Text Chatbot Board 镜像 — Agientry</a>（同步 12–20）</li>
+          <li>时间窗口：2026.11.02 — 11.03（CST）</li>
+          <li>收录原则：优先产品、资本、技术与治理的实质进展；传闻与旧闻不计入。</li>
+          <li>设计：单栏纸感排版 · 衬线标题 · 等宽数据 · 朱砂单色点缀</li>
+        </ul>
+      </div>
+    </div>
+    <div class="colophon">
+      <span><b>AI SIGNAL</b> — 一份关于机器智能的每日读数</span>
+      <span>抓取 / 编辑：2026.11.03 · 15:30 CST</span>
+    </div>
+  </footer>
+</main>
+
+<button id="toTop" type="button" aria-label="回到顶部">↑</button>
+
+<script>
+(function () {
+  var progress = document.getElementById('progress');
+  var toTop = document.getElementById('toTop');
+
+  function onScroll() {
+    var h = document.documentElement;
+    var max = h.scrollHeight - h.clientHeight;
+    progress.style.width = (max > 0 ? (h.scrollTop / max) * 100 : 0) + '%';
+    toTop.classList.toggle('show', h.scrollTop > 500);
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  toTop.addEventListener('click', function () {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduce && 'IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          e.target.classList.add('in');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+    document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+  } else {
+    document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('in'); });
+  }
+})();
+</script>
+</body>
+</html>
