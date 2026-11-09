@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>AI 每日观察 · 2026.11.09</title>
+<meta name="description" content="过去 24 小时 AI 行业热点：资本校准、智能体交付、合规前置，以及 Arena 文本模型榜前 20。">
+<style>
+  :root{
+    --paper:#F4EFE6;
+    --paper-2:#EDE6D9;
+    --ink:#17130F;
+    --ink-soft:#3D362E;
+    --muted:#6A6155;
+    --rule:rgba(23,19,15,.15);
+    --rule-strong:rgba(23,19,15,.32);
+    --accent:#B23A2B;
+    --accent-soft:#E7C8BE;
+    --gold:#8A6736;
+    --gold-bright:#B08A4F;
+    --green:#3F6B57;
+    --ink-bg:#16120E;
+    --ink-fg:#F3EDE2;
+    --ink-muted:#9B9184;
+    --ink-rule:rgba(243,237,226,.15);
+    --serif:"Noto Serif CJK SC","Noto Serif SC","Source Han Serif SC","Songti SC",STSong,"SimSun",Georgia,"Times New Roman",serif;
+    --sans:"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    --mono:"SF Mono","JetBrains Mono","Roboto Mono",Menlo,Consolas,monospace;
+    --ease:cubic-bezier(.2,.7,.2,1);
+    --max:1240px;
+    --pad:clamp(20px,4vw,56px);
+  }
+
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:16px;
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    overflow-x:hidden;
+  }
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    z-index:9999;
+    pointer-events:none;
+    opacity:.55;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.16'/%3E%3C/svg%3E");
+    mix-blend-mode:multiply;
+  }
+  ::selection{background:var(--accent);color:var(--paper)}
+  a{color:inherit;text-decoration:none}
+  button{font:inherit;color:inherit}
+  img{max-width:100%;display:block}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+
+  /* ---------- reading progress ---------- */
+  .progress{
+    position:fixed;top:0;left:0;right:0;height:2px;z-index:80;
+    background:transparent;pointer-events:none;
+  }
+  .progress span{
+    display:block;height:100%;width:100%;
+    background:var(--accent);
+    transform:scaleX(0);transform-origin:0 50%;
+    will-change:transform;
+  }
+
+  /* ---------- top bar ---------- */
+  .topbar{
+    position:fixed;top:0;left:0;right:0;z-index:60;
+    display:flex;align-items:center;justify-content:space-between;gap:24px;
+    padding:14px var(--pad);
+    background:rgba(244,239,230,.84);
+    -webkit-backdrop-filter:blur(14px);
+    backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--rule);
+    font-family:var(--mono);
+    font-size:10px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+  }
+  .brand{display:flex;align-items:center;gap:10px;font-weight:600;white-space:nowrap}
+  .brand-mark{width:8px;height:8px;background:var(--accent);display:inline-block}
+  .topnav{display:flex;gap:clamp(16px,2.5vw,32px)}
+  .topnav a{
+    position:relative;color:var(--muted);
+    padding:2px 0;transition:color .3s var(--ease);
+  }
+  .topnav a::after{
+    content:"";position:absolute;left:0;right:0;bottom:-3px;height:1px;
+    background:var(--accent);transform:scaleX(0);transform-origin:0 50%;
+    transition:transform .35s var(--ease);
+  }
+  .topnav a:hover,.topnav a.active{color:var(--ink)}
+  .topnav a:hover::after,.topnav a.active::after{transform:scaleX(1)}
+  .issue{color:var(--muted);white-space:nowrap}
+
+  /* ---------- shared ---------- */
+  .wrap{max-width:var(--max);margin:0 auto;padding-left:var(--pad);padding-right:var(--pad)}
+  .eyebrow{
+    display:flex;align-items:center;gap:10px;
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--muted);
+  }
+  .dot{
+    width:6px;height:6px;border-radius:50%;background:var(--accent);
+    box-shadow:0 0 0 0 rgba(178,58,43,.45);
+    animation:pulse 2.6s var(--ease) infinite;
+  }
+  @keyframes pulse{
+    0%,100%{box-shadow:0 0 0 0 rgba(178,58,43,.35)}
+    50%{box-shadow:0 0 0 6px rgba(178,58,43,0)}
+  }
+  .section{padding-top:clamp(64px,8vw,104px);padding-bottom:clamp(48px,6vw,80px);scroll-margin-top:82px}
+  .section-head{
+    display:grid;grid-template-columns:64px minmax(0,1fr) auto;
+    gap:clamp(16px,3vw,32px);align-items:start;
+    padding-bottom:22px;margin-bottom:clamp(28px,4vw,48px);
+    border-bottom:1px solid var(--rule-strong);
+  }
+  .sec-no{
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;
+    color:var(--accent);padding-top:10px;
+  }
+  .section-head h2{
+    font-family:var(--serif);font-weight:600;
+    font-size:clamp(30px,4vw,48px);line-height:1.08;
+    letter-spacing:-.015em;text-wrap:balance;
+  }
+  .section-head .sub{
+    margin-top:10px;font-size:13.5px;line-height:1.8;color:var(--muted);
+    max-width:52ch;
+  }
+  .head-meta{
+    font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;
+    line-height:1.9;text-transform:uppercase;color:var(--muted);
+    text-align:right;padding-top:10px;white-space:nowrap;
+  }
+
+  .tag{
+    display:inline-flex;align-items:center;
+    padding:3px 9px;border:1px solid var(--rule-strong);border-radius:999px;
+    font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--ink-soft);white-space:nowrap;
+  }
+  .tag-capital{color:var(--accent);border-color:rgba(178,58,43,.45)}
+  .tag-product{color:var(--ink);border-color:var(--rule-strong)}
+  .tag-research{color:var(--gold);border-color:rgba(169,130,72,.5)}
+  .tag-compliance,.tag-governance{color:var(--green);border-color:rgba(63,107,87,.45)}
+  .tag-funding{color:var(--accent);border-color:rgba(178,58,43,.35)}
+
+  .source{
+    display:inline-flex;align-items:center;gap:6px;
+    font-family:var(--mono);font-size:10px;letter-spacing:.08em;
+    color:var(--muted);border-bottom:1px solid transparent;
+    padding-bottom:1px;transition:color .3s var(--ease),border-color .3s var(--ease);
+  }
+  .source .arrow{display:inline-block;transition:transform .3s var(--ease)}
+  .source:hover{color:var(--accent);border-color:var(--accent)}
+  .source:hover .arrow{transform:translate(2px,-2px)}
+
+  .reveal{opacity:0;transform:translateY(20px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+  .reveal.in{opacity:1;transform:none}
+
+  /* ---------- hero ---------- */
+  .hero{
+    max-width:var(--max);margin:0 auto;
+    padding:clamp(56px,8vw,108px) var(--pad) clamp(40px,5vw,64px);
+    display:grid;grid-template-columns:minmax(0,1.55fr) minmax(280px,.55fr);
+    gap:clamp(36px,5vw,76px);align-items:end;
+    border-bottom:1px solid var(--rule);
+  }
+  .hero h1{
+    font-family:var(--serif);font-weight:600;
+    font-size:clamp(54px,8.6vw,116px);line-height:.99;
+    letter-spacing:-.03em;margin:22px 0 26px;text-wrap:balance;
+  }
+  .hero h1 em{font-style:normal;color:var(--accent)}
+  .deck{
+    font-size:clamp(15px,1.5vw,17.5px);line-height:1.95;
+    color:var(--ink-soft);max-width:46ch;
+  }
+  .hero-meta{
+    display:flex;flex-wrap:wrap;gap:12px 22px;margin-top:30px;
+    font-family:var(--mono);font-size:9.5px;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--muted);
+  }
+  .hero-meta span{display:inline-flex;align-items:center;gap:8px}
+  .hero-meta span+span::before{content:"";display:inline-block;width:18px;height:1px;background:var(--rule-strong);vertical-align:middle}
+
+  .hero-side{
+    border-top:2px solid var(--ink);
+    padding-top:16px;
+    display:flex;flex-direction:column;gap:22px;
+  }
+  .side-label{
+    font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--muted);
+  }
+  .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px 18px}
+  .stat{border-top:1px solid var(--rule);padding-top:10px}
+  .stat-num{
+    display:block;font-family:var(--serif);font-weight:600;
+    font-size:clamp(26px,3vw,36px);line-height:1;letter-spacing:-.02em;
+  }
+  .stat-num small{font-size:.5em;font-weight:500;letter-spacing:0;color:var(--muted)}
+  .stat-label{
+    display:block;margin-top:9px;font-family:var(--mono);
+    font-size:9px;letter-spacing:.09em;line-height:1.6;
+    text-transform:uppercase;color:var(--muted);
+  }
+  .side-note{
+    margin-top:auto;font-size:11px;line-height:1.8;color:var(--muted);
+    border-top:1px solid var(--rule);padding-top:12px;
+  }
+
+  /* ---------- news ---------- */
+  .lead{
+    display:grid;grid-template-columns:minmax(0,1.5fr) minmax(230px,.5fr);
+    gap:clamp(24px,4vw,56px);
+    padding:clamp(26px,3.5vw,42px) 0 clamp(32px,4vw,48px);
+    border-bottom:1px solid var(--rule);
+  }
+  .kicker{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+  .kicker time{font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--muted)}
+  .lead h2{
+    font-family:var(--serif);font-weight:600;
+    font-size:clamp(30px,4.1vw,52px);line-height:1.2;
+    letter-spacing:-.015em;max-width:20em;text-wrap:balance;
+  }
+  .lead h2 a{
+    background-image:linear-gradient(var(--accent),var(--accent));
+    background-repeat:no-repeat;background-position:0 100%;background-size:0 1px;
+    transition:background-size .6s var(--ease),color .3s var(--ease);
+  }
+  .lead h2 a:hover{color:var(--accent);background-size:100% 1px}
+  .lead p{
+    margin:20px 0 22px;font-size:15.5px;line-height:1.95;
+    color:var(--ink-soft);max-width:58ch;
+  }
+  .lead-figure{
+    align-self:stretch;display:flex;flex-direction:column;justify-content:center;
+    border-top:2px solid var(--ink);border-bottom:1px solid var(--rule);
+    padding:22px 0;
+  }
+  .figure-label{
+    font-family:var(--mono);font-size:9px;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--muted);margin-bottom:12px;
+  }
+  .figure-num{
+    font-family:var(--serif);font-weight:600;
+    font-size:clamp(58px,7.2vw,92px);line-height:.86;
+    letter-spacing:-.045em;color:var(--accent);
+  }
+  .figure-num span{font-size:.42em;letter-spacing:0;vertical-align:.06em;margin-left:2px}
+  .figure-sub{
+    margin-top:14px;font-size:11.5px;line-height:1.75;color:var(--muted);
+    max-width:22ch;
+  }
+
+  .stories{
+    display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  .story{
+    padding:30px clamp(26px,3.2vw,44px) 34px 0;
+    border-bottom:1px solid var(--rule);
+    transition:background .45s var(--ease);
+  }
+  .story:nth-child(even){
+    padding-left:clamp(26px,3.2vw,44px);padding-right:0;
+    border-left:1px solid var(--rule);
+  }
+  .story:hover{background:rgba(178,58,43,.032)}
+  .story-top{
+    display:flex;align-items:center;gap:12px;margin-bottom:14px;
+    font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;color:var(--muted);
+  }
+  .story-top .idx{margin-right:2px}
+  .story-top time{margin-left:auto}
+  .story h3{
+    font-family:var(--serif);font-weight:600;
+    font-size:clamp(21px,2.2vw,27px);line-height:1.4;
+    letter-spacing:-.008em;margin-bottom:12px;
+    transition:color .35s var(--ease);
+  }
+  .story:hover h3{color:var(--accent)}
+  .story p{
+    font-size:14px;line-height:1.9;color:var(--ink-soft);
+    margin-bottom:16px;
+  }
+
+  .flash{
+    display:grid;grid-template-columns:132px minmax(0,1fr) auto;
+    gap:clamp(18px,3vw,36px);align-items:center;
+    padding:26px 0 30px;border-bottom:1px solid var(--rule-strong);
+  }
+  .flash-label{
+    font-family:var(--mono);font-size:9px;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--accent);line-height:1.8;
+  }
+  .flash-label span{display:block;color:var(--muted)}
+  .flash-body h3{
+    font-family:var(--serif);font-weight:600;
+    font-size:clamp(20px,2.2vw,26px);line-height:1.35;margin-bottom:7px;
+  }
+  .flash-body p{font-size:13.5px;line-height:1.85;color:var(--ink-soft)}
+  .flash .source{align-self:end;padding-bottom:4px}
+
+  /* ---------- arena ---------- */
+  .arena{
+    position:relative;overflow:hidden;
+    margin-top:clamp(20px,4vw,48px);scroll-margin-top:82px;
+    padding:clamp(64px,8vw,104px) 0;
+    background:var(--ink-bg);color:var(--ink-fg);
+  }
+  .arena::before{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background-image:
+      linear-gradient(rgba(243,237,226,.035) 1px,transparent 1px),
+      radial-gradient(900px 380px at 78% 0%,rgba(178,58,43,.16),transparent 65%);
+    background-size:100% 56px,100% 100%;
+    opacity:.9;
+  }
+  .arena .wrap{position:relative}
+  .arena .section-head{border-bottom-color:var(--ink-rule)}
+  .arena .section-head h2{color:var(--ink-fg)}
+  .arena .sec-no{color:var(--accent-soft)}
+  .arena .head-meta{color:var(--ink-muted)}
+  .arena .sub{color:var(--ink-muted)}
+
+  .board{border-top:1px solid var(--ink-rule)}
+  .board-head,.rank-row{
+    display:grid;
+    grid-template-columns:56px minmax(0,1fr) 150px 92px 84px;
+    grid-template-areas:"rank model bar score votes";
+    gap:18px;align-items:center;
+  }
+  .board-head{
+    padding:12px 0;border-bottom:1px solid var(--ink-rule);
+    font-family:var(--mono);font-size:9px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--ink-muted);
+  }
+  .board-head .h-rank{grid-area:rank}
+  .board-head .h-model{grid-area:model}
+  .board-head .h-bar{grid-area:bar}
+  .board-head .h-score{grid-area:score;text-align:right}
+  .board-head .h-votes{grid-area:votes;text-align:right}
+
+  .rank-row{
+    padding:13px 0;border-bottom:1px solid rgba(243,237,226,.07);
+    transition:background .3s var(--ease),transform .3s var(--ease);
+  }
+  .rank-row:hover{background:rgba(243,237,226,.045);transform:translateX(4px)}
+  .rank{
+    grid-area:rank;font-family:var(--serif);font-size:17px;
+    line-height:1;color:var(--ink-muted);font-variant-numeric:tabular-nums;
+  }
+  .rank-row.top3 .rank{color:var(--gold-bright);font-size:25px;font-weight:600}
+  .model{grid-area:model;min-width:0}
+  .model-name{
+    display:flex;align-items:center;gap:9px;flex-wrap:wrap;
+    font-size:14.5px;font-weight:500;line-height:1.45;color:var(--ink-fg);
+  }
+  .model-lab{
+    display:block;margin-top:4px;
+    font-family:var(--mono);font-size:9px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--ink-muted);
+  }
+  .open-badge{
+    font-family:var(--mono);font-size:8.5px;letter-spacing:.1em;
+    color:#9CC0AD;border:1px solid rgba(156,192,173,.4);
+    border-radius:999px;padding:1px 6px;
+  }
+  .bar-cell{grid-area:bar}
+  .bar{
+    display:block;height:4px;background:rgba(243,237,226,.1);overflow:hidden;
+  }
+  .bar i{
+    display:block;height:100%;width:0;
+    background:linear-gradient(90deg,rgba(178,58,43,.55),var(--accent));
+    transition:width 1.2s var(--ease);
+  }
+  .rank-row.top3 .bar i{
+    background:linear-gradient(90deg,rgba(169,130,72,.5),var(--gold-bright));
+  }
+  .rank-row.in .bar i{width:var(--w)}
+  .score{
+    grid-area:score;text-align:right;
+    font-family:var(--mono);font-size:14px;letter-spacing:.02em;
+    font-variant-numeric:tabular-nums;color:var(--ink-fg);
+  }
+  .score small{font-size:9px;color:var(--ink-muted);margin-left:2px}
+  .votes{
+    grid-area:votes;text-align:right;
+    font-family:var(--mono);font-size:9.5px;color:var(--ink-muted);
+    font-variant-numeric:tabular-nums;
+  }
+
+  .arena-foot{
+    display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);
+    gap:clamp(28px,5vw,64px);margin-top:clamp(34px,5vw,56px);
+    padding-top:24px;border-top:1px solid var(--ink-rule);
+  }
+  .lab-dist{display:grid;gap:10px;align-content:start}
+  .lab-dist-title{
+    font-family:var(--mono);font-size:9px;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--ink-muted);margin-bottom:4px;
+  }
+  .lab-row{display:grid;grid-template-columns:84px minmax(0,1fr) 26px;gap:12px;align-items:center}
+  .lab-name{
+    font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--ink-fg);
+  }
+  .lab-bar{height:3px;background:rgba(243,237,226,.1);overflow:hidden}
+  .lab-bar i{
+    display:block;height:100%;width:0;background:var(--gold-bright);
+    transition:width 1.3s var(--ease);
+  }
+  .lab-count{
+    font-family:var(--mono);font-size:9.5px;color:var(--ink-muted);
+    text-align:right;font-variant-numeric:tabular-nums;
+  }
+  .arena-note{
+    font-size:11px;line-height:1.95;color:var(--ink-muted);
+    border-left:1px solid var(--ink-rule);padding-left:20px;
+  }
+  .arena-note strong{color:var(--ink-fg);font-weight:500}
+  .arena-note a{color:var(--accent-soft);border-bottom:1px solid rgba(231,200,190,.4)}
+  .arena-note a:hover{color:var(--ink-fg)}
+
+  /* ---------- commentary ---------- */
+  .commentary{padding-top:clamp(64px,8vw,104px);padding-bottom:clamp(56px,7vw,88px)}
+  .commentary .section-head{grid-template-columns:64px minmax(0,1fr)}
+  .quote-wrap{position:relative;max-width:1020px}
+  .quote-mark{
+    position:absolute;left:-.06em;top:-.42em;
+    font-family:var(--serif);font-size:clamp(110px,14vw,180px);
+    line-height:1;color:var(--accent-soft);opacity:.55;
+    pointer-events:none;user-select:none;
+  }
+  .commentary blockquote{
+    position:relative;
+    font-family:var(--serif);font-weight:500;
+    font-size:clamp(25px,3.25vw,40px);line-height:1.72;
+    letter-spacing:-.005em;color:var(--ink);
+    padding-left:clamp(0px,3vw,30px);
+    border-left:2px solid var(--accent);
+  }
+  .keywords{display:flex;flex-wrap:wrap;gap:10px;margin-top:clamp(28px,4vw,44px)}
+  .keyword{
+    font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--ink-soft);
+    border:1px solid var(--rule-strong);border-radius:999px;
+    padding:6px 12px;transition:background .3s var(--ease),color .3s var(--ease);
+  }
+  .keyword:hover{background:var(--ink);color:var(--paper)}
+
+  /* ---------- footer ---------- */
+  footer{
+    border-top:1px solid var(--rule-strong);
+    padding:clamp(34px,5vw,54px) 0 48px;
+  }
+  .foot-grid{
+    display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);
+    gap:clamp(28px,5vw,64px);
+  }
+  .foot-brand{
+    font-family:var(--serif);font-size:22px;font-weight:600;
+    letter-spacing:-.01em;line-height:1.3;
+  }
+  .foot-brand span{display:block;margin-top:10px;font-family:var(--mono);font-size:9px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase}
+  .foot-note{font-size:11.5px;line-height:1.95;color:var(--muted)}
+  .foot-note p+p{margin-top:10px}
+  .foot-note a{color:var(--ink-soft);border-bottom:1px solid var(--rule-strong)}
+  .foot-note a:hover{color:var(--accent);border-color:var(--accent)}
+
+  /* ---------- to top ---------- */
+  #toTop{
+    position:fixed;right:clamp(16px,3vw,32px);bottom:clamp(16px,3vw,32px);
+    z-index:70;width:44px;height:44px;border-radius:50%;
+    border:1px solid var(--rule-strong);background:rgba(244,239,230,.9);
+    -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+    display:grid;place-items:center;cursor:pointer;
+    opacity:0;transform:translateY(10px);pointer-events:none;
+    transition:opacity .4s var(--ease),transform .4s var(--ease),background .3s var(--ease);
+  }
+  #toTop.show{opacity:1;transform:none;pointer-events:auto}
+  #toTop:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  #toTop svg{width:14px;height:14px}
+
+  /* ---------- responsive ---------- */
+  @media (max-width:980px){
+    .hero{grid-template-columns:1fr;align-items:start}
+    .hero-side{max-width:520px}
+    .section-head{grid-template-columns:44px minmax(0,1fr)}
+    .head-meta{grid-column:2;text-align:left;padding-top:0}
+    .lead{grid-template-columns:1fr}
+    .lead-figure{max-width:320px;border-bottom:none}
+    .arena-foot{grid-template-columns:1fr}
+    .foot-grid{grid-template-columns:1fr}
+  }
+  @media (max-width:760px){
+    .topnav{display:none}
+    .hero h1{font-size:clamp(46px,13vw,76px)}
+    .stories{grid-template-columns:1fr}
+    .story,.story:nth-child(even){
+      padding:26px 0 30px;border-left:none;
+    }
+    .flash{grid-template-columns:1fr;gap:10px;align-items:start}
+    .flash .source{justify-self:start;margin-top:4px}
+    .board-head{display:none}
+    .rank-row{
+      grid-template-columns:38px minmax(0,1fr) auto;
+      grid-template-areas:"rank model score" ". bar bar";
+      row-gap:9px;column-gap:14px;padding:16px 0;
+    }
+    .votes{display:none}
+    .bar-cell{grid-area:bar}
+    .score{grid-area:score}
+    .rank-row:hover{transform:none}
+    .rank-row.top3 .rank{font-size:21px}
+    .commentary blockquote{padding-left:18px}
+    .quote-mark{display:none}
+  }
+  @media (max-width:460px){
+    .issue{display:none}
+    .stat-grid{gap:16px 14px}
+    .hero-meta span+span::before{display:none}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{
+      animation-duration:.001ms !important;
+      animation-iteration-count:1 !important;
+      transition-duration:.001ms !important;
+    }
+    .reveal{opacity:1;transform:none}
+    .bar i{width:var(--w) !important}
+  }
+
+  @media print{
+    .topbar,.progress,#toTop{display:none !important}
+    body{background:#fff;color:#000}
+    body::before{display:none}
+    .arena{background:#fff;color:#000;border-top:1px solid #000;border-bottom:1px solid #000}
+    .arena .section-head h2,.model-name,.score,.lab-name{color:#000}
+    .rank-row,.board-head{border-color:#ccc}
+    .reveal{opacity:1;transform:none}
+  }
+</style>
+<noscript>
+  <style>
+    .reveal{opacity:1 !important;transform:none !important}
+    .bar i{width:var(--w) !important}
+    .lab-bar i{width:var(--w) !important}
+  </style>
+</noscript>
+</head>
+<body id="top">
+
+<div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+
+<header class="topbar">
+  <a class="brand" href="#top"><span class="brand-mark"></span>AI Daily Brief</a>
+  <nav class="topnav" aria-label="页面导航">
+    <a href="#news" class="active">重要动态</a>
+    <a href="#leaderboard">模型榜单</a>
+    <a href="#commentary">趋势点评</a>
+  </nav>
+  <span class="issue">NO. 009 / 2026.11.09</span>
+</header>
+
+<main>
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" aria-label="导语">
+    <div class="hero-main">
+      <p class="eyebrow reveal"><span class="dot"></span>过去 24 小时 · 全球 AI 产业观察</p>
+      <h1 class="reveal" style="transition-delay:.08s">资本退烧，<br><em>智能体</em>上工</h1>
+      <p class="deck reveal" style="transition-delay:.16s">
+        八条动态，看清一个转折：估值向下校准，交付向前推进。真正稀缺的不再是参数，而是能持续把事做完的系统。
+      </p>
+      <div class="hero-meta reveal" style="transition-delay:.24s">
+        <span>2026.11.09 · 周日</span>
+        <span>8 条 / 4 个维度</span>
+        <span>约 6 分钟</span>
+        <span>数据截至 15:26 CST</span>
+      </div>
+    </div>
+
+    <aside class="hero-side reveal" style="transition-delay:.2s" aria-label="今日关键数字">
+      <span class="side-label">Today in numbers</span>
+      <div class="stat-grid">
+        <div class="stat">
+          <span class="stat-num">$11<small>B</small></span>
+          <span class="stat-label">OpenAI 首笔融资</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">$1.25<small>T</small></span>
+          <span class="stat-label">OpenAI 投后估值</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">$5.3<small>B</small></span>
+          <span class="stat-label">Shield 收购对价</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">1.9<small>×</small></span>
+          <span class="stat-label">Anthropic 能力增速</span>
+        </div>
+      </div>
+      <p class="side-note">
+        资金仍在流入，但定价权正在从私募市场交还给公开市场。与此同时，真正被交付的产品，开始替用户“离开工位”。
+      </p>
+    </aside>
+  </section>
+
+  <!-- ============ NEWS ============ -->
+  <section class="section wrap" id="news">
+    <div class="section-head reveal">
+      <span class="sec-no">01</span>
+      <div>
+        <h2>重要动态</h2>
+        <p class="sub">按影响力排序。资本、产品、研究与治理，四条线索指向同一个方向：从讲故事，到交结果。</p>
+      </div>
+      <div class="head-meta">8 Stories<br>Ranked by impact</div>
+    </div>
+
+    <!-- lead -->
+    <article class="lead reveal">
+      <div class="lead-copy">
+        <div class="kicker">
+          <span class="tag tag-capital">资本</span>
+          <time datetime="2026-11-07">11.07</time>
+        </div>
+        <h2>
+          <a href="https://www.thestar.com.my/tech/tech-news/2026/11/07/openai-secures-11-billion-funding-at-125-trillion-valuation-bloomberg-news-reports" target="_blank" rel="noopener">
+            OpenAI 完成 110 亿美元首轮融资，估值 1.25 万亿美元
+          </a>
+        </h2>
+        <p>
+          这是最高 200 亿美元新轮的首笔交割，SoftBank 与 MGX 参与；估值较此前 1.5 万亿美元的目标回落，说明私募市场仍愿意为前沿实验室开出大额支票，但不再接受上月的高价。
+        </p>
+        <a class="source" href="https://www.thestar.com.my/tech/tech-news/2026/11/07/openai-secures-11-billion-funding-at-125-trillion-valuation-bloomberg-news-reports" target="_blank" rel="noopener">
+          Reuters / The Star <span class="arrow">↗</span>
+        </a>
+      </div>
+      <div class="lead-figure" aria-label="110 亿美元首笔交割">
+        <span class="figure-label">First close</span>
+        <span class="figure-num">$11<span>B</span></span>
+        <span class="figure-sub">轮次上限 200 亿美元 · 剩余份额预计数周内完成</span>
+      </div>
+    </article>
+
+    <!-- secondary grid -->
+    <div class="stories">
+
+      <article class="story reveal">
+        <div class="story-top">
+          <span class="idx">02</span>
+          <span class="tag tag-capital">资本</span>
+          <time datetime="2026-11-07">11.07</time>
+        </div>
+        <h3>Anthropic IPO 估值预期下探至 1.1 万亿美元</h3>
+        <p>
+          潜在买家讨论 1.2–1.3 万亿美元区间，部分报价低至 1.1 万亿；公司仍计划在感恩节前启动正式路演，年化收入约 810 亿美元。
+        </p>
+        <a class="source" href="https://www.theedgesingapore.com/news/ipo/anthropic-ipo-buyers-see-valuation-low-us11-tril" target="_blank" rel="noopener">
+          Bloomberg / The Edge <span class="arrow">↗</span>
+        </a>
+      </article>
+
+      <article class="story reveal">
+        <div class="story-top">
+          <span class="idx">03</span>
+          <span class="tag tag-product">并购</span>
+          <time datetime="2026-11-05">11.05</time>
+        </div>
+        <h3>Shield AI 以 53 亿美元收购雷达公司 Echodyne</h3>
+        <p>
+          交易含 48 亿美元交割对价与最高 5 亿美元业绩对赌；为完成收购，Shield 同步融资 25 亿美元，投后估值 288 亿美元，较 3 月翻倍有余。
+        </p>
+        <a class="source" href="https://www.echodyne.com/newsroom/shield-to-acquire-echodyne" target="_blank" rel="noopener">
+          Shield AI / PR Newswire <span class="arrow">↗</span>
+        </a>
+      </article>
+
+      <article class="story reveal">
+        <div class="story-top">
+          <span class="idx">04</span>
+          <span class="tag tag-product">产品</span>
+          <time datetime="2026-11-06">11.06</time>
+        </div>
+        <h3>Google Antigravity 上线远程智能体与语音模式</h3>
+        <p>
+          Remote Agents 在隔离云 VM 中持续执行编码任务，合上笔记本后仍可运行，并可用手机解除权限阻塞；语音模式由 Gemini Live 驱动。
+        </p>
+        <a class="source" href="https://9to5google.com/2026/11/06/google-antigravity-remote-agents-voice-mode/" target="_blank" rel="noopener">
+          9to5Google / Google <span class="arrow">↗</span>
+        </a>
+      </article>
+
+      <article class="story reveal">
+        <div class="story-top">
+          <span class="idx">05</span>
+          <span class="tag tag-research">研究</span>
+          <time datetime="2026-11-05">11.05</time>
+        </div>
+        <h3>METR：Anthropic 模型能力提升速度约为此前两倍</h3>
+        <p>
+          11 周独立评估显示，2025 年 10 月后的能力增速约为 2024 年 3 月至 2025 年 10 月的 1.9 倍，其中大部分增量来自 AI 参与 AI 研发本身。
+        </p>
+        <a class="source" href="https://metr.org/blog/2026-11-05-anthropic-ai-rd-acceleration-assessment/" target="_blank" rel="noopener">
+          METR <span class="arrow">↗</span>
+        </a>
+      </article>
+
+      <article class="story reveal">
+        <div class="story-top">
+          <span class="idx">06</span>
+          <span class="tag tag-compliance">合规</span>
+          <time datetime="2026-11-07">11.07</time>
+        </div>
+        <h3>xAI 为 Grok API 文本默认加隐形水印</h3>
+        <p>
+          7 个 Grok 模型自 11 月 7 日起默认输出统计水印，可通过 x-watermark 响应头校验；官方称此举为满足欧盟 AI Act 第 50 条的机器可读标识要求。
+        </p>
+        <a class="source" href="https://docs.x.ai/" target="_blank" rel="noopener">
+          xAI Developer Docs / The Decoder <span class="arrow">↗</span>
+        </a>
+      </article>
+
+      <article class="story reveal">
+        <div class="story-top">
+          <span class="idx">07</span>
+          <span class="tag tag-governance">治理</span>
+          <time datetime="2026-11-09">11.09</time>
+        </div>
+        <h3>国家网信办统一 AI 备案系统上线</h3>
+        <p>
+          新系统一体化承接生成式人工智能、算法、深度合成与区块链四类备案，原“互联网信息服务算法备案系统”同步停止使用。
+        </p>
+        <a class="source" href="https://www.cac.gov.cn/2026-11/09/c_1795978604463007.htm" target="_blank" rel="noopener">
+          中央网信办 <span class="arrow">↗</span>
+        </a>
+      </article>
+
+    </div>
+
+    <!-- flash -->
+    <article class="flash reveal">
+      <div class="flash-label">08 · One more<br><span>产品更新</span></div>
+      <div class="flash-body">
+        <h3>Meta 将 Muse Wonder 的主动记忆与主动专注下放到全量产品</h3>
+        <p>
+          Muse 与 Meta AI 的新专用模型把个人超智能指数从 38% 提到 47%，关键信息遗忘率降低 2.4 倍，日常任务中的自我纠错与完成率提升 67%。
+        </p>
+      </div>
+      <a class="source" href="https://about.fb.com/news/2026/10/introducing-muse-wonder-models/" target="_blank" rel="noopener">
+        Meta AI Research <span class="arrow">↗</span>
+      </a>
+    </article>
+  </section>
+
+  <!-- ============ ARENA ============ -->
+  <section class="arena" id="leaderboard">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="sec-no">02</span>
+        <div>
+          <h2>人类投票选出的前二十</h2>
+          <p class="sub">Arena Text Overall · 盲测两两对决 · 分数为 Bradley-Terry 相对评分，条形仅表示榜内相对强度。</p>
+        </div>
+        <div class="head-meta">Snapshot 2026-10<br>8,900,458 votes · 417 models</div>
+      </div>
+
+      <div class="board" role="table" aria-label="Arena 文本模型排行榜前 20">
+        <div class="board-head" role="row">
+          <span class="h-rank" role="columnheader">Rank</span>
+          <span class="h-model" role="columnheader">Model / Lab</span>
+          <span class="h-bar" role="columnheader">Relative strength</span>
+          <span class="h-score" role="columnheader">Score</span>
+          <span class="h-votes" role="columnheader">Votes</span>
+        </div>
+
+        <div class="rank-row top3" role="row" style="--w:100%">
+          <span class="rank" role="cell">01</span>
+          <span class="model" role="cell">
+            <span class="model-name">Gemini 4 Carbon (High)</span>
+            <span class="model-lab">Google</span>
+          </span>
+          <span class="bar-cell" role="cell"><span class="bar"><i></i></span></span>
+          <span class="score" role="cell">1528<small>±10</small></span>
+          <span class="votes" role="cell">4,403</span>
+        </div>
+
+        <div class="rank-row top3" role="row" style="--w:84%">
+          <span class="rank" role="cell">02</span>
+          <span class="model" role="cell">
+            <span class="model-name">Gemini 4 Argon (High)</span>
+            <span class="model-lab">Google</span>
+          </span>
+          <span class="bar-cell" role="cell"><span class="bar"><i></i></span></span>
+          <span class="score" role="cell">1520<small>±7</small></span>
+          <span class="votes" role="cell">11,889</span>
+        </div>
+
+        <div class="rank-row top3" role="row" style="--w:62%">
+          <span class="rank" role="cell">03</span>
+          <span class="model" role="cell">
+            <span class="model-name">Claude Opus 5.5 (High)</span>
+            <span class="model-lab">Anthropic</span>
+          </span>
+          <span class="bar-cell" role="cell"><span class="bar"><i></i></span></span>
+          <span class="score" role="cell">1509<small>±7</small></span>
+          <span class="votes" role="cell">11,415</span>
+        </div>
+
+        <div class="rank-row" role="row" style="--w:58%">
+          <span class="rank" role="cell">04</span>
+          <span class="model" role="cell">
+            <span class="model-name">Muse Wonder (Max)</span>
+            <span class="model-lab">Meta</span>
+          </span>
+          <span class="bar-cell" role="cell"><span class="bar"><i></i></span></span>
+          <span class="score" role="cell">1507<small>±7</small></span>
+          <span class="votes" role="cell">7,749</span>
+        </div>
+
+        <div class="rank-row" role="row" style="--w:52%">
+          <span class="rank" role="cell">05</span>
+          <span class="model" role="cell">
+            <span class="model-name">Claude Fable 5.1 (Max)</span>
+            <span class="model-lab">Anthropic</span>
+          </span>
+          <span class="bar-cell" role="cell"><span class="bar"><i></i></span></span>
+          <span class="score" role="cell">1504<small>±6</small></span>
+          <span class="votes" role="cell">17,178</span>
+        </div>
+
+        <div class="rank-row" role="row" style="--w:52%">
+          <span class="rank" role="cell">06</span>
+          <span class="model" role="cell">
+            <span class="model-name">Claude Fable 5 (High)</span>
+            <span class="model-lab">Anthropic</span>
+          </span>
+          <span class="bar-cell" role="cell"><span class="bar"><i></i></span></span>
+          <span class="score" role="cell">1504<small>±4</small></span>
+          <span class="votes" role="cell">45,341</span>
+        </div>
+
+        <div class="rank-row" role="row" style="--w:50%">
+          <span class="rank" role="cell">07</span>
+          <span class="model" role="cell">
+            <span class="model-name">Claude Opus 4.6 (High)</span>
+            <span class="model-lab">Anthropic</span>
+          </span>
+          <span class="bar-cell" role="cell"><span class="bar"><i></i></span></span>
+          <span class="score" role="cell">1503<small>±3</small></span>
+          <span class="votes" role="cell">84,512</span>
+        </div>
+
+        <div class="rank-row" role="row" style="--w:46%">
+          <span class="rank" role="cell">08</span>
+          <span class="model" role="cell">
+            <span class="model-name">Claude Opus 4.7 (High)</span>
+            <span class="model-lab">Anthropic</span>
+          </span>
+          <span class="bar-cell" role="cell"><span class="bar"><i></i></span></span>
+          <span class="score" role="cell">1501<small>±4</small></span>
+          <span class="votes" role="cell">65,110</span>
+        </div>
+
+        <div class="rank-row" role="row" style="--w:36%">
+          <span class="rank" role="cell">09</span>
+          <span class="model" role="cell">
+            <span class="model-name">Gemini 3.8 Flash (High)</span>
+            <span class="model-lab">Google</span>
+          </span>
+          <span class="bar-cell" role="cell"><span class="bar"><i></i></span></span>
+          <span class="score" role="cell">1496<small>±4</small></span>
+          <span class="votes" role="cell">47,803</span>
+        </div>
+
+        <div class="rank-row" role="row" style="--w:34%">
+          <span class="rank" role="cell">10</span>
+          <span class="model" role="cell">
+            <span class="model-name">Muse Spark 1.3 (Max)</span>
+            <span class="model-lab">Meta</span>
+          </span>
+          <span class="bar-cell" role="cell"><span class="bar"><i></i></span></span>
+          <span class="score" role="cell">1495<small>±5</small></span>
+          <span class="votes" role="cell">22,134</span>
+        </div>
+
+        <div class="rank-row" role="row" style="--w:28%">
+          <span class="rank" role="cell">11</span>
+          <span class="model" role="cell">
+            <span class="model-name">Muse Spark 1.2 (xHigh)</span>
+            <span class="model-lab">Meta</span>
+          </span>
+          <span class="bar-cell" role="cell"><span class="bar"><i></i></span></span>
+          <span class="score" role="cell">1492<small>±7</small></span>
+          <span class="votes" role="cell">11,724</span>
+        </div>
+
+        <div class="rank-row" role="row" style="--w:28%">
+          <span class="rank" role="cell">12</span>
+          <span class="model" role="cell">
+            <span class="model-name">Claude Opus 5 (High)</span>
+            <span class="model-lab">Anthropic</span>
+          </span>
+          <span class="bar-cell" role="cell"><span class="bar"><i></i></span></span>
+          <span class="score" role="cell">1492<small>±4</small></span>
+          <span class="votes" role="cell">73,167</span>
+        </div>
+
+        <div class="rank-row" role="row" style="--w:24%">
+          <span class="rank" role="cell">13</span>
+          <span class="model" role="cell">
+            <span class="model-name">Muse Spark 1.1</span>
+            <span class="model-lab">Meta</span>
+          </span>
+          <span class="bar-cell" role="cell"><span class="bar"><i></i></span></span>
+          <span class="score" role="cell">1490<small>±4</small></span>
+          <span class="votes" role="cell">46,354</span>
+        </div>
+
+        <div class="rank-row" role="row" style="--w:24%">
+          <span class="rank" role="cell">14</span>
+          <span class="model" role="cell">
+            <span class="model-name">Gemini 3.7 Flash (High)</span>
+            <span class="model-lab">Google</span>
+          </span>
+          <span class="bar-cell" role="cell"><span class="bar"><i></i></span></span>
+          <span class="score" role="cell">1490<small>±5</small></span>
+          <span class="votes" role="cell">32,289</span>
+        </div>
+
+        <div class="rank-row" role="row" style="--w:22%">
+          <span class="rank" role="cell">15</span>
+          <span class="model" role="cell">
+            <span class="model-name">Muse Spark</span>
+            <span class="model-lab">Meta</span>
+          </span>
+          <span class="bar-cell" role="cell"><span class="bar"><i></i></span></span>
+          <span class="score" role="cell">1489<small>±6</small></span>
+          <span class="votes" role="cell">14,140</span>
+        </div>
+
+        <div class="rank-row" role="row" style="--w:20%">
+          <span class="rank" role="cell">16</span>
+          <span class="model" role="cell">
+            <span class="model-name">Kimi K3 (Max) <span class="open-badge">Open</span></span>
+            <span class="model-lab">Moonshot AI</span>
+          </span>
+          <span class="bar-cell" role="cell"><span class="bar"><i></i></span></span>
+          <span class="score" role="cell">1488<small>±5</small></span>
+          <span class="votes" role="cell">36,780</span>
+        </div>
+
+        <div class="rank-row" role="row" style="--w:18%">
+          <span class="rank" role="cell">17</span>
+          <span class="model" role="cell">
+            <span class="model-name">Gemini 3.1 Pro Preview</span>
+            <span class="model-lab">Google</span>
+          </span>
+          <span class="bar-cell" role="cell"><span class="bar"><i></i></span></span>
+          <span class="score" role="cell">1487<small>±3</small></span>
+          <span class="votes" role="cell">132,547</span>
+        </div>
+
+        <div class="rank-row" role="row" style="--w:14%">
+          <span class="rank" role="cell">18</span>
+          <span class="model" role="cell">
+            <span class="model-name">Gemini 3 Pro</span>
+            <span class="model-lab">Google</span>
+          </span>
+          <span class="bar-cell" role="cell"><span class="bar"><i></i></span></span>
+          <span class="score" role="cell">1485<small>±4</small></span>
+          <span class="votes" role="cell">42,057</span>
+        </div>
+
+        <div class="rank-row" role="row" style="--w:14%">
+          <span class="rank" role="cell">19</span>
+          <span class="model" role="cell">
+            <span class="model-name">GPT 5.6 Sol (xHigh)</span>
+            <span class="model-lab">OpenAI</span>
+          </span>
+          <span class="bar-cell" role="cell"><span class="bar"><i></i></span></span>
+          <span class="score" role="cell">1485<small>±4</small></span>
+          <span class="votes" role="cell">43,796</span>
+        </div>
+
+        <div class="rank-row" role="row" style="--w:10%">
+          <span class="rank" role="cell">20</span>
+          <span class="model" role="cell">
+            <span class="model-name">Gemini 3.6 Flash (High)</span>
+            <span class="model-lab">Google</span>
+          </span>
+          <span class="bar-cell" role="cell"><span class="bar"><i></i></span></span>
+          <span class="score" role="cell">1483<small>±5</small></span>
+          <span class="votes" role="cell">36,028</span>
+        </div>
+      </div>
+
+      <div class="arena-foot">
+        <div class="lab-dist" aria-label="前二十名实验室分布">
+          <span class="lab-dist-title">Top 20 by lab</span>
+          <div class="lab-row">
+            <span class="lab-name">Google</span>
+            <span class="lab-bar"><i style="--w:100%"></i></span>
+            <span class="lab-count">7</span>
+          </div>
+          <div class="lab-row">
+            <span class="lab-name">Anthropic</span>
+            <span class="lab-bar"><i style="--w:86%"></i></span>
+            <span class="lab-count">6</span>
+          </div>
+          <div class="lab-row">
+            <span class="lab-name">Meta</span>
+            <span class="lab-bar"><i style="--w:71%"></i></span>
+            <span class="lab-count">5</span>
+          </div>
+          <div class="lab-row">
+            <span class="lab-name">Moonshot</span>
+            <span class="lab-bar"><i style="--w:14%"></i></span>
+            <span class="lab-count">1</span>
+          </div>
+          <div class="lab-row">
+            <span class="lab-name">OpenAI</span>
+            <span class="lab-bar"><i style="--w:14%"></i></span>
+            <span class="lab-count">1</span>
+          </div>
+        </div>
+        <p class="arena-note">
+          <strong>读榜提示：</strong>榜首两名的区间重叠，第 2 至第 4 名也落在彼此的误差范围内；1500 分以上的第一梯队由 8 个模型占据。
+          OpenAI 在文本榜前 20 仅占 1 席（GPT 5.6 Sol，第 19），GPT-6.1 Sol 暂列第 24。
+          前 20 名中唯一开源权重模型是第 16 名的 <strong>Kimi K3</strong>，下一款开源模型 GLM 5.3 位列第 25。<br>
+          数据源：<a href="https://arena.ai/leaderboard/text" target="_blank" rel="noopener">arena.ai/leaderboard/text</a>，快照 2026 年 10 月。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ COMMENTARY ============ -->
+  <section class="section wrap commentary" id="commentary">
+    <div class="section-head reveal">
+      <span class="sec-no">03</span>
+      <div>
+        <h2>今日趋势点评</h2>
+        <p class="sub">三条线，一个判断：AI 行业正在从“能力叙事”切换到“交付叙事”。</p>
+      </div>
+    </div>
+
+    <div class="quote-wrap reveal">
+      <span class="quote-mark" aria-hidden="true">“</span>
+      <blockquote>
+        今天的信号很一致：资本在降温，但没有离场——OpenAI 以更低估值拿到大钱，Anthropic 的 IPO 定价被公开市场重新校准，而大额交易正在转向能产生确定收入的国防 AI。产品侧的竞争焦点，也从“模型分数”移向“能否替你持续干活”：Antigravity 的远程智能体争夺工作流，xAI 的默认水印争夺合规入口。榜单则提醒我们，前沿能力仍在向少数闭源实验室集中——前 20 名中 Anthropic 与 Google 合计 13 席，开源模型只有 Kimi K3 一席。
+      </blockquote>
+      <div class="keywords" aria-label="关键词">
+        <span class="keyword">估值校准</span>
+        <span class="keyword">智能体交付</span>
+        <span class="keyword">合规前置</span>
+        <span class="keyword">闭源集中</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap foot-grid">
+    <div class="foot-brand">
+      AI Daily Brief
+      <span>Issue 009 · 2026.11.09 · Shanghai</span>
+    </div>
+    <div class="foot-note">
+      <p>
+        时间窗为 2026-11-08 15:00 至 11-09 15:26（CST），并对 11.05–11.07 仍在发酵的周末动态做了必要回溯。榜单数据来自 Arena Text Overall 快照（2026 年 10 月，417 个模型、8,900,458 票），分数为 Bradley-Terry 相对评分，误差区间重叠视为统计平手，条形只表示榜内相对强度，不是胜率。
+      </p>
+      <p>
+        本页仅作信息聚合与趋势观察，不构成投资建议。所有新闻均附原始来源链接，可点击核对。
+      </p>
+    </div>
+  </div>
+</footer>
+
+<button id="toTop" aria-label="回到顶部">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M12 19V5M5 12l7-7 7 7"/>
+  </svg>
+</button>
+
+<script>
+(function(){
+  "use strict";
+
+  var progressBar = document.getElementById("progressBar");
+  var toTop = document.getElementById("toTop");
+  var navLinks = Array.prototype.slice.call(document.querySelectorAll(".topnav a"));
+  var sections = ["news","leaderboard","commentary"].map(function(id){
+    return document.getElementById(id);
+  }).filter(Boolean);
+
+  function onScroll(){
+    var doc = document.documentElement;
+    var max = doc.scrollHeight - doc.clientHeight;
+    var y = window.pageYOffset || doc.scrollTop || 0;
+    if(progressBar){
+      progressBar.style.transform = "scaleX(" + (max > 0 ? Math.min(y / max, 1) : 0) + ")";
+    }
+    if(toTop){
+      if(y > 700){ toTop.classList.add("show"); }
+      else{ toTop.classList.remove("show"); }
+    }
+  }
+
+  window.addEventListener("scroll", onScroll, {passive:true});
+  window.addEventListener("resize", onScroll);
+  onScroll();
+
+  if(toTop){
+    toTop.addEventListener("click", function(){
+      window.scrollTo({top:0, behavior: matchingMedia() ? "auto" : "smooth"});
+    });
+  }
+
+  function matchingMedia(){
+    return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }
+
+  /* reveal on scroll */
+  var revealItems = document.querySelectorAll(".reveal");
+  if("IntersectionObserver" in window){
+    var revealObserver = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add("in");
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, {threshold:0.1, rootMargin:"0px 0px -6% 0px"});
+    revealItems.forEach(function(el){ revealObserver.observe(el); });
+  }else{
+    revealItems.forEach(function(el){ el.classList.add("in"); });
+  }
+
+  /* leaderboard bars */
+  var rows = document.querySelectorAll(".rank-row");
+  if("IntersectionObserver" in window){
+    var rowObserver = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add("in");
+          rowObserver.unobserve(entry.target);
+        }
+      });
+    }, {threshold:0.35});
+    rows.forEach(function(row, i){
+      row.style.transitionDelay = Math.min(i * 18, 180) + "ms";
+      rowObserver.observe(row);
+    });
+
+    var labBars = document.querySelectorAll(".lab-bar i");
+    var labObserver = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.style.width = entry.target.style.getPropertyValue("--w");
+          labObserver.unobserve(entry.target);
+        }
+      });
+    }, {threshold:0.5});
+    labBars.forEach(function(el){ labObserver.observe(el); });
+  }else{
+    rows.forEach(function(row){ row.classList.add("in"); });
+    document.querySelectorAll(".lab-bar i").forEach(function(el){
+      el.style.width = el.style.getPropertyValue("--w");
+    });
+  }
+
+  /* active nav */
+  if("IntersectionObserver" in window && sections.length){
+    var navObserver = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          navLinks.forEach(function(link){
+            link.classList.toggle("active", link.getAttribute("href") === "#" + entry.target.id);
+          });
+        }
+      });
+    }, {rootMargin:"-30% 0px -55% 0px", threshold:0});
+    sections.forEach(function(section){ navObserver.observe(section); });
+  }
+})();
+</script>
+</body>
+</html>
