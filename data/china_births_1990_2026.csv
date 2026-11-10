@@ -1,0 +1,38 @@
+year,births_10k,births_millions,status,source
+1990,2391,23.91,official,NBS annual series
+1991,2265,22.65,official,NBS annual series
+1992,2125,21.25,official,NBS annual series
+1993,2132,21.32,official,NBS annual series
+1994,2110,21.10,official,NBS annual series
+1995,2063,20.63,official,NBS annual series
+1996,2067,20.67,official,NBS annual series
+1997,2038,20.38,official,NBS annual series
+1998,1942,19.42,official,NBS annual series
+1999,1834,18.34,official,NBS annual series
+2000,1771,17.71,official,NBS annual series
+2001,1702,17.02,official,NBS annual series
+2002,1647,16.47,official,NBS annual series
+2003,1599,15.99,official,NBS annual series
+2004,1593,15.93,official,NBS annual series
+2005,1612,16.12,official,NBS annual series
+2006,1584,15.84,official,NBS annual series
+2007,1594,15.94,official,NBS annual series
+2008,1604,16.04,official,NBS annual series
+2009,1615,16.15,official,NBS annual series
+2010,1592,15.92,official,NBS annual series
+2011,1604,16.04,official,NBS annual series
+2012,1635,16.35,official,NBS annual series
+2013,1640,16.40,official,NBS annual series
+2014,1687,16.87,official,NBS annual series
+2015,1655,16.55,official,NBS 2015 communique
+2016,1786,17.86,official,NBS 2016 communique
+2017,1723,17.23,official,NBS 2017 communique
+2018,1523,15.23,official,NBS 2018 communique
+2019,1465,14.65,official,NBS 2019 communique
+2020,1200,12.00,official,NBS 2020 communique / 7th census
+2021,1062,10.62,official,NBS 2021 communique
+2022,956,9.56,official,NBS 2022 communique
+2023,902,9.02,official,NBS 2023 communique
+2024,954,9.54,official,NBS 2024 communique
+2025,792,7.92,official,NBS 2025 communique (Jan 2026)
+2026,740,7.40,projection,Model-based projection (range 7.20-7.50 million); not official
