@@ -1,0 +1,1668 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>提问的品位 · 一份可训练的 AI 提问手册</title>
+<style>
+  :root{
+    --paper:#f5f1e8;
+    --paper-2:#eee8da;
+    --card:#fbf8f1;
+    --ink:#1a1815;
+    --ink-2:#463f37;
+    --ink-3:#83796a;
+    --line:#dbd2c2;
+    --line-2:#c6bba7;
+    --accent:#ad4420;
+    --accent-deep:#873214;
+    --accent-soft:#f3e2d6;
+    --good:#2c5a4e;
+    --bad:#9c3a2d;
+    --serif:"Songti SC","Source Han Serif SC","Noto Serif SC",STSong,ui-serif,Georgia,serif;
+    --sans:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+    --mono:"SF Mono","JetBrains Mono",ui-monospace,Menlo,Consolas,"Liberation Mono",monospace;
+    --shadow:0 1px 0 rgba(26,24,21,.04), 0 12px 30px -22px rgba(26,24,21,.5);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:16px;
+    line-height:1.85;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  body::before{
+    content:"";
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity:.9;
+  }
+  a{color:inherit;}
+
+  /* ============ 顶部进度条 ============ */
+  .progress{
+    position:fixed; top:0; left:0; right:0; height:3px; z-index:60;
+    background:rgba(26,24,21,.06);
+  }
+  .progress i{
+    display:block; height:100%; width:0;
+    background:linear-gradient(90deg,var(--accent),#d98a52);
+    transition:width .08s linear;
+  }
+
+  /* ============ 布局 ============ */
+  .shell{
+    position:relative; z-index:1;
+    display:grid;
+    grid-template-columns:300px minmax(0,1fr);
+    max-width:1240px;
+    margin:0 auto;
+  }
+
+  /* ============ 左栏 ============ */
+  .rail{
+    position:sticky; top:0; align-self:start;
+    height:100vh;
+    padding:38px 28px 26px 34px;
+    border-right:1px solid var(--line);
+    display:flex; flex-direction:column;
+    background:linear-gradient(180deg,rgba(238,232,218,.55),rgba(245,241,232,0));
+    overflow-y:auto;
+  }
+  .rail::-webkit-scrollbar{width:4px;}
+  .rail::-webkit-scrollbar-thumb{background:var(--line-2);border-radius:4px;}
+
+  .brand-mark{
+    font-family:var(--mono);
+    font-size:10px; letter-spacing:.22em; text-transform:uppercase;
+    color:var(--accent);
+    margin-bottom:10px;
+  }
+  .brand h1{
+    font-family:var(--serif);
+    font-size:25px;
+    font-weight:600;
+    letter-spacing:.04em;
+    line-height:1.3;
+    margin:0 0 6px;
+  }
+  .brand p{
+    margin:0;
+    font-size:12px;
+    color:var(--ink-3);
+    letter-spacing:.04em;
+  }
+  .rule{
+    height:1px; background:var(--line); margin:22px 0 18px;
+    position:relative;
+  }
+  .rule::after{
+    content:""; position:absolute; left:0; top:-1px; width:34px; height:3px;
+    background:var(--accent);
+  }
+
+  nav.toc{display:flex; flex-direction:column; gap:1px;}
+  nav.toc a{
+    display:grid;
+    grid-template-columns:26px 1fr;
+    align-items:baseline;
+    gap:8px;
+    padding:7px 8px 7px 0;
+    text-decoration:none;
+    font-size:13.5px;
+    color:var(--ink-2);
+    border-left:2px solid transparent;
+    padding-left:10px;
+    margin-left:-12px;
+    transition:.18s;
+  }
+  nav.toc a span.n{
+    font-family:var(--mono);
+    font-size:10px;
+    color:var(--ink-3);
+    letter-spacing:.08em;
+    transition:.18s;
+  }
+  nav.toc a:hover{color:var(--ink); background:rgba(173,68,32,.04);}
+  nav.toc a.active{
+    color:var(--accent-deep);
+    border-left-color:var(--accent);
+    background:rgba(173,68,32,.06);
+    font-weight:600;
+  }
+  nav.toc a.active span.n{color:var(--accent);}
+
+  .rail-foot{
+    margin-top:auto; padding-top:24px;
+    font-size:11px; line-height:1.7; color:var(--ink-3);
+    font-family:var(--mono);
+    letter-spacing:.02em;
+  }
+  .rail-foot b{color:var(--ink-2); font-weight:600;}
+
+  /* ============ 主内容 ============ */
+  main{
+    padding:0 64px 120px 64px;
+    max-width:900px;
+    min-width:0;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding:86px 0 62px;
+    border-bottom:1px solid var(--line);
+  }
+  .kicker{
+    font-family:var(--mono);
+    font-size:10.5px; letter-spacing:.24em; text-transform:uppercase;
+    color:var(--accent);
+    margin-bottom:26px;
+  }
+  .hero h1{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:clamp(42px,5.4vw,66px);
+    line-height:1.12;
+    letter-spacing:.02em;
+    margin:0 0 22px;
+  }
+  .hero h1 em{
+    font-style:normal;
+    color:var(--accent);
+  }
+  .hero .sub{
+    font-family:var(--serif);
+    font-size:20px;
+    line-height:1.7;
+    color:var(--ink-2);
+    margin:0 0 26px;
+    max-width:34em;
+  }
+  .hero .lede{
+    font-size:15px;
+    color:var(--ink-2);
+    max-width:36em;
+    margin:0 0 34px;
+  }
+  .chips{display:flex; flex-wrap:wrap; gap:8px;}
+  .chip{
+    font-family:var(--mono);
+    font-size:10.5px; letter-spacing:.1em;
+    color:var(--ink-2);
+    border:1px solid var(--line-2);
+    padding:5px 11px;
+    background:rgba(251,248,241,.7);
+  }
+  .chip b{color:var(--accent); font-weight:600;}
+
+  /* ---------- 章节 ---------- */
+  section{
+    padding:66px 0 22px;
+    border-bottom:1px solid var(--line);
+    scroll-margin-top:24px;
+  }
+  .sec-head{margin-bottom:34px;}
+  .sec-num{
+    font-family:var(--mono);
+    font-size:11px; letter-spacing:.2em;
+    color:var(--accent);
+    margin-bottom:12px;
+    display:flex; align-items:center; gap:12px;
+  }
+  .sec-num::after{
+    content:""; flex:1; height:1px; background:var(--line);
+    max-width:80px;
+  }
+  h2{
+    font-family:var(--serif);
+    font-size:clamp(26px,3.2vw,34px);
+    font-weight:600;
+    line-height:1.35;
+    letter-spacing:.01em;
+    margin:0 0 12px;
+  }
+  .sec-desc{
+    color:var(--ink-3);
+    font-size:14px;
+    margin:0;
+    max-width:38em;
+  }
+  h3{
+    font-family:var(--serif);
+    font-size:19px;
+    font-weight:600;
+    letter-spacing:.01em;
+    margin:38px 0 12px;
+    padding-left:12px;
+    border-left:3px solid var(--accent);
+    line-height:1.5;
+  }
+  h4{
+    font-size:14px;
+    font-weight:600;
+    letter-spacing:.04em;
+    margin:26px 0 8px;
+    color:var(--ink);
+  }
+  p{margin:0 0 16px; max-width:40em;}
+  .main strong{font-weight:600; color:var(--ink);}
+  .main em{font-style:normal; background:linear-gradient(180deg,transparent 62%,var(--accent-soft) 62%); padding:0 2px;}
+  ul,ol{margin:0 0 18px; padding-left:1.35em; max-width:40em;}
+  li{margin:0 0 8px;}
+  li::marker{color:var(--accent);}
+  .muted{color:var(--ink-3); font-size:13.5px;}
+
+  /* ---------- 引言块 ---------- */
+  .pull{
+    margin:30px 0;
+    padding:4px 0 4px 24px;
+    border-left:2px solid var(--accent);
+    font-family:var(--serif);
+    font-size:20px;
+    line-height:1.75;
+    color:var(--ink);
+    max-width:34em;
+  }
+  .pull small{
+    display:block;
+    font-family:var(--sans);
+    font-size:12.5px;
+    color:var(--ink-3);
+    margin-top:10px;
+    letter-spacing:.02em;
+  }
+
+  /* ---------- 卡片 ---------- */
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    padding:24px 26px;
+    box-shadow:var(--shadow);
+    margin:24px 0;
+  }
+  .card-label{
+    font-family:var(--mono);
+    font-size:10px; letter-spacing:.2em; text-transform:uppercase;
+    color:var(--accent);
+    margin-bottom:10px;
+  }
+  .card h4{margin-top:0;}
+
+  .note{
+    border:1px solid var(--line);
+    border-left:3px solid var(--ink-2);
+    background:rgba(238,232,218,.45);
+    padding:18px 22px;
+    margin:24px 0;
+    font-size:14px;
+    color:var(--ink-2);
+  }
+  .note .tag{
+    font-family:var(--mono);
+    font-size:10px; letter-spacing:.16em;
+    display:block;
+    color:var(--ink-3);
+    margin-bottom:6px;
+  }
+  .note.warn{border-left-color:var(--bad); background:rgba(156,58,45,.045);}
+  .note.warn .tag{color:var(--bad);}
+  .note.good{border-left-color:var(--good); background:rgba(44,90,78,.045);}
+  .note.good .tag{color:var(--good);}
+  .note p:last-child{margin-bottom:0;}
+
+  /* ---------- 对照 ---------- */
+  .compare{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:0;
+    border:1px solid var(--line);
+    margin:26px 0;
+    background:var(--card);
+  }
+  .compare > div{padding:22px 24px;}
+  .compare > div + div{border-left:1px solid var(--line);}
+  .compare .side-label{
+    font-family:var(--mono);
+    font-size:10px; letter-spacing:.18em;
+    margin-bottom:10px;
+    display:flex; align-items:center; gap:7px;
+  }
+  .compare .weak{background:rgba(156,58,45,.028);}
+  .compare .weak .side-label{color:var(--bad);}
+  .compare .strong{background:rgba(44,90,78,.035);}
+  .compare .strong .side-label{color:var(--good);}
+  .compare p{font-size:13.5px; line-height:1.8; margin:0; max-width:none;}
+  .compare p + p{margin-top:10px;}
+
+  /* ---------- 代码 / 提示词 ---------- */
+  .promptbox{
+    background:#191712;
+    border:1px solid #2b2720;
+    margin:22px 0;
+    position:relative;
+    box-shadow:0 14px 30px -24px rgba(0,0,0,.7);
+  }
+  .promptbox .bar{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:9px 14px;
+    border-bottom:1px solid #2b2720;
+    font-family:var(--mono);
+    font-size:10px; letter-spacing:.16em;
+    color:#9c9182;
+    text-transform:uppercase;
+  }
+  .promptbox pre{
+    margin:0;
+    padding:20px 22px 22px;
+    font-family:var(--mono);
+    font-size:12.6px;
+    line-height:1.9;
+    color:#ece4d6;
+    white-space:pre-wrap;
+    word-break:break-word;
+    max-height:none;
+  }
+  .promptbox pre b{color:#f0b184; font-weight:600;}
+  .copy{
+    background:transparent;
+    border:1px solid #3d372d;
+    color:#b8ad9c;
+    font-family:var(--mono);
+    font-size:10px; letter-spacing:.12em;
+    padding:4px 10px;
+    cursor:pointer;
+    transition:.15s;
+  }
+  .copy:hover{border-color:var(--accent); color:#f0b184;}
+
+  /* ---------- 表格 ---------- */
+  .tablewrap{overflow-x:auto; margin:24px 0; border:1px solid var(--line); background:var(--card);}
+  table{
+    border-collapse:collapse;
+    width:100%;
+    font-size:13px;
+    line-height:1.7;
+    min-width:560px;
+  }
+  th{
+    text-align:left;
+    font-family:var(--mono);
+    font-size:10px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--ink-3);
+    font-weight:500;
+    padding:13px 16px;
+    border-bottom:1px solid var(--line-2);
+    background:rgba(238,232,218,.5);
+    white-space:nowrap;
+  }
+  td{
+    padding:12px 16px;
+    border-bottom:1px solid var(--line);
+    vertical-align:top;
+    color:var(--ink-2);
+  }
+  tr:last-child td{border-bottom:0;}
+  tbody tr:hover td{background:rgba(173,68,32,.028);}
+  td.k{color:var(--ink); font-weight:600; overflow-wrap:anywhere;}
+  td code, p code, li code{
+    font-family:var(--mono);
+    font-size:12px;
+    background:rgba(173,68,32,.07);
+    color:var(--accent-deep);
+    padding:1px 5px;
+    border-radius:2px;
+  }
+
+  /* ---------- 词汇卡 ---------- */
+  .lex{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+    margin:24px 0;
+  }
+  .lex > div{
+    background:var(--card);
+    padding:18px 20px;
+  }
+  .lex h5{
+    margin:0 0 6px;
+    font-family:var(--serif);
+    font-size:16px;
+    font-weight:600;
+  }
+  .lex h5 span{
+    font-family:var(--mono);
+    font-size:9px;
+    letter-spacing:.14em;
+    color:var(--accent);
+    display:block;
+    margin-bottom:5px;
+    text-transform:uppercase;
+  }
+  .lex p{font-size:12.8px; line-height:1.75; margin:0; color:var(--ink-2); max-width:none;}
+  .lex .eg{
+    display:block;
+    margin-top:8px;
+    font-family:var(--mono);
+    font-size:11.5px;
+    color:var(--ink-3);
+    border-top:1px dashed var(--line);
+    padding-top:8px;
+  }
+
+  /* ---------- 交互：载体推荐 ---------- */
+  .tool{
+    border:1px solid var(--line-2);
+    background:var(--card);
+    padding:26px;
+    margin:28px 0;
+    box-shadow:var(--shadow);
+  }
+  .tool-head{
+    display:flex; align-items:baseline; justify-content:space-between; gap:12px;
+    margin-bottom:18px;
+  }
+  .tool-head h4{margin:0;}
+  .tool-head span{
+    font-family:var(--mono);
+    font-size:9.5px; letter-spacing:.16em;
+    color:var(--ink-3);
+  }
+  .picks{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px;}
+  .picks button{
+    font-family:var(--sans);
+    font-size:12.5px;
+    padding:7px 14px;
+    background:transparent;
+    border:1px solid var(--line-2);
+    color:var(--ink-2);
+    cursor:pointer;
+    transition:.15s;
+  }
+  .picks button:hover{border-color:var(--accent); color:var(--accent-deep);}
+  .picks button.on{background:var(--accent); border-color:var(--accent); color:#fff5ea;}
+  .result{
+    border-top:1px dashed var(--line);
+    padding-top:16px;
+    font-size:13.5px;
+    color:var(--ink-2);
+    min-height:52px;
+    line-height:1.8;
+  }
+  .result b{color:var(--accent-deep);}
+
+  /* ---------- 表单 ---------- */
+  .formgrid{display:grid; grid-template-columns:1fr 1fr; gap:14px 18px; margin-bottom:16px;}
+  .field{display:flex; flex-direction:column; gap:5px;}
+  .field.full{grid-column:1/-1;}
+  .field label{
+    font-family:var(--mono);
+    font-size:9.5px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--ink-3);
+  }
+  .field input, .field textarea, .field select{
+    font-family:var(--sans);
+    font-size:13.5px;
+    color:var(--ink);
+    background:rgba(255,255,255,.55);
+    border:1px solid var(--line-2);
+    padding:9px 11px;
+    outline:none;
+    transition:.15s;
+    resize:vertical;
+  }
+  .field input:focus, .field textarea:focus, .field select:focus{
+    border-color:var(--accent);
+    background:#fffdf8;
+  }
+  .field textarea{min-height:62px; line-height:1.65;}
+  .btn{
+    font-family:var(--mono);
+    font-size:11px; letter-spacing:.14em;
+    background:var(--ink);
+    color:var(--paper);
+    border:1px solid var(--ink);
+    padding:10px 22px;
+    cursor:pointer;
+    transition:.15s;
+  }
+  .btn:hover{background:var(--accent); border-color:var(--accent);}
+
+  /* ---------- 自测 ---------- */
+  .quiz-q{
+    border-top:1px solid var(--line);
+    padding:22px 0 6px;
+  }
+  .quiz-q:first-of-type{border-top:0;}
+  .quiz-q .qtext{
+    font-size:14.5px;
+    font-weight:600;
+    margin-bottom:12px;
+    max-width:40em;
+  }
+  .quiz-q .qtext i{
+    font-style:normal;
+    font-family:var(--mono);
+    color:var(--accent);
+    margin-right:8px;
+    font-size:12px;
+  }
+  .opt{
+    display:block;
+    width:100%;
+    text-align:left;
+    background:transparent;
+    border:1px solid var(--line);
+    padding:10px 14px;
+    margin-bottom:7px;
+    font-family:var(--sans);
+    font-size:13px;
+    line-height:1.65;
+    color:var(--ink-2);
+    cursor:pointer;
+    transition:.15s;
+  }
+  .opt:hover:not(.locked){border-color:var(--line-2); background:rgba(238,232,218,.45);}
+  .opt.locked{cursor:default;}
+  .opt.right{border-color:var(--good); background:rgba(44,90,78,.08); color:var(--good);}
+  .opt.wrong{border-color:var(--bad); background:rgba(156,58,45,.07); color:var(--bad);}
+  #quiz-result{
+    margin-top:22px;
+    padding:20px 22px;
+    border:1px solid var(--line);
+    background:var(--paper-2);
+    font-size:14px;
+    display:none;
+  }
+  #quiz-result.show{display:block;}
+  #quiz-result b{font-family:var(--serif); font-size:19px; color:var(--accent-deep);}
+
+  /* ---------- 七日清单 ---------- */
+  .checklist{border:1px solid var(--line); background:var(--card); margin:22px 0;}
+  .check-item{
+    display:grid;
+    grid-template-columns:34px 1fr;
+    gap:12px;
+    padding:15px 18px;
+    border-bottom:1px solid var(--line);
+    align-items:start;
+    cursor:pointer;
+  }
+  .check-item:last-child{border-bottom:0;}
+  .check-item:hover{background:rgba(173,68,32,.025);}
+  .check-item input{
+    appearance:none; -webkit-appearance:none;
+    width:18px; height:18px;
+    border:1px solid var(--line-2);
+    background:rgba(255,255,255,.6);
+    margin:3px 0 0;
+    cursor:pointer;
+    position:relative;
+    transition:.15s;
+  }
+  .check-item input:checked{background:var(--accent); border-color:var(--accent);}
+  .check-item input:checked::after{
+    content:""; position:absolute; left:5px; top:1px;
+    width:5px; height:10px;
+    border-right:2px solid #fff5ea;
+    border-bottom:2px solid #fff5ea;
+    transform:rotate(42deg);
+  }
+  .check-item .day{
+    font-family:var(--mono);
+    font-size:10px; letter-spacing:.14em;
+    color:var(--accent);
+    display:block;
+    margin-bottom:2px;
+  }
+  .check-item .txt{font-size:13.5px; line-height:1.7; color:var(--ink-2);}
+  .check-item input:checked ~ .txt{color:var(--ink-3); text-decoration:line-through; text-decoration-color:var(--line-2);}
+
+  /* ---------- 页脚 ---------- */
+  footer{
+    padding:56px 0 0;
+    font-size:12.5px;
+    color:var(--ink-3);
+    line-height:1.9;
+  }
+  footer .fin{
+    font-family:var(--serif);
+    font-size:15px;
+    color:var(--ink-2);
+    margin-bottom:18px;
+  }
+
+  /* ---------- 响应式 ---------- */
+  @media (max-width:1020px){
+    .shell{grid-template-columns:1fr;}
+    .rail{
+      position:static; height:auto;
+      border-right:0; border-bottom:1px solid var(--line);
+      padding:26px 24px 18px;
+      background:var(--paper-2);
+    }
+    .brand h1{font-size:21px;}
+    .rule{margin:16px 0 12px;}
+    nav.toc{
+      flex-direction:row; flex-wrap:nowrap; overflow-x:auto;
+      gap:6px; padding-bottom:6px; margin-top:4px;
+    }
+    nav.toc a{
+      border-left:0; border:1px solid var(--line-2);
+      margin:0; padding:5px 11px; white-space:nowrap;
+      grid-template-columns:auto 1fr; gap:6px;
+    }
+    nav.toc a.active{border-color:var(--accent); background:var(--accent); color:#fff5ea;}
+    nav.toc a.active span.n{color:#f7c9ae;}
+    .rail-foot{display:none;}
+    main{padding:0 26px 80px;}
+    .hero{padding:46px 0 40px;}
+  }
+  @media (max-width:640px){
+    main{padding:0 18px 64px;}
+    .compare{grid-template-columns:1fr;}
+    .compare > div + div{border-left:0; border-top:1px solid var(--line);}
+    .lex{grid-template-columns:1fr;}
+    .formgrid{grid-template-columns:1fr;}
+    .promptbox pre{font-size:11.5px; padding:16px;}
+    h3{font-size:17px;}
+    .hero .sub{font-size:17px;}
+  }
+  @media print{
+    .rail,.progress,.copy,.tool{display:none !important;}
+    .shell{display:block;}
+    main{max-width:none; padding:0;}
+    body{background:#fff;}
+    section{break-inside:avoid-page;}
+    .promptbox{background:#f4f0e7; border-color:#ccc;}
+    .promptbox pre{color:#222; background:#f4f0e7;}
+    .promptbox .bar{color:#666; border-color:#ddd;}
+  }
+</style>
+</head>
+<body>
+
+<div class="progress"><i id="bar"></i></div>
+
+<div class="shell">
+
+  <!-- ================= 左栏 ================= -->
+  <aside class="rail">
+    <div class="brand">
+      <div class="brand-mark">Field Manual · No.01</div>
+      <h1>提问的品位</h1>
+      <p>同理心 · 逻辑 · 词汇 · 载体</p>
+    </div>
+    <div class="rule"></div>
+    <nav class="toc" id="toc">
+      <a href="#s1"><span class="n">01</span><span>同一句话，差在哪</span></a>
+      <a href="#s2"><span class="n">02</span><span>同理心：谁拿它做什么</span></a>
+      <a href="#s3"><span class="n">03</span><span>逻辑：把名词变变量</span></a>
+      <a href="#s4"><span class="n">04</span><span>词汇：可借来的杠杆</span></a>
+      <a href="#s5"><span class="n">05</span><span>载体：格式即授权</span></a>
+      <a href="#s6"><span class="n">06</span><span>骨架：八段式</span></a>
+      <a href="#s7"><span class="n">07</span><span>实战：三个案例</span></a>
+      <a href="#s8"><span class="n">08</span><span>追问：第二轮才是提问</span></a>
+      <a href="#s9"><span class="n">09</span><span>元提示：让 AI 教你问</span></a>
+      <a href="#s10"><span class="n">10</span><span>训练：七天与速查</span></a>
+      <a href="#s11"><span class="n">11</span><span>自测：你的 AI 商</span></a>
+    </nav>
+    <div class="rail-foot">
+      <b>阅读方式</b><br>
+      约 25 分钟。带 <span style="color:var(--accent)">■</span> 标记的是可交互模块，直接点。
+    </div>
+  </aside>
+
+  <!-- ================= 正文 ================= -->
+  <main>
+
+    <header class="hero">
+      <div class="kicker">On the Taste of Asking · 2026</div>
+      <h1>提问的<em>品位</em></h1>
+      <p class="sub">如何把「我想要」，翻译成 AI 听得懂、也给得出的东西。</p>
+      <p class="lede">
+        你不是不会用 AI。你缺的是一套语言——把模糊的期待压成具体的约束。这套语言由四样东西组成：<strong>同理心</strong>决定你问什么，<strong>逻辑</strong>决定问题的骨架，<strong>词汇</strong>决定你能借到多锋利的工具，<strong>载体</strong>决定答案以什么形态落到你手上。
+      </p>
+      <div class="chips">
+        <span class="chip"><b>11</b> 节</span>
+        <span class="chip"><b>4</b> 个交互模块</span>
+        <span class="chip"><b>0</b> 依赖 · 单文件</span>
+        <span class="chip">可打印</span>
+      </div>
+    </header>
+
+    <!-- ============ 01 ============ -->
+    <section id="s1">
+      <div class="sec-head">
+        <div class="sec-num">01 / Why</div>
+        <h2>同一句话，为什么会差出十倍</h2>
+        <p class="sec-desc">先把机制说清楚，后面的技巧才有地方挂。</p>
+      </div>
+
+      <p>大模型做的事，本质上是<strong>在你给的条件里，找一条最可能的答案路径</strong>。你给的约束越具体，它需要搜索的空间就越小，落点就越准；你给的条件越模糊，它就越只能退化到「平均值 + 免责声明」——这不是它偷懒，是它只能这样。</p>
+
+      <p>所以「问得好」不是修辞问题，是<strong>信息论问题</strong>。同一件事，四种问法，AI 实际收到的信息量完全不同。</p>
+
+      <div class="tablewrap">
+        <table>
+          <thead>
+            <tr><th>你的问法</th><th>AI 实际收到的约束</th><th>它只能给你</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="k">孩子什么时候抬头？</td><td>一个主题，零约束</td><td>平均值 + 一段科普 + 「每个孩子不同」</td></tr>
+            <tr><td class="k">两个月婴儿抬头正常吗？</td><td>有了月龄，没有个体信息</td><td>发育里程碑区间，仍然不知道你孩子的情况</td></tr>
+            <tr><td class="k">足月男婴 9 周，俯卧能短暂抬胸，正常吗？</td><td>有了个体、有了动作描述</td><td>「大致在正常范围，建议观察」——比上一档可用</td></tr>
+            <tr><td class="k">+ 人群分布 / 干预阈值 / 红旗信号 / 不确定性 / 受众与用途</td><td>定义了变量、边界、输出结构</td><td>一份能拿去做判断的东西</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>注意最后一行：加的不是「字数」，是<strong>维度</strong>。这就是品位和啰嗦的区别——啰嗦是同一句话说三遍，品位是每加一句，就多锁死一个自由度。</p>
+
+      <div class="pull">
+        好问题不是长问题。是每个词都在替你做约束。
+        <small>反过来：如果一个词删掉之后答案毫无变化，它就是装饰，不是约束。</small>
+      </div>
+
+      <div class="note">
+        <span class="tag">先破除一个误会</span>
+        <p>「提示词工程」被讲得很玄，好像有一套咒语。其实真正稳定有效的东西只有三类：<strong>把目标说清楚、把约束说明白、把验收标准定下来</strong>。其余的所谓技巧，大多是这三件事的变体。模型一代代换名字，能迁移的只有这个骨架。</p>
+      </div>
+    </section>
+
+    <!-- ============ 02 ============ -->
+    <section id="s2">
+      <div class="sec-head">
+        <div class="sec-num">02 / Empathy</div>
+        <h2>同理心：先想清楚「谁拿它做什么决定」</h2>
+        <p class="sec-desc">大多数人问不好，不是不会表达，是没想清楚自己要拿答案干什么。</p>
+      </div>
+
+      <p>你说「我孩子两个多月会抬头了」——这是一个<strong>事实</strong>，还不是一个问题。真正的需求可能是下面五种之一，而它们要的答案完全不同：</p>
+
+      <ul>
+        <li>我心里不踏实，想确认<strong>是不是正常</strong>；</li>
+        <li>我要在<strong>组会</strong>上讲这个月龄的发育里程碑；</li>
+        <li>我要给<strong>家属</strong>解释，让他们别焦虑；</li>
+        <li>我在<strong>写病历/论文</strong>，需要一句有出处的表述；</li>
+        <li>我在判断<strong>要不要转诊</strong>。</li>
+      </ul>
+
+      <p>这五件事，同一份知识，要写成五种东西。你不说，AI 只能猜；它猜的那个，大概率不是你想要的。</p>
+
+      <h3>问之前，先回答五个问题</h3>
+
+      <div class="card">
+        <div class="card-label">Empathy Checklist</div>
+        <ol style="margin-bottom:0">
+          <li><strong>读者是谁？</strong>主任、同学、家属、还是未来的自己？——决定术语密度。</li>
+          <li><strong>在什么场景下读？</strong>站着听你讲 3 分钟，还是坐下来读 3 页？——决定篇幅与结构。</li>
+          <li><strong>读完要做什么决定？</strong>转诊、开检查、改方案、还是只是安心？——决定要不要给阈值。</li>
+          <li><strong>什么算成功？</strong>一句话能说清，还是能直接贴进文档？——这是验收标准。</li>
+          <li><strong>什么算失败？</strong>最怕它给你什么？科普腔、空话、没有出处、过度吓人？——这是反面清单。</li>
+        </ol>
+      </div>
+
+      <p>第 5 条最容易被忽略，但它往往最有效。人对「不要什么」的表达，通常比对「要什么」更精确。你写一句<em>「不要科普腔，不要说『每个孩子都不一样』这种废话」</em>，比写十句「请专业一点」管用。</p>
+
+      <h3>同理心还有另一半：对 AI 说明你的水平</h3>
+
+      <p>这叫<strong>水平声明</strong>。你不说，它只能按「普通大众」的默认值来写，于是花一半篇幅解释你已经会的东西，把真正有价值的部分挤掉了。</p>
+
+      <div class="compare">
+        <div class="weak">
+          <div class="side-label">默认问法</div>
+          <p>「介绍一下婴儿抬头发育。」</p>
+          <p class="muted" style="margin-top:14px">→ 从「什么是抬头」讲起，三分之二是常识。</p>
+        </div>
+        <div class="strong">
+          <div class="side-label">加水平声明</div>
+          <p>「我是儿科研究生，基础概念不用解释。直接讲：抬头里程碑的循证区间、评估要点、以及什么情况算红旗。」</p>
+          <p class="muted" style="margin-top:14px">→ 省掉铺垫，密度立刻上来。</p>
+        </div>
+      </div>
+
+      <div class="note good">
+        <span class="tag">一句话公式</span>
+        <p><strong>我是谁 + 我要拿它做什么决定 + 读者是谁 + 什么算成功。</strong>这四项写全，问题已经赢了一半，而且通常只需要两行字。</p>
+      </div>
+    </section>
+
+    <!-- ============ 03 ============ -->
+    <section id="s3">
+      <div class="sec-head">
+        <div class="sec-num">03 / Logic</div>
+        <h2>逻辑深度：把名词，变成变量</h2>
+        <p class="sec-desc">主任医师的问题为什么显得深？因为他问的每个词，都能被测量、被反驳、被限定。</p>
+      </div>
+
+      <p>「孩子抬头好不好」这句话里，「好」不是一个变量，是一个情绪。而「俯卧位、无支撑、下颌离床超过 5 秒、连续两次」——这是<strong>可测量</strong>的。把前者换成后者，这个动作叫<strong>操作化定义</strong>（operationalization），是学术训练里最值钱的一件手艺，也是提问深度最直接的来源。</p>
+
+      <p>下面八个动作，是把一个「浅问题」加压成「深问题」的常用手段。不需要全用，一次用两三个，答案的质地就会变。</p>
+
+      <div class="tablewrap">
+        <table>
+          <thead>
+            <tr><th>动作</th><th>它在替你做什么</th><th>可以直接写进提示词的话</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="k">操作化</td>
+              <td>把形容词换成可观察、可计数的指标</td>
+              <td>「请先把关键概念操作化：给出可测量的定义与判定标准。」</td>
+            </tr>
+            <tr>
+              <td class="k">不确定性</td>
+              <td>逼它从「一个数」走向「一个分布」</td>
+              <td>「不要只给点估计，给区间，并说明这个区间依赖哪些假设。」</td>
+            </tr>
+            <tr>
+              <td class="k">边界</td>
+              <td>排除「放之四海皆准」的废话</td>
+              <td>「标明适用边界：哪些人群、哪种情形下这个结论不成立。」</td>
+            </tr>
+            <tr>
+              <td class="k">对照</td>
+              <td>让结论有参照系，而不是孤立断言</td>
+              <td>「和同龄人群常模比，差多少？和哪种替代做法比？」</td>
+            </tr>
+            <tr>
+              <td class="k">因果</td>
+              <td>区分「相关」与「导致」，避免被数据骗</td>
+              <td>「这是相关性还是因果？如果是因果，机制是什么？有没有混杂因素？」</td>
+            </tr>
+            <tr>
+              <td class="k">可证伪</td>
+              <td>给结论装一个「什么情况下我错了」的开关</td>
+              <td>「列出三条能推翻你结论的观察结果。」</td>
+            </tr>
+            <tr>
+              <td class="k">二阶效应</td>
+              <td>从「有没有用」推进到「用了会怎样」</td>
+              <td>「如果照做，最可能出现什么副作用或代价？谁会反对，理由是什么？」</td>
+            </tr>
+            <tr>
+              <td class="k">决策阈值</td>
+              <td>把知识变成可执行的判断规则</td>
+              <td>「给出明确的行动阈值：什么情况下观察，什么情况下必须转诊。」</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="pull">
+        深度不是用更难的词，是让每个词都承担一个可检验的功能。
+        <small>一个术语如果不能让答案变窄、变可验证，它就只是噪音。</small>
+      </div>
+
+      <h3>一个万能收尾句</h3>
+
+      <p>不管你问什么，在末尾加上这一句，输出质量会稳定提升一档：</p>
+
+      <div class="promptbox">
+        <div class="bar"><span>可复制 · 结论结构</span><button class="copy" data-copy="p-struct" data-label="复制">复制</button></div>
+        <pre id="p-struct">请把结论写成五段，缺一不可：
+1）主结论（一句话，先给判断）
+2）支持它的关键证据或机制
+3）不确定性：哪里最不确定，为什么
+4）适用边界：什么人群、什么情形下不成立
+5）推翻条件：出现什么观察结果，就该改判</pre>
+      </div>
+
+      <p>这五段其实是一套「防糊弄结构」。它逼模型把「我知道」和「我猜」分开——而这两者的区分能力，恰恰是专业与业余的分水岭。</p>
+    </section>
+
+    <!-- ============ 04 ============ -->
+    <section id="s4">
+      <div class="sec-head">
+        <div class="sec-num">04 / Vocabulary</div>
+        <h2>词汇：可以借来的杠杆</h2>
+        <p class="sec-desc">你不需要发明词。你只需要知道，哪些词一写进去，答案的形状就会变。</p>
+      </div>
+
+      <p>你说得对：提示词里真正起作用的，往往是那几个<strong>领域词</strong>。它们像模具——词一放进去，答案就被浇成那个形状。下面按功能分六组，每组给一句可直接套用的话。</p>
+
+      <div class="lex">
+        <div>
+          <h5><span>A · 定义与边界</span>操作化 / 判定标准</h5>
+          <p>把「好」「严重」「明显」这类词，换成能被第三个人复现的判断。</p>
+          <span class="eg">「请先给出可测量定义，再回答。」</span>
+        </div>
+        <div>
+          <h5><span>B · 结构与层次</span>分层 / 分维度 / 主次</h5>
+          <p>防止答案糊成一团，强制它先分类，再排序，最后才展开。</p>
+          <span class="eg">「按维度拆开，每维给一句结论，再标优先级。」</span>
+        </div>
+        <div>
+          <h5><span>C · 证据与不确定</span>区间 / 效应量 / 证据等级</h5>
+          <p>让它从「断言」退到「有保留的判断」，并暴露依据的强度。</p>
+          <span class="eg">「标明证据等级；没有可靠数据的地方直接说不知道。」</span>
+        </div>
+        <div>
+          <h5><span>D · 权衡与取舍</span>代价 / 机会成本 / 最坏情况</h5>
+          <p>把「哪个更好」这种伪问题，换成「在什么条件下哪个更划算」。</p>
+          <span class="eg">「给出两种做法的代价对比，以及最坏情况分别是什么。」</span>
+        </div>
+        <div>
+          <h5><span>E · 验证与反驳</span>反例 / 证伪 / 压力测试</h5>
+          <p>主动请它攻击自己的结论，比让它自我肯定有价值得多。</p>
+          <span class="eg">「找三个反例，说明我的判断可能错在哪。」</span>
+        </div>
+        <div>
+          <h5><span>F · 过程控制</span>先问再做 / 草稿 / 停止条件</h5>
+          <p>把一次性的赌博，改成有检查点的流水线，错了也不会全废。</p>
+          <span class="eg">「信息不足先问我三个问题；先出提纲，我确认后再展开。」</span>
+        </div>
+      </div>
+
+      <h3>同一个意思，弱表达与强表达</h3>
+
+      <div class="tablewrap">
+        <table>
+          <thead>
+            <tr><th>你本来想说的</th><th>换成</th><th>为什么有效</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>「写详细一点」</td><td>「每个结论后面加一条机制解释和一个具体例子」</td><td>「详细」没有标准，后者有</td></tr>
+            <tr><td>「专业一点」</td><td>「按综述的写法，术语保留英文缩写，不要科普腔」</td><td>把风格换成了可执行的禁令</td></tr>
+            <tr><td>「全面一点」</td><td>「覆盖 A/B/C 三类情形，每类给一个反例」</td><td>「全面」不可验收，枚举可以</td></tr>
+            <tr><td>「简单一点」</td><td>「给一个初中生能复述的版本，不超过 120 字」</td><td>用受众 + 字数替代了模糊的形容词</td></tr>
+            <tr><td>「你觉得呢？」</td><td>「给出你的判断，并说明如果我反对，最有力的反驳是什么」</td><td>把开放式闲聊变成对抗性检验</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="note warn">
+        <span class="tag">重要提醒 · 术语会反噬</span>
+        <p>借来的术语如果放错位置，比不用更糟。模型有个倾向：<strong>它会顺着你的词往下编，而不会先纠正你</strong>。你用了一个不该用的概念，它大概率会假装那个概念成立，然后给你一套看起来严密、其实悬空的分析。所以每个高级词的后面，最好补一句「如果你认为我的用词或前提有问题，先纠正我，再回答」。</p>
+      </div>
+    </section>
+
+    <!-- ============ 05 ============ -->
+    <section id="s5">
+      <div class="sec-head">
+        <div class="sec-num">05 / Medium</div>
+        <h2>载体：输出格式，其实是一张授权书</h2>
+        <p class="sec-desc">你说「给我 HTML」，不只是换了个后缀——你是在授权它排版、画图、做交互。</p>
+      </div>
+
+      <p>这是你最敏锐的一个观察：很多人不知道可以让 AI 输出 HTML。但要再往深一层——<strong>格式词真正的含义，是权限词</strong>。</p>
+
+      <ul>
+        <li>说「给我文字」= 只允许它组织语言；</li>
+        <li>说「给我表格」= 允许它做<strong>多维并排比较</strong>；</li>
+        <li>说「给我 Word」= 允许它进入<strong>正式流程</strong>：排版、批注、修订、签字；</li>
+        <li>说「给我 Excel」= 允许它<strong>计算</strong>：公式、筛选、透视；</li>
+        <li>说「给我 HTML」= 允许它<strong>设计</strong>：版式、配色、图表、交互、响应式，还能直接打印成 PDF；</li>
+        <li>说「给我一个能反复用的小工具」= 允许它<strong>写逻辑</strong>，而不只是写内容。</li>
+      </ul>
+
+      <p>所以「不知道有 HTML」这件事的本质，不是少知道一个后缀，而是<strong>不知道自己可以授权到什么程度</strong>。而这件事有一个通用解法，下面会讲。</p>
+
+      <h3>载体阶梯</h3>
+
+      <div class="tablewrap">
+        <table>
+          <thead>
+            <tr><th>载体</th><th>它授权 AI 做什么</th><th>最适合</th><th>别用它来做</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="k">聊天文字</td><td>自由组织语言</td><td>快速理解、一次性问答、边聊边想</td><td>要交付、要复用、要留档</td></tr>
+            <tr><td class="k">表格</td><td>多维并排、逐项对比</td><td>方案对比、决策矩阵、参数清单</td><td>叙事、解释因果</td></tr>
+            <tr><td class="k">Markdown</td><td>结构化，且可继续加工</td><td>笔记、知识库、文档仓库、后续再编辑</td><td>直接给人看的第一眼观感</td></tr>
+            <tr><td class="k">Word</td><td>正式排版、批注、修订、走流程</td><td>报告、论文初稿、需要审阅签字的材料</td><td>需要图表交互</td></tr>
+            <tr><td class="k">PPT</td><td>一页一个观点、控制讲述节奏</td><td>汇报、答辩、路演</td><td>需要被细读的长文</td></tr>
+            <tr><td class="k">Excel</td><td>公式、筛选、透视、可计算</td><td>数据、预算、随访表、清单</td><td>论述性内容</td></tr>
+            <tr><td class="k">HTML 单页</td><td>排版、配色、图表、交互、可打印</td><td>教程、看板、研究报告、作品集</td><td>多人协同批注</td></tr>
+            <tr><td class="k">交互工具</td><td>输入、计算、状态、反馈</td><td>反复使用的计算器、生成器、评估表</td><td>一次性阅读</td></tr>
+            <tr><td class="k">代码/脚本</td><td>可执行、可复用、可自动化</td><td>数据处理、批处理、自动化</td><td>纯展示</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tool">
+        <div class="tool-head">
+          <h4>载体选择器</h4>
+          <span>点一个场景</span>
+        </div>
+        <div class="picks" id="medium-picks">
+          <button data-m="read">我自己要看懂</button>
+          <button data-m="compare">要在几个方案里选</button>
+          <button data-m="deliver">要交给别人 / 走流程</button>
+          <button data-m="present">要站着讲 10 分钟</button>
+          <button data-m="calc">要算、要筛选、要更新</button>
+          <button data-m="reuse">要反复用很多次</button>
+          <button data-m="pretty">要好看、能分享、能打印</button>
+        </div>
+        <div class="result" id="medium-result">选一个场景，我给你推荐载体，以及该怎么把这句话说出口。</div>
+      </div>
+
+      <h3>比「知道 HTML」更值钱的一句话</h3>
+
+      <p>你不需要把所有格式都背下来。你只需要在提问时加一句：</p>
+
+      <div class="promptbox">
+        <div class="bar"><span>可复制 · 格式枚举</span><button class="copy" data-copy="p-format" data-label="复制">复制</button></div>
+        <pre id="p-format">在你开始写之前，先告诉我：这件事最适合用哪三种载体来承载？
+分别说明它们各自擅长什么、牺牲什么，并推荐一个。
+如果我提到的格式不是最优解，直接说，不要迁就我。</pre>
+      </div>
+
+      <p>这一句的价值，远大于记住十个格式名。因为它把「我不知道有哪些选项」这个问题，外包给了知识更全的一方——而且它每次都会顺带教你怎么选。<strong>这就是所谓的「元提问」：不问道理，问「我该怎么问」。</strong></p>
+    </section>
+
+    <!-- ============ 06 ============ -->
+    <section id="s6">
+      <div class="sec-head">
+        <div class="sec-num">06 / Skeleton</div>
+        <h2>骨架：八段式，以及一个五句短版</h2>
+        <p class="sec-desc">套路不是让你写得长，是让你不漏掉关键的那几块。</p>
+      </div>
+
+      <p>下面这套结构，不需要每次都写全。它的用途是<strong>检查表</strong>：写完一段提示词，扫一眼，看看哪一块是空的。空的那块，往往就是答案会翻车的地方。</p>
+
+      <div class="tablewrap">
+        <table>
+          <thead>
+            <tr><th>段</th><th>写什么</th><th>缺了会怎样</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="k">1 角色与水平</td><td>你希望它站在谁的位置上；你自己的水平在哪</td><td>它按大众默认值写，一半是废话</td></tr>
+            <tr><td class="k">2 目标与决策</td><td>你要拿这个答案做什么判断</td><td>内容正确，但落在你不需要的地方</td></tr>
+            <tr><td class="k">3 背景与已知</td><td>已知事实、已有数据、已经试过什么</td><td>它重复你已知的，或建立在错误前提上</td></tr>
+            <tr><td class="k">4 约束与禁忌</td><td>字数、术语、语气、不要什么</td><td>风格失控，越长越像正确的废话</td></tr>
+            <tr><td class="k">5 方法与词汇</td><td>要求它用哪种分析框架、哪些概念</td><td>泛泛而谈，没有分析骨架</td></tr>
+            <tr><td class="k">6 输出规格</td><td>载体、结构、字段、长度</td><td>拿到手还要你自己重排一遍</td></tr>
+            <tr><td class="k">7 验收标准</td><td>什么算合格，用什么检验</td><td>你只能说「感觉不太行」，说不出哪里不行</td></tr>
+            <tr><td class="k">8 停止条件</td><td>信息不足时先问；不确定时说不知道</td><td>它硬编，你还以为是真的</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>短版：五句话就够</h3>
+
+      <p>日常 90% 的场景，用这个短版就行。它把八段压缩成了五个必要项：</p>
+
+      <div class="promptbox">
+        <div class="bar"><span>可复制 · 五句通用版</span><button class="copy" data-copy="p-five" data-label="复制">复制</button></div>
+        <pre id="p-five">1. 我是 ___（身份/水平），要拿这个去做 ___（决定）。
+2. 读者是 ___，他关心的是 ___。
+3. 必须包含 ___；不要出现 ___。
+4. 输出成 ___（载体），结构是 ___。
+5. 验收标准：___。信息不足时，先问我最多三个问题。</pre>
+      </div>
+
+      <div class="note">
+        <span class="tag">经验值</span>
+        <p>写这五行大约花你 90 秒。它能省掉的返工，通常是三轮以上。这是整份手册里性价比最高的一个动作。</p>
+      </div>
+
+      <div class="tool">
+        <div class="tool-head">
+          <h4>提示词生成器</h4>
+          <span>填空 → 生成 → 复制</span>
+        </div>
+        <div class="formgrid">
+          <div class="field">
+            <label for="pb-role">让它扮演谁</label>
+            <input id="pb-role" type="text" placeholder="如：儿科主治医师 / 统计学审稿人">
+          </div>
+          <div class="field">
+            <label for="pb-level">我的水平</label>
+            <input id="pb-level" type="text" placeholder="如：研究生，基础概念不用解释">
+          </div>
+          <div class="field full">
+            <label for="pb-goal">我要拿它做什么决定</label>
+            <textarea id="pb-goal" placeholder="如：判断是否需要转诊 / 准备 15 分钟组会汇报"></textarea>
+          </div>
+          <div class="field">
+            <label for="pb-aud">读者与场景</label>
+            <input id="pb-aud" type="text" placeholder="如：3 位主治，站着听 15 分钟">
+          </div>
+          <div class="field">
+            <label for="pb-format">输出载体</label>
+            <select id="pb-format">
+              <option>聊天文字，先结论后展开</option>
+              <option>Markdown，标题分三级</option>
+              <option>表格，行是方案、列是维度</option>
+              <option>Word 文档结构，含图表题注</option>
+              <option>PPT，10 页，一页一个观点</option>
+              <option>Excel，含原始数据与公式汇总</option>
+              <option>单文件 HTML，左侧目录右侧内容</option>
+              <option>单文件交互小工具，可反复使用</option>
+            </select>
+          </div>
+          <div class="field full">
+            <label for="pb-must">必须包含</label>
+            <input id="pb-must" type="text" placeholder="如：操作化定义、干预阈值、红旗信号">
+          </div>
+          <div class="field">
+            <label for="pb-avoid">不要出现</label>
+            <input id="pb-avoid" type="text" placeholder="如：科普腔、空泛免责声明">
+          </div>
+          <div class="field">
+            <label for="pb-method">方法 / 词汇要求</label>
+            <input id="pb-method" type="text" placeholder="如：给区间不给点估计，标明适用边界">
+          </div>
+          <div class="field full">
+            <label for="pb-accept">验收标准</label>
+            <input id="pb-accept" type="text" placeholder="如：能据此决定继续观察还是转诊">
+          </div>
+        </div>
+        <button class="btn" id="gen">生成提示词</button>
+
+        <div class="promptbox" id="pb-result" style="display:none; margin-bottom:0;">
+          <div class="bar"><span>生成结果</span><button class="copy" data-copy="pb-out" data-label="复制">复制</button></div>
+          <pre id="pb-out"></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 07 ============ -->
+    <section id="s7">
+      <div class="sec-head">
+        <div class="sec-num">07 / Cases</div>
+        <h2>三个实战：从「一句话」到「可交付」</h2>
+        <p class="sec-desc">包括那个 95% 置信区间的例子——它是好直觉，但用错了一点位置。</p>
+      </div>
+
+      <h3>案例 A · 婴儿抬头：术语用对的姿势</h3>
+
+      <p>你想到用统计学的概念去问，方向是对的：它逼模型从「一个平均值」转向「一个分布」。但这里有一个很值得说的陷阱——</p>
+
+      <div class="note warn">
+        <span class="tag">陷阱 · 三个区间不是一回事</span>
+        <p><strong>置信区间</strong>描述的是「我估计的这个参数有多不确定」，它针对的是<em>群体参数</em>；<br>
+        <strong>参考区间</strong>描述的是「同龄孩子里，95% 落在哪个范围」，它针对的是<em>个体差异</em>；<br>
+        <strong>预测区间</strong>描述的是「下一个孩子会落在哪」，它同时包含个体差异和估计误差。</p>
+        <p>问「我孩子自主抬头的 95% 置信区间」，严格说是<strong>范畴错误</strong>——单个孩子没有置信区间。但这不是白问：模型多半不会纠正你，而会顺着这个词编下去。这是它最危险的一种顺从。</p>
+      </div>
+
+      <div class="compare">
+        <div class="weak">
+          <div class="side-label">原始问法</div>
+          <p>「孩子两个多月了，会抬头。真正意义上自主有效抬头的 95% 置信区间是什么时候？」</p>
+          <p class="muted" style="margin-top:12px">问题：术语和对象不匹配；「自主有效」没定义；没给月龄、胎龄、姿势。</p>
+        </div>
+        <div class="strong">
+          <div class="side-label">升级问法</div>
+          <p>「足月男婴，矫正月龄 9 周，俯卧位能短暂抬胸数秒。请分三层回答：① 同龄人群的里程碑分布（中位与第 5–95 百分位）；② 针对这一个孩子的预测区间，以及它依赖的假设；③ 你估计本身的不确定性。<br><br>先把『自主有效抬头』操作化。如果你认为我的用词有问题，先纠正我再回答。」</p>
+        </div>
+      </div>
+
+      <p>升级之后，变化不在于答案更长，而在于它<strong>必须先把三件事分开</strong>：人群怎么分布、这个孩子可能怎样、它自己有多确定。这三层一分开，你就能一眼看出哪句话有依据、哪句话是它补的。</p>
+
+      <p>顺便，这个问题还有两个隐性收益：它会主动提到<strong>早产需用矫正月龄</strong>、<strong>俯卧练习与安全睡眠的边界</strong>、以及<strong>什么情况算红旗</strong>——因为你的结构里有「不确定性」和「边界」这两个格子，它必须填。</p>
+
+      <div class="promptbox">
+        <div class="bar"><span>可复制 · 完整版</span><button class="copy" data-copy="p-baby" data-label="复制">复制</button></div>
+        <pre id="p-baby">我是儿科研究生，基础概念不用解释。我要判断：这个孩子的抬头发育是否需要干预。
+
+【已知】足月男婴，出生体重正常，矫正月龄 9 周；俯卧位可短暂抬胸数秒，疲劳后头下垂；无其他异常。
+
+【请按三层回答】
+1）人群层面：同龄足月儿的抬头里程碑分布（中位、第 5–95 百分位），并给出你依据的来源类型。
+2）个体层面：针对这一个孩子的预测区间；说明它和人群区间的区别，以及需要哪些额外信息才能收窄。
+3）不确定性：你自己对上述判断的置信程度，最不确定的是哪一环。
+
+【必须包含】"自主有效抬头"的操作化定义；观察要点；需要就医的红旗信号；俯卧练习的安全边界。
+【不要】科普腔；不要用"每个孩子都不一样"代替具体判断。
+【格式】先给 5 行结论，再展开；全文不超过 700 字。
+【验收】我能拿着它决定"继续观察"还是"转诊"。
+【纠错条款】如果你认为我的术语或前提有误，请先指出，再回答。</pre>
+      </div>
+
+      <h3>案例 B · 让它做交付物：格式词就是质量的一半</h3>
+
+      <p>「帮我整理一下这个课题的资料」——这句话的问题不是不礼貌，是<strong>没有交付定义</strong>。整理成什么？给谁？多长？什么算整理好了？</p>
+
+      <div class="compare">
+        <div class="weak">
+          <div class="side-label">一句话版</div>
+          <p>「帮我整理一下婴儿抬头发育的资料，做成 HTML。」</p>
+          <p class="muted" style="margin-top:12px">它有格式意识，但没告诉 AI 这份东西要解决什么问题，于是会得到一张漂亮的百科页。</p>
+        </div>
+        <div class="strong">
+          <div class="side-label">可交付版</div>
+          <p>「我是儿科研究生，要做一个 15 分钟组会汇报，听众是 3 位主治和 2 位同学，主题是抬头里程碑与发育筛查。</p>
+          <p>输出单文件 HTML：左侧目录、右侧内容；含一条 0–6 月龄时间轴、一张足月 vs 早产的对比表、三条红旗信号、五条代表性文献占位。中文，保留英文缩写，不要科普腔。</p>
+          <p>验收：听众能在 10 秒内找到『什么情况该转诊』。」</p>
+        </div>
+      </div>
+
+      <p>注意升级版里每个短语的作用：<strong>「15 分钟」</strong>限制篇幅；<strong>「3 位主治」</strong>决定术语密度；<strong>「单文件」</strong>决定技术形态（可离线、可发邮件）；<strong>「左侧目录」</strong>是版式约束；<strong>「10 秒内找到」</strong>是可用性验收。这一段没有一个废词。</p>
+
+      <h3>案例 C · 决策类问题：把「要不要」拆成「在什么条件下」</h3>
+
+      <p>「要不要做某项自费筛查」这类问题，直接问，大概率得到「建议咨询医生」——因为它在道德上最安全。想拿到能用的答案，要给它一个<strong>决策结构</strong>：</p>
+
+      <div class="promptbox">
+        <div class="bar"><span>可复制 · 决策模板</span><button class="copy" data-copy="p-decide" data-label="复制">复制</button></div>
+        <pre id="p-decide">背景：___（人群、年龄、已知风险因素、经济与时间成本）
+决策：做 ___，还是不做/晚点做。
+
+请按这个结构回答：
+1）收益：能改变什么决定？如果结果不影响处理方案，直接说"这个检查没有决策价值"。
+2）伤害：假阳性、过度诊断、辐射/侵入性、焦虑成本、费用。
+3）证据强度：每个结论标"高/中/低/无直接证据"，无证据就说无。
+4）阈值：在什么风险水平下，做比不做更划算？
+5）最坏情况：两种选择各自最坏的结果是什么，可逆吗？
+6）给一个明确的默认建议，并写出它成立的前提。
+
+不要用"建议咨询医生"作为结论的替代品。</pre>
+      </div>
+
+      <p>这套结构的精髓在第 1 条：<strong>先问「这个信息会不会改变行动」</strong>。很多检查、很多分析、很多汇报，真正的答案是「做不做都不影响下一步」——而这恰恰是最有价值的一句话，也是模型在默认状态下最不会主动说的话。</p>
+    </section>
+
+    <!-- ============ 08 ============ -->
+    <section id="s8">
+      <div class="sec-head">
+        <div class="sec-num">08 / Follow-up</div>
+        <h2>追问：真正的提问，从第二轮开始</h2>
+        <p class="sec-desc">第一轮决定它给你什么，第二轮决定你能从里面榨出多少。</p>
+      </div>
+
+      <p>大多数人只问一轮，拿到一段「看起来不错」的回答就结束了。但高质量对话的产出，八成在第二到第四轮。因为第一轮它只能给你<strong>它以为你要的</strong>，从第二轮起，你才有机会把它按到具体位置上。</p>
+
+      <p>下面八句，是八个不同方向的追问。不需要全用，按需要挑。</p>
+
+      <div class="tablewrap">
+        <table>
+          <thead>
+            <tr><th>追问</th><th>它在撬什么</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="k">「这条结论最可能错在哪？」</td><td>逼它自己标出薄弱环节，而不是继续加固</td></tr>
+            <tr><td class="k">「有没有反例，或者主流之外的相反观点？」</td><td>打破单一叙事，暴露它省略的争议</td></tr>
+            <tr><td class="k">「把 X 换成 Y，结论会怎么变？」</td><td>做敏感性分析，看结论是稳的还是脆的</td></tr>
+            <tr><td class="k">「压缩成三个可检验的假设。」</td><td>把叙述变成可验证的判断</td></tr>
+            <tr><td class="k">「你还缺什么信息？最多问我三个问题。」</td><td>让它暴露盲区，而不是硬编</td></tr>
+            <tr><td class="k">「给一个 30 分钟内能做的最小验证。」</td><td>把知识转成行动，避免停留在纸面</td></tr>
+            <tr><td class="k">「换成 ___ 领域的专家，会怎么反驳你？」</td><td>借另一个学科的刀，切出你看不到的盲点</td></tr>
+            <tr><td class="k">「改写成给 ___ 看的 200 字版本。」</td><td>同一内容的多载体适配，检验你是否真的懂</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="pull">
+        把 AI 当审稿人，而不是当作者。
+        <small>作者只需要产出，审稿人负责挑错。你真正需要的，是后者那种不客气的眼光。</small>
+      </div>
+
+      <p>还有一个反直觉的技巧：<strong>不要每轮都开新对话</strong>。同一个对话里连续追问，它会带着前面的约束走；一开新对话，你之前辛辛苦苦建立的定义、边界、格式全部清零，只能重新来一遍。</p>
+    </section>
+
+    <!-- ============ 09 ============ -->
+    <section id="s9">
+      <div class="sec-head">
+        <div class="sec-num">09 / Meta</div>
+        <h2>元提示：让 AI 教你提问</h2>
+        <p class="sec-desc">这是提升词汇量最快的一条路——比你读十篇教程都快。</p>
+      </div>
+
+      <p>你的核心困境是「我不知道有哪些词、哪些格式、哪些框架」。这个困境有一个很干脆的解法：<strong>直接问它</strong>。不是问知识，是问<strong>选项空间</strong>。</p>
+
+      <p>下面四个模板，建议存下来，反复用。它们的作用不是拿到答案，是扩张你的词库。</p>
+
+      <div class="promptbox">
+        <div class="bar"><span>模板一 · 词库扩展器</span><button class="copy" data-copy="p-meta1" data-label="复制">复制</button></div>
+        <pre id="p-meta1">我想做的这件事是：___。
+
+请列出 10 个这个领域的专家会用来描述它的术语或概念。
+每个都说明：它比日常说法精确在哪里、什么时候该用、什么时候会用错。
+最后告诉我，如果只选三个最值得学的，是哪三个。</pre>
+      </div>
+
+      <div class="promptbox">
+        <div class="bar"><span>模板二 · 盲区探测器</span><button class="copy" data-copy="p-meta2" data-label="复制">复制</button></div>
+        <pre id="p-meta2">我准备这样问你：___。
+
+在回答之前，请先指出：
+1）这个请求里缺失了哪些关键信息？
+2）其中哪三项如果补上，答案质量提升最大？
+3）我有没有隐含的错误前提？如果有，直接说。
+
+然后只问我三个问题，等我回答后再正式开始。</pre>
+      </div>
+
+      <div class="promptbox">
+        <div class="bar"><span>模板三 · 学科反演器</span><button class="copy" data-copy="p-meta3" data-label="复制">复制</button></div>
+        <pre id="p-meta3">同一个问题：___。
+
+请分别用统计学、临床医学、经济学、工程学、设计学五个视角来问它。
+每个视角写一句它真正会问的问题，并说明这个视角会得到什么别人得不到的答案。
+最后指出：对我这个具体处境，哪个视角最有用，为什么。</pre>
+      </div>
+
+      <div class="promptbox">
+        <div class="bar"><span>模板四 · 格式枚举器</span><button class="copy" data-copy="p-meta4" data-label="复制">复制</button></div>
+        <pre id="p-meta4">我要交付的内容是：___，读者是 ___。
+
+请列出 6 种可以承载它的形式（从最轻到最重），
+每种说明：制作成本、适合的场景、以及它比相邻选项多出来的那一点价值。
+特别告诉我，有没有我没听说过、但更适合这个场景的形式。</pre>
+      </div>
+
+      <div class="note good">
+        <span class="tag">为什么这四个模板特别值</span>
+        <p>因为它们输出的不是「内容」，是<strong>你的能力增量</strong>。内容用完就没了，词库和判断框架会留在你身上，下一次提问你就能自己用出来。这叫把 AI 当<strong>教练</strong>用，而不是当<strong>外包</strong>用。</p>
+      </div>
+    </section>
+
+    <!-- ============ 10 ============ -->
+    <section id="s10">
+      <div class="sec-head">
+        <div class="sec-num">10 / Practice</div>
+        <h2>训练：七天，每天只练一件事</h2>
+        <p class="sec-desc">不要一次改全部。一次只加一个变量，你才感觉得到它的效果。</p>
+      </div>
+
+      <p>关于智商：110 不低，而且提问质量跟它的关系比你想的弱得多。提问更像<strong>词汇量 × 反馈次数 × 结构习惯</strong>——这三样都是可以练的。真正拉开差距的，不是谁更聪明，是谁<strong>每问一次都往回看一眼</strong>。</p>
+
+      <div class="checklist" id="checklist">
+        <label class="check-item">
+          <input type="checkbox">
+          <div class="txt"><span class="day">DAY 01</span>只做加法：今天每一个问题，都补上「受众 + 要做什么决定」。别的都不改，看答案变化。</div>
+        </label>
+        <label class="check-item">
+          <input type="checkbox">
+          <div class="txt"><span class="day">DAY 02</span>借五个词：让 AI 给你所在领域的 10 个术语，挑 3 个真正用掉，记录哪个让答案变准了。</div>
+        </label>
+        <label class="check-item">
+          <input type="checkbox">
+          <div class="txt"><span class="day">DAY 03</span>换载体：同一个内容，分别要 Markdown 和 HTML，对比两者各自多给了你什么。</div>
+        </label>
+        <label class="check-item">
+          <input type="checkbox">
+          <div class="txt"><span class="day">DAY 04</span>加不确定性：今天所有结论，都要求它标「高/中/低」置信度，并说出最不确定的一环。</div>
+        </label>
+        <label class="check-item">
+          <input type="checkbox">
+          <div class="txt"><span class="day">DAY 05</span>只追问，不重开：同一个对话连问三轮，用第 8 节的句式，看看第三轮比第一轮多出什么。</div>
+        </label>
+        <label class="check-item">
+          <input type="checkbox">
+          <div class="txt"><span class="day">DAY 06</span>让它先问你：所有提问前加一句「信息不足先问我三个问题」，体会差别。</div>
+        </label>
+        <label class="check-item">
+          <input type="checkbox">
+          <div class="txt"><span class="day">DAY 07</span>复盘：翻出本周 10 条提问，用荧光笔标出「约束词」，划掉所有「形容词」。删掉的那些，就是你以前的浪费。</div>
+        </label>
+      </div>
+
+      <h3>一页速查</h3>
+
+      <div class="card">
+        <div class="card-label">Cheat Sheet · 十二条</div>
+        <ol style="margin-bottom:0">
+          <li>先想「谁拿它做什么决定」，再想怎么问。</li>
+          <li>说清自己的水平，省掉一半废话。</li>
+          <li>把「好/严重/明显」换成可测量的判据。</li>
+          <li>要区间，不要点估计。</li>
+          <li>要求它标出「适用边界」和「推翻条件」。</li>
+          <li>「不要什么」比「要什么」更好写，也更有效。</li>
+          <li>格式词是权限词：HTML = 授权设计，Word = 授权流程，Excel = 授权计算。</li>
+          <li>不知道有什么选项，就直接问「有哪些承载形式」。</li>
+          <li>不确定就让它先问你三个问题。</li>
+          <li>追问比换模型有用。</li>
+          <li>每轮加一句「如果你认为我错了，先纠正我」。</li>
+          <li>一次只改一个变量，否则你不知道是什么起了作用。</li>
+        </ol>
+      </div>
+
+      <h3>三十天的走法</h3>
+
+      <p>一周一个主题，顺序别乱：<strong>第一周只练受众与决策</strong>（同理心），<strong>第二周只练定义与不确定性</strong>（逻辑），<strong>第三周只练载体与格式</strong>（输出），<strong>第四周只练追问</strong>（迭代）。每周留一条日志：这周我新学会的最有用的一个词是什么，它在哪次提问里真的改变了答案。</p>
+
+      <p class="muted">一个月后你会发现，提升的不是「话术」，是你看问题时自动浮现的那几个格子。那才是真正的品位——它不在提示词里，在你脑子里。</p>
+    </section>
+
+    <!-- ============ 11 ============ -->
+    <section id="s11">
+      <div class="sec-head">
+        <div class="sec-num">11 / Test</div>
+        <h2>自测：你的 AI 商在哪一档</h2>
+        <p class="sec-desc">六道题，选完立刻出结果。错了会告诉你为什么。</p>
+      </div>
+
+      <div id="quiz">
+        <div class="quiz-q">
+          <div class="qtext"><i>Q1</i>你想判断孩子的抬头发育是否正常，下面哪种问法最可能拿到可用的答案？</div>
+          <button class="opt" data-correct="0">我家孩子两个月会抬头，正常吗？</button>
+          <button class="opt" data-correct="0">两个月婴儿抬头的发育标准是什么？</button>
+          <button class="opt" data-correct="1">足月男婴，矫正月龄 9 周，俯卧可短暂抬胸数秒。请给出同龄人群里程碑分布、干预阈值、红旗信号，并说明不确定性。我是儿科研究生，基础概念不用解释。</button>
+          <button class="opt" data-correct="0">详细分析一下婴儿抬头这个问题。</button>
+        </div>
+
+        <div class="quiz-q">
+          <div class="qtext"><i>Q2</i>在「婴儿抬头」这个场景里，统计学词汇真正的作用是什么？</div>
+          <button class="opt" data-correct="0">让提问看起来更专业</button>
+          <button class="opt" data-correct="1">强制回答从「点估计」转向「分布与不确定性」，并暴露它依赖的人群和定义</button>
+          <button class="opt" data-correct="0">保证答案一定准确</button>
+          <button class="opt" data-correct="0">让回答更长、更详细</button>
+        </div>
+
+        <div class="quiz-q">
+          <div class="qtext"><i>Q3</i>下面哪种需求，最适合用 HTML 而不是 Word？</div>
+          <button class="opt" data-correct="0">需要同事批注、走审批流程的文件</button>
+          <button class="opt" data-correct="0">需要公式计算和数据筛选的表格</button>
+          <button class="opt" data-correct="1">需要图文排版、图表、可交互、可分享也能打印的单页说明</button>
+          <button class="opt" data-correct="0">需要打印出来签字的合同</button>
+        </div>
+
+        <div class="quiz-q">
+          <div class="qtext"><i>Q4</i>「请写得好一点」这句话的主要问题是什么？</div>
+          <button class="opt" data-correct="1">它不构成约束：没有受众、没有标准，AI 无法判断什么叫「好」</button>
+          <button class="opt" data-correct="0">它太短了，AI 不喜欢短提示词</button>
+          <button class="opt" data-correct="0">它缺少礼貌用语</button>
+          <button class="opt" data-correct="0">它应该改成「请写得非常好」</button>
+        </div>
+
+        <div class="quiz-q">
+          <div class="qtext"><i>Q5</i>第一轮回答还不错，下一步最有效的是什么？</div>
+          <button class="opt" data-correct="0">重开一个新对话，把问题再问一遍</button>
+          <button class="opt" data-correct="1">在同一对话里追问：哪一条最可能错？缺什么信息？给一个 30 分钟内可做的最小验证</button>
+          <button class="opt" data-correct="0">让它把同样的内容写得更长</button>
+          <button class="opt" data-correct="0">换一个模型再问一次</button>
+        </div>
+
+        <div class="quiz-q">
+          <div class="qtext"><i>Q6</i>你不知道这件事可以做成哪些格式，最该怎么做？</div>
+          <button class="opt" data-correct="0">继续用自己最熟悉的那个格式</button>
+          <button class="opt" data-correct="1">直接问：这类内容有哪些承载形式？各自擅长什么、牺牲什么？推荐哪个？</button>
+          <button class="opt" data-correct="0">全部做成 Word，最保险</button>
+          <button class="opt" data-correct="0">让它自己决定，不用告诉我</button>
+        </div>
+      </div>
+
+      <div id="quiz-result"></div>
+
+      <div class="pull" style="margin-top:44px">
+        最后一句：品位的本质，是知道「还可以更好」，并且说得清「好在哪里」。
+        <small>这份手册能给你的，只是那几个格子和几个词。真正的提升，来自你下次提问时，多停的那三秒。</small>
+      </div>
+    </section>
+
+    <footer>
+      <div class="fin">提问的品位 · 一份可训练的 AI 提问手册</div>
+      <p style="max-width:36em">单文件本地手册，无需联网，可直接打印为 PDF（浏览器 → 打印 → 另存为 PDF，左栏会自动隐藏）。<br>
+      内容会过时，骨架不会。</p>
+    </footer>
+
+  </main>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------- 阅读进度 ---------- */
+  var bar = document.getElementById('bar');
+  function paint(){
+    var el = document.documentElement;
+    var max = el.scrollHeight - el.clientHeight;
+    bar.style.width = (max > 0 ? (el.scrollTop / max * 100) : 0) + '%';
+  }
+  window.addEventListener('scroll', paint, {passive:true});
+  window.addEventListener('resize', paint);
+  paint();
+
+  /* ---------- 目录高亮 ---------- */
+  var links = Array.prototype.slice.call(document.querySelectorAll('#toc a'));
+  var secs = links.map(function(a){ return document.querySelector(a.getAttribute('href')); }).filter(Boolean);
+  if ('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting){
+          var id = '#' + e.target.id;
+          links.forEach(function(l){
+            l.classList.toggle('active', l.getAttribute('href') === id);
+          });
+        }
+      });
+    }, {rootMargin:'-42% 0px -52% 0px', threshold:0});
+    secs.forEach(function(s){ io.observe(s); });
+  }
+  links.forEach(function(l){
+    l.addEventListener('click', function(){
+      links.forEach(function(x){ x.classList.remove('active'); });
+      l.classList.add('active');
+    });
+  });
+
+  /* ---------- 复制 ---------- */
+  Array.prototype.forEach.call(document.querySelectorAll('.copy'), function(btn){
+    btn.addEventListener('click', function(){
+      var el = document.getElementById(btn.dataset.copy);
+      if (!el) return;
+      var text = el.innerText;
+      var label = btn.dataset.label || '复制';
+      function done(){ btn.textContent = '已复制'; setTimeout(function(){ btn.textContent = label; }, 1400); }
+      if (navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(text).then(done, fallback);
+      } else { fallback(); }
+      function fallback(){
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); done(); } catch(e){ btn.textContent = '请手动选择'; }
+        ta.remove();
+      }
+    });
+  });
+
+  /* ---------- 载体选择器 ---------- */
+  var MEDIUM = {
+    read: '<b>→ Markdown 或纯文字。</b>自己看的内容，优先低成本、可再加工。句子可以糙，结构不能乱。可以加一句：「用 Markdown，标题分三级，段落短，不要客套话。」',
+    compare: '<b>→ 表格。</b>凡是要「比」的东西，不要让它写散文。可以说：「用表格，行是方案，列是评价维度，每格不超过 15 字，最后一行给推荐并说明理由。」',
+    deliver: '<b>→ Word（.docx）。</b>需要批注、修订、签字、走流程的，只有 Word 能承接。可以说：「输出 Word 文档结构，含标题层级、图表题注、参考文献格式，正文不超过 4 页。」',
+    present: '<b>→ PPT。</b>PPT 不是 Word 的横版，它的单位是「一页一个观点」。可以说：「做 10 页，每页一个主张，标题就是结论句，正文不超过 3 行，讲稿放备注。」',
+    calc: '<b>→ Excel（.xlsx）。</b>只要涉及公式、筛选、更新，就别用文字。可以说：「做成表格，含原始数据页与汇总页，汇总用公式而不是写死的数，保留筛选。」',
+    reuse: '<b>→ 单文件交互工具。</b>要反复输入、反复出结果的东西，让它直接写成网页工具。可以说：「做一个单文件 HTML 小工具，输入 A/B/C，输出评分和建议，不需要联网。」',
+    pretty: '<b>→ HTML 单页。</b>需要排版、配色、图表、可交互、可打印成 PDF，这是最优解。可以说：「单文件 HTML，左侧目录右侧内容，图表用内联 SVG 或 ECharts，适配手机，支持打印。」'
+  };
+  var picks = document.getElementById('medium-picks');
+  var mres = document.getElementById('medium-result');
+  if (picks){
+    picks.addEventListener('click', function(e){
+      var b = e.target.closest('button[data-m]');
+      if (!b) return;
+      Array.prototype.forEach.call(picks.querySelectorAll('button'), function(x){ x.classList.remove('on'); });
+      b.classList.add('on');
+      mres.innerHTML = MEDIUM[b.dataset.m] || '';
+    });
+  }
+
+  /* ---------- 提示词生成器 ---------- */
+  var gen = document.getElementById('gen');
+  if (gen){
+    gen.addEventListener('click', function(){
+      function val(id){ var el = document.getElementById(id); return el && el.value.trim() ? el.value.trim() : ''; }
+      var role = val('pb-role') || '这个领域的资深专家';
+      var level = val('pb-level') || '有基础，不用解释入门概念';
+      var goal = val('pb-goal') || '（请补充：你要拿这个答案做什么决定）';
+      var aud = val('pb-aud') || '（请补充：读者是谁、在什么场景读）';
+      var must = val('pb-must') || '（请补充：必须包含的内容）';
+      var avoid = val('pb-avoid') || '空话、科普腔、"每个人情况不同"式的免责声明';
+      var method = val('pb-method') || '先给结论，再给依据；标明适用边界与不确定性';
+      var format = val('pb-format') || '聊天文字，先结论后展开';
+      var accept = val('pb-accept') || '（请补充：什么算合格）';
+
+      var out =
+'【角色】你是一位' + role + '。\n' +
+'【我的水平】' + level + '。\n' +
+'【目标】' + goal + '\n' +
+'【读者与场景】' + aud + '\n' +
+'【必须包含】' + must + '\n' +
+'【不要出现】' + avoid + '\n' +
+'【方法要求】' + method + '\n' +
+'【输出载体】' + format + '\n' +
+'【验收标准】' + accept + '\n' +
+'【纠错条款】如果你认为我的术语、前提或用词有问题，请先指出，再回答。\n' +
+'【流程】信息不足时，先问我最多 3 个问题；先给提纲，我确认后再展开。';
+
+      var box = document.getElementById('pb-out');
+      box.textContent = out;
+      document.getElementById('pb-result').style.display = 'block';
+      document.getElementById('pb-result').scrollIntoView({behavior:'smooth', block:'nearest'});
+    });
+  }
+
+  /* ---------- 自测 ---------- */
+  var qs = Array.prototype.slice.call(document.querySelectorAll('.quiz-q'));
+  var answered = new Map();
+  var resultBox = document.getElementById('quiz-result');
+  function showScore(){
+    var score = 0;
+    answered.forEach(function(v){ if (v) score++; });
+    var tier, text;
+    if (score <= 2){ tier = '起步区'; text = '你已经在用 AI，但主要还在「许愿」。先把第 6 节的五句短版用一周，变化会很明显。'; }
+    else if (score <= 4){ tier = '上路区'; text = '你知道要加约束，但还不太稳定。重点补「载体」和「追问」两块——它们投入产出比最高。'; }
+    else { tier = '有品位区'; text = '你的提问已经带着结构了。接下来练的是更细的东西：术语的适用边界，以及第二轮追问的锋利度。'; }
+    resultBox.classList.add('show');
+    resultBox.innerHTML = '得分 <b>' + score + ' / 6</b> · ' + tier + '<br><br>' + text;
+  }
+  qs.forEach(function(q, qi){
+    Array.prototype.forEach.call(q.querySelectorAll('.opt'), function(opt){
+      opt.addEventListener('click', function(){
+        if (answered.has(qi)) return;
+        var ok = opt.dataset.correct === '1';
+        answered.set(qi, ok);
+        Array.prototype.forEach.call(q.querySelectorAll('.opt'), function(o){ o.classList.add('locked'); });
+        opt.classList.add(ok ? 'right' : 'wrong');
+        if (!ok){
+          var right = q.querySelector('.opt[data-correct="1"]');
+          if (right) right.classList.add('right');
+        }
+        if (answered.size === qs.length) showScore();
+      });
+    });
+  });
+
+  /* ---------- 七日清单（本地保存） ---------- */
+  var boxes = Array.prototype.slice.call(document.querySelectorAll('#checklist input'));
+  boxes.forEach(function(cb, i){
+    var key = 'promptTasteCheck' + i;
+    try { cb.checked = localStorage.getItem(key) === '1'; } catch(e){}
+    cb.addEventListener('change', function(){
+      try { localStorage.setItem(key, cb.checked ? '1' : '0'); } catch(e){}
+    });
+  });
+
+})();
+</script>
+</body>
+</html>
