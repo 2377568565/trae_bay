@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f5f1e8">
+<title>前沿简报 · 2026.11.11｜AI 行业 24 小时</title>
+<meta name="description" content="过去 24 小时 AI 行业要闻：Anthropic IPO、Gemini 4 Carbon、Claude Fable 5.2、Gemini Robotics 2.5、澳大利亚 AI 安全立法，以及 Arena 文本榜 Top 20。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Noto+Serif+SC:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f5f1e8;
+    --paper-deep:#ece5d7;
+    --ink:#17140f;
+    --ink-soft:#4b463c;
+    --muted:#776f61;
+    --line:rgba(23,20,15,.14);
+    --line-strong:rgba(23,20,15,.34);
+    --accent:#b23a26;
+    --accent-ink:#8f2c1b;
+    --serif:"Noto Serif SC","Songti SC","Source Han Serif SC",Georgia,"Times New Roman",serif;
+    --sans:"Inter","PingFang SC","Noto Sans SC","Helvetica Neue",Arial,sans-serif;
+    --mono:"JetBrains Mono","SFMono-Regular",Consolas,"Liberation Mono",monospace;
+    --w:1160px;
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    background:
+      radial-gradient(1100px 520px at 82% -8%, #fbf8f1 0%, rgba(251,248,241,0) 62%),
+      var(--paper);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:16px;
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  ::selection{background:var(--accent);color:var(--paper)}
+  a{color:inherit}
+  a:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+
+  .wrap{width:min(calc(100% - 48px),var(--w));margin-inline:auto}
+
+  /* ---------- Masthead ---------- */
+  .masthead{padding-top:30px}
+  .masthead-top{
+    display:flex;justify-content:space-between;align-items:center;gap:20px;
+    padding-bottom:14px;border-bottom:1px solid var(--line);
+    font-family:var(--mono);font-size:.66rem;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--muted);
+  }
+  .brand{color:var(--ink);font-weight:500}
+  .issue{text-align:right}
+  .wordmark{
+    font-family:var(--serif);font-weight:900;
+    font-size:clamp(3rem,7.2vw,5.6rem);
+    line-height:1;letter-spacing:-.035em;
+    padding:30px 0 20px;
+  }
+  .wordmark .dot{color:var(--accent)}
+  .masthead-bottom{
+    display:flex;justify-content:space-between;gap:14px 28px;flex-wrap:wrap;
+    padding:11px 0;border-top:2px solid var(--ink);border-bottom:1px solid var(--line-strong);
+    font-family:var(--mono);font-size:.64rem;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--ink-soft);
+  }
+  .masthead-bottom span:last-child{color:var(--muted)}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    display:grid;grid-template-columns:minmax(0,1.62fr) minmax(280px,.78fr);
+    gap:clamp(36px,6vw,72px);align-items:end;
+    padding:72px 0 66px;
+  }
+  .kicker{
+    margin:0 0 20px;font-family:var(--mono);font-size:.66rem;
+    letter-spacing:.22em;color:var(--accent);text-transform:uppercase;
+  }
+  h1{
+    margin:0;font-family:var(--serif);font-weight:700;
+    font-size:clamp(2.5rem,5vw,4.35rem);line-height:1.16;letter-spacing:-.025em;
+  }
+  h1 em{
+    font-style:normal;color:var(--accent);position:relative;white-space:nowrap;
+  }
+  h1 em::after{
+    content:"";position:absolute;left:0;right:0;bottom:.05em;height:.09em;
+    background:var(--accent);opacity:.32;
+  }
+  .deck{
+    margin:28px 0 0;max-width:47ch;color:var(--ink-soft);
+    font-size:1.02rem;line-height:1.95;
+  }
+
+  .stats{border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);padding:4px 0 18px}
+  .stat{
+    display:flex;align-items:baseline;justify-content:space-between;gap:12px;
+    padding:14px 0;border-bottom:1px solid var(--line);
+  }
+  .stat:last-of-type{border-bottom:none}
+  .stat-num{
+    font-family:var(--serif);font-weight:600;font-size:2.05rem;
+    line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums;
+  }
+  .stat-num small{font-size:.9rem;font-weight:400;color:var(--ink-soft);margin-left:2px}
+  .stat-label{
+    font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--muted);text-align:right;
+  }
+  .stats-note{
+    margin:14px 0 0;font-family:var(--mono);font-size:.6rem;
+    letter-spacing:.07em;line-height:1.8;color:var(--muted);
+  }
+
+  /* ---------- Section head ---------- */
+  .section-head{
+    display:flex;align-items:baseline;gap:18px;flex-wrap:wrap;
+    border-top:2px solid var(--ink);padding-top:16px;margin-bottom:10px;
+  }
+  .section-no{font-family:var(--mono);font-size:.66rem;letter-spacing:.12em;color:var(--accent)}
+  .section-head h2{
+    margin:0;font-family:var(--serif);font-weight:700;
+    font-size:clamp(1.3rem,2vw,1.55rem);letter-spacing:-.01em;
+  }
+  .section-meta{
+    margin-left:auto;font-family:var(--mono);font-size:.61rem;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--muted);
+  }
+
+  /* ---------- News ---------- */
+  .news-list{list-style:none;margin:0;padding:0}
+  .news-item{
+    display:grid;grid-template-columns:92px minmax(0,1fr);gap:clamp(14px,2.4vw,30px);
+    padding:40px 0;border-bottom:1px solid var(--line);position:relative;
+  }
+  .news-item:first-child{padding-top:30px}
+  .rank{
+    font-family:var(--serif);font-size:2.7rem;font-weight:400;line-height:1;
+    color:rgba(23,20,15,.17);font-variant-numeric:tabular-nums;
+    transition:color .35s ease,transform .35s ease;
+  }
+  .news-item:hover .rank{color:var(--accent);transform:translateY(-3px)}
+  .news-body{max-width:80ch}
+  .news-top{display:flex;align-items:center;gap:14px;margin-bottom:11px}
+  .tag{
+    display:inline-flex;align-items:center;gap:7px;
+    font-family:var(--mono);font-size:.61rem;letter-spacing:.14em;color:var(--ink-soft);
+  }
+  .tag::before{content:"";width:6px;height:6px;background:var(--accent)}
+  .news-time{font-family:var(--mono);font-size:.61rem;letter-spacing:.08em;color:var(--muted)}
+  .lead-mark{
+    font-family:var(--mono);font-size:.54rem;letter-spacing:.16em;
+    color:var(--paper);background:var(--accent);padding:2px 6px;
+  }
+  .news-item h3{
+    margin:0 0 12px;font-family:var(--serif);font-weight:700;
+    font-size:clamp(1.32rem,2.15vw,1.78rem);line-height:1.42;letter-spacing:-.012em;
+  }
+  .nowrap{white-space:nowrap}
+  .news-item h3 a{
+    color:inherit;text-decoration:none;
+    background-image:linear-gradient(var(--accent),var(--accent));
+    background-size:0 1px;background-repeat:no-repeat;background-position:0 100%;
+    transition:background-size .45s ease,color .3s ease;
+  }
+  .news-item h3 a:hover{background-size:100% 1px;color:var(--accent-ink)}
+  .summary{margin:0 0 15px;color:var(--ink-soft);font-size:.98rem;line-height:1.92}
+  .source{
+    margin:0;font-family:var(--mono);font-size:.64rem;
+    letter-spacing:.04em;line-height:1.9;color:var(--muted);
+  }
+  .source a{
+    color:var(--ink-soft);text-decoration:none;border-bottom:1px solid var(--line-strong);
+    transition:color .25s ease,border-color .25s ease;
+  }
+  .source a:hover{color:var(--accent);border-color:var(--accent)}
+  .featured h3{font-size:clamp(1.72rem,3.1vw,2.48rem);line-height:1.34}
+  .featured .summary{font-size:1.03rem;max-width:72ch}
+  .featured .rank{color:var(--accent)}
+
+  /* ---------- Leaderboard ---------- */
+  .board-section{padding-top:80px}
+  .board-intro{margin:20px 0 24px;max-width:62ch;color:var(--ink-soft);font-size:.98rem;line-height:1.9}
+  .board-intro strong{color:var(--ink);font-weight:600}
+  .board-legend{
+    display:flex;flex-wrap:wrap;gap:12px 24px;margin:0 0 12px;
+    font-family:var(--mono);font-size:.59rem;letter-spacing:.05em;color:var(--muted);
+  }
+  .legend-item{display:inline-flex;align-items:center;gap:7px}
+  .legend-swatch{width:18px;height:3px;background:var(--accent);display:inline-block}
+  .legend-swatch.ink{background:var(--ink)}
+  .table-wrap{overflow-x:auto;border-top:2px solid var(--ink);-webkit-overflow-scrolling:touch}
+  table{width:100%;min-width:700px;border-collapse:collapse}
+  thead th{
+    padding:12px;text-align:left;border-bottom:1px solid var(--line-strong);
+    font-family:var(--mono);font-size:.58rem;font-weight:400;
+    letter-spacing:.15em;text-transform:uppercase;color:var(--muted);white-space:nowrap;
+  }
+  thead th.num{text-align:right}
+  tbody td{padding:13px 12px;border-bottom:1px solid var(--line);vertical-align:middle}
+  tbody tr{transition:background .2s ease}
+  tbody tr:hover{background:rgba(178,58,38,.045)}
+  tbody tr.top{background:rgba(178,58,38,.055)}
+  .rank-cell{
+    width:46px;font-family:var(--mono);font-size:.7rem;
+    color:var(--muted);font-variant-numeric:tabular-nums;
+  }
+  tr.top .rank-cell{color:var(--accent)}
+  .model-cell{font-size:.9rem;font-weight:500;letter-spacing:-.005em}
+  .model-cell .variant{
+    margin-left:7px;font-family:var(--mono);font-size:.59rem;
+    font-weight:400;color:var(--muted);
+  }
+  .badge-new{
+    display:inline-block;margin-left:8px;vertical-align:2px;
+    padding:1px 5px;background:var(--accent);color:var(--paper);
+    font-family:var(--mono);font-size:.5rem;letter-spacing:.1em;
+  }
+  .lab-cell{font-size:.77rem;color:var(--ink-soft);white-space:nowrap}
+  .score-cell{
+    width:88px;text-align:right;font-family:var(--mono);font-size:.83rem;
+    font-weight:500;font-variant-numeric:tabular-nums;white-space:nowrap;
+  }
+  .pm{display:block;font-size:.54rem;font-weight:400;color:var(--muted);letter-spacing:.02em}
+  .bar-cell{width:150px}
+  .bar-track{display:block;width:100%;height:4px;background:rgba(23,20,15,.08);overflow:hidden}
+  .bar{
+    display:block;height:100%;width:100%;background:var(--ink);
+    transform:scaleX(var(--w));transform-origin:left;
+    animation:grow 1.15s cubic-bezier(.2,.7,.2,1) both;
+  }
+  tr.top .bar{background:var(--accent)}
+  @keyframes grow{from{transform:scaleX(0)}to{transform:scaleX(var(--w))}}
+  .board-note{
+    margin:16px 0 0;max-width:74ch;font-family:var(--mono);
+    font-size:.58rem;line-height:1.9;letter-spacing:.03em;color:var(--muted);
+  }
+  .board-note a{color:var(--ink-soft);border-bottom:1px solid var(--line-strong);text-decoration:none}
+  .board-note a:hover{color:var(--accent)}
+
+  /* ---------- Commentary ---------- */
+  .commentary{
+    position:relative;overflow:hidden;margin-top:88px;
+    background:var(--ink);color:var(--paper);
+    padding:clamp(36px,6vw,70px);
+  }
+  .commentary::before{
+    content:"“";position:absolute;right:22px;top:-62px;
+    font-family:var(--serif);font-size:17rem;line-height:1;
+    color:rgba(245,241,232,.06);pointer-events:none;
+  }
+  .commentary .section-head{border-color:rgba(245,241,232,.34);margin-bottom:30px;padding-top:0;border-top:0}
+  .commentary .section-head h2{color:var(--paper)}
+  .commentary .section-no{color:#e0785f}
+  .commentary .section-meta{color:rgba(245,241,232,.48)}
+  blockquote{
+    position:relative;z-index:1;margin:0;max-width:56ch;
+    font-family:var(--serif);font-weight:400;
+    font-size:clamp(1.18rem,2.2vw,1.62rem);line-height:1.95;letter-spacing:.01em;
+  }
+  blockquote em{font-style:normal;color:#e0785f}
+  .sign{
+    margin:30px 0 0;font-family:var(--mono);font-size:.61rem;
+    letter-spacing:.16em;color:rgba(245,241,232,.5);
+  }
+
+  /* ---------- Footer ---------- */
+  footer{
+    display:grid;grid-template-columns:1fr 1.45fr;gap:48px;
+    margin-top:84px;padding:48px 0 38px;border-top:1px solid var(--line);
+  }
+  .footer-title{
+    margin:0 0 12px;font-family:var(--mono);font-size:.59rem;
+    letter-spacing:.17em;text-transform:uppercase;color:var(--muted);
+  }
+  .footer-note{margin:0;max-width:36ch;font-size:.75rem;line-height:1.95;color:var(--ink-soft)}
+  .source-list{
+    margin:0;padding-left:18px;columns:2;column-gap:34px;
+    font-family:var(--mono);font-size:.58rem;line-height:2.05;color:var(--muted);
+  }
+  .source-list li{break-inside:avoid}
+  .source-list a{color:var(--ink-soft);text-decoration:none;border-bottom:1px solid var(--line)}
+  .source-list a:hover{color:var(--accent)}
+  .copyright{
+    grid-column:1/-1;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+    padding-top:18px;border-top:1px solid var(--line);
+    font-family:var(--mono);font-size:.58rem;letter-spacing:.07em;color:var(--muted);
+  }
+
+  /* ---------- Motion ---------- */
+  .reveal{
+    animation:rise .9s cubic-bezier(.2,.7,.2,1) both;
+    animation-delay:calc(var(--i,0) * 70ms);
+  }
+  @keyframes rise{
+    from{opacity:0;transform:translateY(18px)}
+    to{opacity:1;transform:none}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{animation:none!important;transition:none!important}
+    .reveal{opacity:1;transform:none}
+    .bar{transform:scaleX(var(--w))}
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width:900px){
+    .hero{grid-template-columns:1fr;gap:38px;padding:50px 0 54px}
+    .stats{display:grid;grid-template-columns:1fr 1fr}
+    .stat{padding:14px 14px;border-bottom:1px solid var(--line)}
+    .stat:nth-child(odd){border-right:1px solid var(--line)}
+    .stat:nth-child(3),.stat:nth-child(4){border-bottom:none}
+    .stats-note{grid-column:1/-1;padding:0 14px}
+    .news-item{grid-template-columns:58px minmax(0,1fr)}
+    .rank{font-size:1.95rem}
+    footer{grid-template-columns:1fr;gap:30px}
+    .source-list{columns:1}
+  }
+  @media (max-width:560px){
+    .wrap{width:calc(100% - 32px)}
+    .masthead{padding-top:20px}
+    .masthead-top{font-size:.57rem;letter-spacing:.1em}
+    .wordmark{padding:24px 0 16px}
+    .masthead-bottom{font-size:.55rem;gap:6px 16px}
+    .news-item{grid-template-columns:1fr;gap:6px;padding:32px 0}
+    .rank{font-size:1rem;color:var(--accent)}
+    .news-item:first-child{padding-top:24px}
+    .featured h3{font-size:1.55rem}
+    .section-head{gap:10px}
+    .section-meta{margin-left:0;width:100%}
+    .commentary{margin-top:64px;padding:32px 22px}
+    .commentary::before{font-size:11rem;top:-30px}
+    footer{margin-top:64px}
+  }
+
+  @media print{
+    body{background:#fff}
+    .reveal{opacity:1;transform:none;animation:none}
+    .commentary{background:#fff;color:#000;border-top:2px solid #000}
+    .commentary .section-head h2,.commentary blockquote{color:#000}
+    .bar{transform:scaleX(var(--w));animation:none}
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead wrap">
+  <div class="masthead-top">
+    <span class="brand">Frontier Brief · 前沿简报</span>
+    <span class="issue">No. 001&nbsp;&nbsp;/&nbsp;&nbsp;2026.11.11 周三</span>
+  </div>
+  <div class="wordmark">前沿简报<span class="dot">。</span></div>
+  <div class="masthead-bottom">
+    <span>AI 行业 · 过去 24 小时</span>
+    <span>产品 / 资本 / 技术 / 治理</span>
+    <span>北京时间 GMT+8</span>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-copy reveal" style="--i:0">
+      <p class="kicker">Today's Lead</p>
+      <h1>能力继续上行，<br>估值开始<em>下修</em>。</h1>
+      <p class="deck">Anthropic 启动可能是史上最大科技 IPO 之一，Google 与 OpenAI 同日把最强模型推向所有人；一边是发布会，一边是估值折扣。</p>
+    </div>
+    <aside class="stats reveal" style="--i:1" aria-label="本期数据概览">
+      <div class="stat"><span class="stat-num">08</span><span class="stat-label">条要闻</span></div>
+      <div class="stat"><span class="stat-num">20</span><span class="stat-label">个模型</span></div>
+      <div class="stat"><span class="stat-num">04</span><span class="stat-label">个维度</span></div>
+      <div class="stat"><span class="stat-num">$1.4<small>T</small></span><span class="stat-label">峰值估值</span></div>
+      <p class="stats-note">统计窗口<br>2026.11.09 — 11.11</p>
+    </aside>
+  </section>
+
+  <!-- NEWS -->
+  <section aria-labelledby="news-title">
+    <div class="section-head">
+      <span class="section-no">01</span>
+      <h2 id="news-title">今日要闻</h2>
+      <span class="section-meta">按重要性排序 · 8 条</span>
+    </div>
+
+    <ol class="news-list">
+
+      <li class="news-item featured reveal" style="--i:0">
+        <div class="rank">01</div>
+        <div class="news-body">
+          <div class="news-top">
+            <span class="lead-mark">LEAD STORY</span>
+            <span class="tag">资本</span>
+            <span class="news-time">11.10</span>
+          </div>
+          <h3><a href="https://fortune.com/2026/11/10/anthropic-ipo-price-range-ai-stock-sell-off/" target="_blank" rel="noopener">Anthropic 启动 <span class="nowrap">IPO 路演</span>，最高估值 <span class="nowrap">1.4 万亿美元</span></a></h3>
+          <p class="summary">发行价 70–78 美元/股、拟最高募资约 643 亿美元，11 月 19 日登陆纳斯达克，完全摊薄估值最高 1.4 万亿美元；谷歌、英伟达、微软、台积电等七家巨头另承诺认购约 260 亿美元，台积电董事会同日批准最多 5 亿美元以发行价认购。</p>
+          <p class="source">来源：<a href="https://fortune.com/2026/11/10/anthropic-ipo-price-range-ai-stock-sell-off/" target="_blank" rel="noopener">Fortune</a> · <a href="https://finance.sina.com.cn/jjxw/2026-11-10/doc-iniyhmwt2453068.shtml" target="_blank" rel="noopener">新浪财经</a> · <a href="https://finance.sina.com.cn/roll/2026-11-11/doc-iniyipkf2003964.shtml" target="_blank" rel="noopener">台积电公告</a></p>
+        </div>
+      </li>
+
+      <li class="news-item reveal" style="--i:1">
+        <div class="rank">02</div>
+        <div class="news-body">
+          <div class="news-top"><span class="tag">产品</span><span class="news-time">11.10</span></div>
+          <h3><a href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-4-carbon-now-available/" target="_blank" rel="noopener">Google 向所有人开放 Gemini 4 Carbon</a></h3>
+          <p class="summary">谷歌称其为迄今最强模型，主打长程智能体、复杂代码与网络安全，在 CursorBench 4.0、Perplexity WANDR、Zapier AutomationBench 三项独立基准登顶，API 定价与 Gemini 4 Argon 持平（每百万输入/输出 2/10 美元）。</p>
+          <p class="source">来源：<a href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-4-carbon-now-available/" target="_blank" rel="noopener">Google Blog</a></p>
+        </div>
+      </li>
+
+      <li class="news-item reveal" style="--i:2">
+        <div class="rank">03</div>
+        <div class="news-body">
+          <div class="news-top"><span class="tag">商业</span><span class="news-time">11.10</span></div>
+          <h3><a href="https://finance.sina.com.cn/jjxw/2026-11-11/doc-iniyipka5361721.shtml" target="_blank" rel="noopener">OpenAI 三季度营收 100 亿美元，年化约 500 亿</a></h3>
+          <p class="summary">营收环比增长近 50%、企业业务单季翻倍，但经营亏损扩大至 109 亿美元；公司上周刚以 1.25 万亿美元估值完成约 110 亿美元融资的首轮交割，规模约为最初目标的三分之一。</p>
+          <p class="source">来源：<a href="https://finance.sina.com.cn/jjxw/2026-11-11/doc-iniyipka5361721.shtml" target="_blank" rel="noopener">新浪财经</a> · <a href="https://www.tipranks.com/news/openai-posts-steep-losses-even-as-quarterly-revenue-rises-to-10-billion" target="_blank" rel="noopener">TipRanks</a> · <a href="https://finance.sina.com.cn/stock/hkstock/ggscyd/2026-11-07/doc-inixwhsk8403346.shtml" target="_blank" rel="noopener">融资交割</a></p>
+        </div>
+      </li>
+
+      <li class="news-item reveal" style="--i:3">
+        <div class="rank">04</div>
+        <div class="news-body">
+          <div class="news-top"><span class="tag">产品</span><span class="news-time">11.09</span></div>
+          <h3><a href="https://www.anthropic.com/claude-fable-and-mythos-5-2" target="_blank" rel="noopener">Anthropic 发布 Claude Fable 5.2 与 Mythos 5.2</a></h3>
+          <p class="summary">新模型在编码、科研与网络安全上继续上调，FrontierCode 2.0 达到 49.1%、ARC-AGI-2 达到 42.5%，输出速度最多提升 30%，价格降至每百万输入/输出 8/40 美元；Mythos 5.2 仅向通过验证的机构开放。</p>
+          <p class="source">来源：<a href="https://www.anthropic.com/claude-fable-and-mythos-5-2" target="_blank" rel="noopener">Anthropic</a></p>
+        </div>
+      </li>
+
+      <li class="news-item reveal" style="--i:4">
+        <div class="rank">05</div>
+        <div class="news-body">
+          <div class="news-top"><span class="tag">技术</span><span class="news-time">11.10</span></div>
+          <h3><a href="https://deepmind.google/blog/gemini-robotics-2-5-accelerates-real-world-physical-intelligence/" target="_blank" rel="noopener">DeepMind 发布 Gemini Robotics 2.5，机器人走进奔驰工厂</a></h3>
+          <p class="summary">这是谷歌迄今最强的视觉-语言-动作模型，在 200 多项真实任务上成功率较基线提升 30%–100%、速度快 20%–30%；奔驰匈牙利与德国工厂试点中，Apptronik Apollo 2 的零件分拣成功率达到 96%。</p>
+          <p class="source">来源：<a href="https://deepmind.google/blog/gemini-robotics-2-5-accelerates-real-world-physical-intelligence/" target="_blank" rel="noopener">Google DeepMind</a> · <a href="https://original.ifeng.com/c/8xxR3hXbEiE" target="_blank" rel="noopener">凤凰网科技</a></p>
+        </div>
+      </li>
+
+      <li class="news-item reveal" style="--i:5">
+        <div class="rank">06</div>
+        <div class="news-body">
+          <div class="news-top"><span class="tag">治理</span><span class="news-time">11.10</span></div>
+          <h3><a href="https://www.pm.gov.au/media/new-australian-ai-safety-and-security-protections" target="_blank" rel="noopener">澳大利亚立法确立强制性 AI 安全标准</a></h3>
+          <p class="summary">新规适用于所有在澳运营的前沿 AI 公司，要求全流程安全管控、独立模型评估、严重风险识别、事件快速上报并公开安全框架，拟由专门监管机构执行并拥有重罚权限。</p>
+          <p class="source">来源：<a href="https://www.pm.gov.au/media/new-australian-ai-safety-and-security-protections" target="_blank" rel="noopener">澳大利亚总理府</a> · <a href="http://www.xinhuanet.com/20261110/58df2577380a46deba8c2f6704bb0fbc/c.html" target="_blank" rel="noopener">新华社</a></p>
+        </div>
+      </li>
+
+      <li class="news-item reveal" style="--i:6">
+        <div class="rank">07</div>
+        <div class="news-body">
+          <div class="news-top"><span class="tag">产品</span><span class="news-time">11.10</span></div>
+          <h3><a href="https://cj.sina.com.cn/articles/view/5953466437/162dab0450670bhjjg" target="_blank" rel="noopener">OpenAI 上线 “Businesses in ChatGPT” 测试版</a></h3>
+          <p class="summary">符合条件的企业可认领并管理 ChatGPT 内的商家资料、更新产品信息、追踪用户互动数据；美国电商与在线服务企业还可启用 Business Agents，自动回答消费者关于商品与服务的问题。</p>
+          <p class="source">来源：<a href="https://cj.sina.com.cn/articles/view/5953466437/162dab0450670bhjjg" target="_blank" rel="noopener">新浪财经</a> · <a href="https://openai.com/zh-Hans-CN/news/" target="_blank" rel="noopener">OpenAI News</a></p>
+        </div>
+      </li>
+
+      <li class="news-item reveal" style="--i:7">
+        <div class="rank">08</div>
+        <div class="news-body">
+          <div class="news-top"><span class="tag">融资 / 并购</span><span class="news-time">11.09–11.10</span></div>
+          <h3><a href="https://siliconangle.com/2026/11/09/ai-powered-hardware-testing-and-engineering-startup-nominal-raises-240m-at-3b-valuation/" target="_blank" rel="noopener">Nominal 以 30 亿美元估值完成 2.4 亿美元 C 轮，OpenAI 收购 Odessia</a></h3>
+          <p class="summary">硬件工程智能平台 Nominal 由 Lightspeed 领投、Insight 联合领投，8 个月内估值升至 3 月的三倍；同日 OpenAI 收购 AI 旅行初创 Odessia 并招揽其创始人，交易金额未披露。</p>
+          <p class="source">来源：<a href="https://siliconangle.com/2026/11/09/ai-powered-hardware-testing-and-engineering-startup-nominal-raises-240m-at-3b-valuation/" target="_blank" rel="noopener">SiliconANGLE</a> · <a href="https://www.thejoai.com/ai-news/openai-acquires-odessia-for-6-million/" target="_blank" rel="noopener">THEJO AI</a></p>
+        </div>
+      </li>
+
+    </ol>
+  </section>
+
+  <!-- LEADERBOARD -->
+  <section class="board-section" id="leaderboard" aria-labelledby="board-title">
+    <div class="section-head">
+      <span class="section-no">02</span>
+      <h2 id="board-title">Arena 文本竞技场 · Top 20</h2>
+      <span class="section-meta">Snapshot · 2026.11.08</span>
+    </div>
+
+    <p class="board-intro">人类盲测偏好榜，不是能力考试。前 20 名只差 <strong>40 分</strong>，却挤着四家实验室——<strong>Anthropic 独占 9 席</strong>，Google 与 Meta 各 5 席，Moonshot 守住第 19 位。榜首由 Gemini 4 Carbon 拿下。</p>
+
+    <div class="board-legend">
+      <span class="legend-item"><i class="legend-swatch"></i>前三名</span>
+      <span class="legend-item"><i class="legend-swatch ink"></i>其余模型</span>
+      <span class="legend-item">条形为 Elo 相对强度（1480 分基线）</span>
+    </div>
+
+    <div class="table-wrap" id="board-table">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>模型</th>
+            <th>实验室</th>
+            <th class="num">Elo</th>
+            <th>相对强度</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="top">
+            <td class="rank-cell">01</td>
+            <td class="model-cell">Gemini 4 Carbon<span class="badge-new">NEW</span><span class="variant">high</span></td>
+            <td class="lab-cell">Google DeepMind</td>
+            <td class="score-cell">1527<span class="pm">±10</span></td>
+            <td class="bar-cell"><span class="bar-track"><span class="bar" style="--w:1"></span></span></td>
+          </tr>
+          <tr class="top">
+            <td class="rank-cell">02</td>
+            <td class="model-cell">Gemini 4 Argon<span class="variant">high</span></td>
+            <td class="lab-cell">Google DeepMind</td>
+            <td class="score-cell">1522<span class="pm">±5</span></td>
+            <td class="bar-cell"><span class="bar-track"><span class="bar" style="--w:.89"></span></span></td>
+          </tr>
+          <tr class="top">
+            <td class="rank-cell">03</td>
+            <td class="model-cell">Muse Wonder<span class="variant">max</span></td>
+            <td class="lab-cell">Meta</td>
+            <td class="score-cell">1512<span class="pm">±6</span></td>
+            <td class="bar-cell"><span class="bar-track"><span class="bar" style="--w:.68"></span></span></td>
+          </tr>
+          <tr>
+            <td class="rank-cell">04</td>
+            <td class="model-cell">Claude Opus 5.5<span class="variant">high</span></td>
+            <td class="lab-cell">Anthropic</td>
+            <td class="score-cell">1506<span class="pm">±6</span></td>
+            <td class="bar-cell"><span class="bar-track"><span class="bar" style="--w:.55"></span></span></td>
+          </tr>
+          <tr>
+            <td class="rank-cell">05</td>
+            <td class="model-cell">Claude Fable 5<span class="variant">high</span></td>
+            <td class="lab-cell">Anthropic</td>
+            <td class="score-cell">1504<span class="pm">±4</span></td>
+            <td class="bar-cell"><span class="bar-track"><span class="bar" style="--w:.51"></span></span></td>
+          </tr>
+          <tr>
+            <td class="rank-cell">06</td>
+            <td class="model-cell">Claude Fable 5.1<span class="variant">max</span></td>
+            <td class="lab-cell">Anthropic</td>
+            <td class="score-cell">1503<span class="pm">±6</span></td>
+            <td class="bar-cell"><span class="bar-track"><span class="bar" style="--w:.49"></span></span></td>
+          </tr>
+          <tr>
+            <td class="rank-cell">07</td>
+            <td class="model-cell">Claude Opus 4.6<span class="variant">high</span></td>
+            <td class="lab-cell">Anthropic</td>
+            <td class="score-cell">1503<span class="pm">±3</span></td>
+            <td class="bar-cell"><span class="bar-track"><span class="bar" style="--w:.49"></span></span></td>
+          </tr>
+          <tr>
+            <td class="rank-cell">08</td>
+            <td class="model-cell">Claude Opus 4.7<span class="variant">high</span></td>
+            <td class="lab-cell">Anthropic</td>
+            <td class="score-cell">1501<span class="pm">±4</span></td>
+            <td class="bar-cell"><span class="bar-track"><span class="bar" style="--w:.45"></span></span></td>
+          </tr>
+          <tr>
+            <td class="rank-cell">09</td>
+            <td class="model-cell">Gemini 3.8 Flash<span class="variant">high</span></td>
+            <td class="lab-cell">Google DeepMind</td>
+            <td class="score-cell">1498<span class="pm">±4</span></td>
+            <td class="bar-cell"><span class="bar-track"><span class="bar" style="--w:.38"></span></span></td>
+          </tr>
+          <tr>
+            <td class="rank-cell">10</td>
+            <td class="model-cell">Claude Opus 4.6</td>
+            <td class="lab-cell">Anthropic</td>
+            <td class="score-cell">1496<span class="pm">±3</span></td>
+            <td class="bar-cell"><span class="bar-track"><span class="bar" style="--w:.34"></span></span></td>
+          </tr>
+          <tr>
+            <td class="rank-cell">11</td>
+            <td class="model-cell">Muse Spark 1.3<span class="variant">max</span></td>
+            <td class="lab-cell">Meta</td>
+            <td class="score-cell">1496<span class="pm">±5</span></td>
+            <td class="bar-cell"><span class="bar-track"><span class="bar" style="--w:.34"></span></span></td>
+          </tr>
+          <tr>
+            <td class="rank-cell">12</td>
+            <td class="model-cell">Muse Spark 1.2<span class="variant">xhigh</span></td>
+            <td class="lab-cell">Meta</td>
+            <td class="score-cell">1494<span class="pm">±6</span></td>
+            <td class="bar-cell"><span class="bar-track"><span class="bar" style="--w:.30"></span></span></td>
+          </tr>
+          <tr>
+            <td class="rank-cell">13</td>
+            <td class="model-cell">Claude Opus 4.7</td>
+            <td class="lab-cell">Anthropic</td>
+            <td class="score-cell">1494<span class="pm">±4</span></td>
+            <td class="bar-cell"><span class="bar-track"><span class="bar" style="--w:.30"></span></span></td>
+          </tr>
+          <tr>
+            <td class="rank-cell">14</td>
+            <td class="model-cell">Muse Spark 1.1</td>
+            <td class="lab-cell">Meta</td>
+            <td class="score-cell">1491<span class="pm">±4</span></td>
+            <td class="bar-cell"><span class="bar-track"><span class="bar" style="--w:.23"></span></span></td>
+          </tr>
+          <tr>
+            <td class="rank-cell">15</td>
+            <td class="model-cell">Claude Opus 5<span class="variant">high</span></td>
+            <td class="lab-cell">Anthropic</td>
+            <td class="score-cell">1490<span class="pm">±4</span></td>
+            <td class="bar-cell"><span class="bar-track"><span class="bar" style="--w:.21"></span></span></td>
+          </tr>
+          <tr>
+            <td class="rank-cell">16</td>
+            <td class="model-cell">Gemini 3.7 Flash<span class="variant">high</span></td>
+            <td class="lab-cell">Google DeepMind</td>
+            <td class="score-cell">1489<span class="pm">±5</span></td>
+            <td class="bar-cell"><span class="bar-track"><span class="bar" style="--w:.19"></span></span></td>
+          </tr>
+          <tr>
+            <td class="rank-cell">17</td>
+            <td class="model-cell">Muse Spark</td>
+            <td class="lab-cell">Meta</td>
+            <td class="score-cell">1489<span class="pm">±6</span></td>
+            <td class="bar-cell"><span class="bar-track"><span class="bar" style="--w:.19"></span></span></td>
+          </tr>
+          <tr>
+            <td class="rank-cell">18</td>
+            <td class="model-cell">Claude Opus 5<span class="variant">max</span></td>
+            <td class="lab-cell">Anthropic</td>
+            <td class="score-cell">1489<span class="pm">±5</span></td>
+            <td class="bar-cell"><span class="bar-track"><span class="bar" style="--w:.19"></span></span></td>
+          </tr>
+          <tr>
+            <td class="rank-cell">19</td>
+            <td class="model-cell">Kimi K3<span class="variant">max</span></td>
+            <td class="lab-cell">Moonshot AI</td>
+            <td class="score-cell">1487<span class="pm">±4</span></td>
+            <td class="bar-cell"><span class="bar-track"><span class="bar" style="--w:.15"></span></span></td>
+          </tr>
+          <tr>
+            <td class="rank-cell">20</td>
+            <td class="model-cell">Gemini 3.1 Pro Preview</td>
+            <td class="lab-cell">Google DeepMind</td>
+            <td class="score-cell">1487<span class="pm">±3</span></td>
+            <td class="bar-cell"><span class="bar-track"><span class="bar" style="--w:.15"></span></span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="board-note">口径：Arena（前 LMArena）Text Arena Overall，人类匿名对战偏好 Elo；同一模型的不同推理档位分开计分，± 为 95% 置信区间。数据快照 2026-11-08，共 420 个模型，经 DataLearner 镜像读取 <a href="https://arena.ai/leaderboard/text" target="_blank" rel="noopener">arena.ai/leaderboard/text</a>。</p>
+  </section>
+
+  <!-- COMMENTARY -->
+  <section class="commentary reveal" aria-labelledby="comment-title">
+    <div class="section-head">
+      <span class="section-no">03</span>
+      <h2 id="comment-title">今日趋势点评</h2>
+      <span class="section-meta">Editor's Note</span>
+    </div>
+    <blockquote>
+      今天最响的声音不是某个模型登顶，而是资本开始给“能力溢价”打折：Anthropic 把 IPO 最高估值从市场预期的 2 万亿美元压到 1.4 万亿，OpenAI 的融资也只拿到目标的三分之一。与此同时，产品竞争的主语已经从“谁的分数更高”换成“谁的单位任务成本更低、谁先进入真实工作流”——Gemini 4 Carbon 与 Argon 同价、Claude 5.2 降价提速、机器人走进奔驰工厂，都是同一个信号。接下来值得盯的不是下一个榜首，而是这些能力能否变成<em>可审计、可监管、可盈利</em>的生产力。
+    </blockquote>
+    <p class="sign">— 前沿简报编辑部</p>
+  </section>
+
+</main>
+
+<footer class="wrap">
+  <div>
+    <p class="footer-title">About this issue</p>
+    <p class="footer-note">本报以公开信息整理，时间窗口为北京时间 2026 年 11 月 9 日至 11 日；融资、估值与榜单数据以原始来源为准，不构成投资建议。</p>
+  </div>
+  <div>
+    <p class="footer-title">Sources</p>
+    <ol class="source-list">
+      <li><a href="https://fortune.com/2026/11/10/anthropic-ipo-price-range-ai-stock-sell-off/" target="_blank" rel="noopener">Fortune · Anthropic IPO 定价区间</a></li>
+      <li><a href="https://finance.sina.com.cn/jjxw/2026-11-10/doc-iniyhmwt2453068.shtml" target="_blank" rel="noopener">新浪财经 · Anthropic 路演估值</a></li>
+      <li><a href="https://finance.sina.com.cn/roll/2026-11-11/doc-iniyipkf2003964.shtml" target="_blank" rel="noopener">新浪财经 · 台积电 10 亿美元入股</a></li>
+      <li><a href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-4-carbon-now-available/" target="_blank" rel="noopener">Google Blog · Gemini 4 Carbon</a></li>
+      <li><a href="https://finance.sina.com.cn/jjxw/2026-11-11/doc-iniyipka5361721.shtml" target="_blank" rel="noopener">新浪财经 · OpenAI 三季度营收</a></li>
+      <li><a href="https://www.tipranks.com/news/openai-posts-steep-losses-even-as-quarterly-revenue-rises-to-10-billion" target="_blank" rel="noopener">TipRanks · OpenAI 经营亏损</a></li>
+      <li><a href="https://www.anthropic.com/claude-fable-and-mythos-5-2" target="_blank" rel="noopener">Anthropic · Claude Fable 5.2 / Mythos 5.2</a></li>
+      <li><a href="https://deepmind.google/blog/gemini-robotics-2-5-accelerates-real-world-physical-intelligence/" target="_blank" rel="noopener">Google DeepMind · Gemini Robotics 2.5</a></li>
+      <li><a href="https://www.pm.gov.au/media/new-australian-ai-safety-and-security-protections" target="_blank" rel="noopener">Australian PM · AI Standards 立法</a></li>
+      <li><a href="https://cj.sina.com.cn/articles/view/5953466437/162dab0450670bhjjg" target="_blank" rel="noopener">新浪财经 · Businesses in ChatGPT</a></li>
+      <li><a href="https://siliconangle.com/2026/11/09/ai-powered-hardware-testing-and-engineering-startup-nominal-raises-240m-at-3b-valuation/" target="_blank" rel="noopener">SiliconANGLE · Nominal C 轮</a></li>
+      <li><a href="https://www.thejoai.com/ai-news/openai-acquires-odessia-for-6-million/" target="_blank" rel="noopener">THEJO AI · OpenAI 收购 Odessia</a></li>
+      <li><a href="https://arena.ai/leaderboard/text" target="_blank" rel="noopener">Arena · Text Leaderboard</a></li>
+      <li><a href="https://www.datalearner.com/leaderboards/external/text-generation" target="_blank" rel="noopener">DataLearner · 榜单镜像快照</a></li>
+    </ol>
+  </div>
+  <div class="copyright">
+    <span>FRONTIER BRIEF · 2026.11.11</span>
+    <span>AI 辅助编辑 · 人工复核</span>
+  </div>
+</footer>
+
+</body>
+</html>
