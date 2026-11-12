@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 每日简报 · 2026.11.12</title>
+<style>
+  :root{
+    --paper:#F4F0E8;
+    --paper-2:#ECE6DA;
+    --paper-3:#E3DCCD;
+    --ink:#171614;
+    --ink-soft:#3A362F;
+    --muted:#5E574C;
+    --line:#D3C9B8;
+    --line-strong:#B9AD98;
+    --accent:#A83A2B;
+    --accent-soft:#C4553F;
+    --green:#23483B;
+    --serif:"Songti SC","STSong","Noto Serif SC","Source Han Serif SC",Georgia,"Times New Roman",serif;
+    --sans:"PingFang SC","Hiragino Sans GB","Source Han Sans SC","Microsoft YaHei","Helvetica Neue",sans-serif;
+    --mono:"SFMono-Regular","JetBrains Mono","Roboto Mono",Consolas,"Liberation Mono",monospace;
+    --maxw:1180px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:16px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  ::selection{background:var(--accent);color:var(--paper);}
+  a{color:inherit;text-decoration:none;}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
+
+  .grain{
+    position:fixed;inset:0;z-index:0;pointer-events:none;
+    opacity:.05;mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+  }
+
+  .wrap{
+    position:relative;z-index:1;
+    max-width:var(--maxw);
+    margin:0 auto;
+    padding:0 40px;
+  }
+
+  /* ── Masthead ───────────────────────────── */
+  .masthead{padding:34px 0 0;}
+  .mast-top{
+    display:flex;justify-content:space-between;align-items:baseline;
+    font-family:var(--mono);font-size:11px;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--muted);
+    padding-bottom:12px;
+  }
+  .mast-top .kicker{color:var(--accent);letter-spacing:.22em;}
+  .rule{height:1px;background:var(--ink);opacity:.9;}
+  .rule.thin{height:1px;background:var(--line-strong);opacity:1;}
+  .mast-main{
+    display:flex;justify-content:space-between;align-items:flex-end;
+    gap:24px;padding:22px 0 20px;border-bottom:1px solid var(--line);
+  }
+  .logo{
+    font-family:var(--serif);
+    font-size:clamp(38px,6vw,62px);
+    font-weight:600;letter-spacing:.08em;line-height:1;
+    margin:0;
+  }
+  .mast-meta{
+    text-align:right;font-family:var(--mono);font-size:11px;
+    line-height:1.9;letter-spacing:.06em;color:var(--muted);
+    padding-bottom:4px;white-space:nowrap;
+  }
+  .mast-meta strong{color:var(--ink);font-weight:500;}
+
+  .hero{padding:64px 0 56px;position:relative;}
+  .eyebrow{
+    font-family:var(--mono);font-size:11px;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--accent);margin:0 0 22px;
+  }
+  .hero h2{
+    font-family:var(--serif);
+    font-size:clamp(40px,7.6vw,84px);
+    line-height:1.06;font-weight:600;letter-spacing:.02em;
+    margin:0 0 26px;max-width:9em;text-wrap:balance;
+  }
+  .hero .deck{
+    max-width:66ch;margin:0;text-wrap:pretty;
+    font-size:clamp(15px,1.5vw,18px);line-height:1.85;color:var(--ink-soft);
+  }
+  .hero .deck em{font-family:var(--serif);font-style:normal;color:var(--ink);border-bottom:1px solid var(--accent);}
+
+  .dateline{
+    display:grid;grid-template-columns:repeat(4,1fr);
+    border-top:1px solid var(--ink);border-bottom:1px solid var(--line);
+    margin-top:48px;
+  }
+  .dateline div{
+    padding:16px 18px 15px;border-right:1px solid var(--line);
+  }
+  .dateline div:last-child{border-right:0;}
+  .dateline span{
+    display:block;font-family:var(--mono);font-size:10px;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
+    margin-bottom:6px;
+  }
+  .dateline strong{
+    font-family:var(--serif);font-size:19px;font-weight:600;letter-spacing:.01em;
+  }
+
+  /* ── Section headers ────────────────────── */
+  .section{padding:88px 0 0;}
+  .section-head{
+    display:flex;align-items:baseline;gap:18px;
+    padding-bottom:18px;border-bottom:1px solid var(--ink);
+    margin-bottom:8px;
+  }
+  .sec-no{
+    font-family:var(--mono);font-size:11px;color:var(--accent);
+    letter-spacing:.12em;padding-top:4px;
+  }
+  .section-head h3{
+    font-family:var(--serif);font-size:clamp(26px,3.4vw,36px);
+    font-weight:600;letter-spacing:.04em;margin:0;line-height:1.15;
+  }
+  .sec-note{
+    margin-left:auto;font-family:var(--mono);font-size:10px;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
+    white-space:nowrap;
+  }
+
+  /* ── News list ──────────────────────────── */
+  .news-list{list-style:none;margin:0;padding:0;}
+  .story{
+    display:grid;grid-template-columns:78px 1fr;
+    gap:26px;padding:34px 0 32px;
+    border-bottom:1px solid var(--line);
+    position:relative;
+  }
+  .story::before{
+    content:"";position:absolute;left:0;top:-1px;height:1px;width:0;
+    background:var(--accent);transition:width .55s cubic-bezier(.2,.7,.2,1);
+  }
+  .story:hover::before{width:100%;}
+  .story-no{
+    font-family:var(--mono);font-size:13px;color:var(--line-strong);
+    letter-spacing:.06em;padding-top:7px;
+    transition:color .3s ease;
+  }
+  .story:hover .story-no{color:var(--accent);}
+  .story-body{max-width:860px;}
+  .story-meta{
+    display:flex;align-items:center;gap:12px;margin-bottom:12px;
+    font-family:var(--mono);font-size:10px;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--muted);
+  }
+  .tag{
+    display:inline-block;padding:3px 8px 2px;
+    border:1px solid var(--line-strong);
+    font-size:9.5px;letter-spacing:.14em;color:var(--ink-soft);
+    line-height:1.4;
+  }
+  .tag-capital{color:var(--accent);border-color:var(--accent-soft);}
+  .tag-product{color:var(--green);border-color:#8FA396;}
+  .story h4{
+    font-family:var(--serif);
+    font-size:clamp(21px,2.5vw,28px);
+    line-height:1.42;font-weight:600;letter-spacing:.01em;
+    margin:0 0 12px;
+  }
+  .story h4 a{
+    background-image:linear-gradient(var(--accent),var(--accent));
+    background-size:0% 1px;background-repeat:no-repeat;
+    background-position:0 100%;
+    transition:background-size .4s cubic-bezier(.2,.7,.2,1),color .3s;
+  }
+  .story:hover h4 a{background-size:100% 1px;}
+  .story p{
+    margin:0;color:var(--ink-soft);font-size:15px;line-height:1.9;
+    max-width:72ch;
+  }
+  .sources{
+    display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;
+    margin-top:14px;font-family:var(--mono);font-size:10.5px;
+    letter-spacing:.03em;color:var(--muted);
+  }
+  .sources .label{
+    font-size:9px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--line-strong);
+  }
+  .sources a{
+    color:var(--ink-soft);border-bottom:1px solid var(--line-strong);
+    padding-bottom:1px;transition:color .25s,border-color .25s;
+  }
+  .sources a:hover{color:var(--accent);border-color:var(--accent);}
+
+  /* ── Leaderboard ────────────────────────── */
+  .board-shell{
+    margin-top:30px;
+    border:1px solid var(--line-strong);
+    background:rgba(255,255,255,.24);
+  }
+  .board-top{
+    display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;
+    gap:24px;padding:28px 30px 24px;border-bottom:1px solid var(--line);
+  }
+  .board-top h4{
+    font-family:var(--serif);font-size:24px;font-weight:600;
+    margin:0 0 6px;letter-spacing:.02em;
+  }
+  .board-top p{
+    margin:0;font-size:12.5px;color:var(--muted);
+    font-family:var(--mono);letter-spacing:.02em;
+  }
+  .tabs{display:flex;gap:0;border:1px solid var(--line-strong);}
+  .tab{
+    appearance:none;background:transparent;border:0;
+    padding:9px 18px 8px;cursor:pointer;
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--muted);
+    transition:background .25s,color .25s;
+  }
+  .tab + .tab{border-left:1px solid var(--line-strong);}
+  .tab:hover{color:var(--ink);background:var(--paper-2);}
+  .tab[aria-selected="true"]{background:var(--ink);color:var(--paper);}
+
+  .board-stats{
+    display:grid;grid-template-columns:repeat(3,1fr);
+    border-bottom:1px solid var(--line);
+  }
+  .board-stats div{padding:16px 30px;border-right:1px solid var(--line);}
+  .board-stats div:last-child{border-right:0;}
+  .board-stats span{
+    display:block;font-family:var(--mono);font-size:9.5px;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
+    margin-bottom:4px;
+  }
+  .board-stats strong{
+    font-family:var(--serif);font-size:21px;font-weight:600;
+  }
+
+  .panel{display:none;}
+  .panel.is-active{display:block;animation:panelIn .38s cubic-bezier(.2,.7,.2,1);}
+  @keyframes panelIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+
+  .table-scroll{overflow-x:auto;}
+  table{width:100%;border-collapse:collapse;min-width:720px;}
+  thead th{
+    text-align:left;padding:14px 20px 12px;
+    font-family:var(--mono);font-size:9.5px;font-weight:500;
+    letter-spacing:.16em;text-transform:uppercase;color:var(--muted);
+    border-bottom:1px solid var(--line);
+    background:rgba(236,230,218,.5);
+    position:sticky;top:0;z-index:2;
+  }
+  thead th.num{text-align:right;}
+  tbody td{
+    padding:13px 20px;border-bottom:1px solid rgba(211,201,184,.62);
+    font-size:14px;vertical-align:middle;
+  }
+  tbody tr{transition:background .2s;}
+  tbody tr:hover{background:rgba(236,230,218,.85);}
+  tbody tr:last-child td{border-bottom:0;}
+  .rank{
+    font-family:var(--mono);font-size:12px;color:var(--muted);
+    width:58px;
+  }
+  tr.top3 .rank{color:var(--accent);font-weight:600;}
+  .model{
+    font-family:var(--serif);font-size:16.5px;font-weight:600;
+    letter-spacing:.01em;line-height:1.35;
+  }
+  .model .variant{
+    font-family:var(--mono);font-size:10px;font-weight:400;
+    color:var(--muted);letter-spacing:.02em;margin-left:6px;
+  }
+  .lab{
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;
+    color:var(--muted);white-space:nowrap;
+  }
+  td.num{
+    text-align:right;font-family:var(--mono);font-size:12.5px;
+    font-variant-numeric:tabular-nums;white-space:nowrap;
+  }
+  td.num .ci{color:var(--line-strong);font-size:10px;margin-left:3px;}
+  .scorebar{
+    position:relative;padding-bottom:7px;min-width:96px;
+  }
+  .scorebar .bar{
+    position:absolute;right:0;bottom:0;height:2px;
+    width:var(--w,50%);background:var(--accent);opacity:.42;
+    transform:scaleX(0);transform-origin:right;
+    transition:transform 1.1s cubic-bezier(.2,.7,.2,1);
+  }
+  .reveal.in .scorebar .bar{transform:scaleX(1);}
+  tr.top3 .scorebar .bar{opacity:.9;}
+
+  .board-foot{
+    margin:0;padding:16px 30px 18px;
+    font-family:var(--mono);font-size:10px;line-height:1.9;
+    letter-spacing:.02em;color:var(--muted);
+    border-top:1px solid var(--line);
+  }
+
+  /* ── Commentary ─────────────────────────── */
+  .commentary{
+    margin-top:96px;padding:56px 0 64px;
+    border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);
+    display:grid;grid-template-columns:170px 1fr;gap:34px;
+    position:relative;
+  }
+  .commentary .label{
+    font-family:var(--mono);font-size:10px;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--accent);padding-top:12px;
+  }
+  .commentary blockquote{
+    margin:0;max-width:760px;
+    font-family:var(--serif);font-size:clamp(22px,2.8vw,31px);
+    line-height:1.72;font-weight:400;letter-spacing:.01em;
+  }
+  .commentary blockquote::first-letter{
+    font-size:3.1em;float:left;line-height:.86;
+    padding:6px 12px 0 0;color:var(--accent);
+    font-weight:600;
+  }
+  .commentary .sign{
+    margin-top:22px;font-family:var(--mono);font-size:10.5px;
+    letter-spacing:.1em;color:var(--muted);text-transform:uppercase;
+  }
+
+  /* ── Footer ─────────────────────────────── */
+  footer{padding:44px 0 56px;}
+  .foot-grid{
+    display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:36px;
+    padding-bottom:28px;border-bottom:1px solid var(--line);
+  }
+  .foot-grid h5{
+    font-family:var(--mono);font-size:9.5px;font-weight:500;
+    letter-spacing:.16em;text-transform:uppercase;color:var(--muted);
+    margin:0 0 12px;
+  }
+  .foot-grid p,.foot-grid li{
+    font-size:12px;line-height:1.95;color:var(--ink-soft);
+    margin:0;
+  }
+  .foot-grid ul{list-style:none;margin:0;padding:0;}
+  .foot-grid a{border-bottom:1px solid transparent;transition:border-color .2s,color .2s;}
+  .foot-grid a:hover{color:var(--accent);border-color:var(--accent);}
+  .colophon{
+    display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;
+    padding-top:18px;font-family:var(--mono);font-size:9.5px;
+    letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+  }
+
+  /* ── Reveal ─────────────────────────────── */
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1);}
+  .reveal.in{opacity:1;transform:none;}
+
+  .masthead .mast-top,
+  .masthead .rule,
+  .masthead .mast-main,
+  .hero .eyebrow,
+  .hero h2,
+  .hero .deck,
+  .dateline{
+    animation:rise .9s cubic-bezier(.2,.7,.2,1) both;
+  }
+  .masthead .mast-top{animation-delay:.05s;}
+  .masthead .rule{animation-delay:.12s;}
+  .masthead .mast-main{animation-delay:.18s;}
+  .hero .eyebrow{animation-delay:.3s;}
+  .hero h2{animation-delay:.38s;}
+  .hero .deck{animation-delay:.5s;}
+  .dateline{animation-delay:.62s;}
+  @keyframes rise{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:none;}}
+
+  /* ── Responsive ─────────────────────────── */
+  @media (max-width:900px){
+    .wrap{padding:0 24px;}
+    .mast-main{flex-direction:column;align-items:flex-start;gap:14px;}
+    .mast-meta{text-align:left;}
+    .dateline{grid-template-columns:repeat(2,1fr);}
+    .dateline div:nth-child(2){border-right:0;}
+    .dateline div:nth-child(1),.dateline div:nth-child(2){border-bottom:1px solid var(--line);}
+    .board-stats{grid-template-columns:1fr;}
+    .board-stats div{border-right:0;border-bottom:1px solid var(--line);}
+    .board-stats div:last-child{border-bottom:0;}
+    .commentary{grid-template-columns:1fr;gap:18px;}
+    .foot-grid{grid-template-columns:1fr 1fr;}
+  }
+  @media (max-width:620px){
+    .wrap{padding:0 18px;}
+    .masthead{padding-top:24px;}
+    .hero{padding:46px 0 40px;}
+    .story{grid-template-columns:44px 1fr;gap:14px;padding:26px 0 24px;}
+    .story-no{font-size:11px;padding-top:5px;}
+    .story p{font-size:14px;}
+    .section{padding-top:64px;}
+    .board-top{padding:22px 20px 20px;}
+    thead th,tbody td{padding-left:14px;padding-right:14px;}
+    .board-foot{padding:14px 20px 16px;}
+    .foot-grid{grid-template-columns:1fr;gap:24px;}
+    .commentary{margin-top:72px;padding:40px 0 46px;}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto;}
+    *,*::before,*::after{animation-duration:.001ms !important;animation-delay:0ms !important;transition-duration:.001ms !important;}
+    .reveal{opacity:1;transform:none;}
+    .scorebar .bar{transform:scaleX(1);}
+  }
+</style>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+
+<div class="wrap">
+  <header class="masthead">
+    <div class="mast-top">
+      <span class="kicker">AI Daily Brief</span>
+      <span>No. 041 · Thursday, Nov 12, 2026</span>
+    </div>
+    <div class="rule"></div>
+    <div class="mast-main">
+      <h1 class="logo">AI 每日简报</h1>
+      <div class="mast-meta">
+        北京时间 <strong>15:00</strong> 发布<br>
+        覆盖 <strong>11.10 — 11.12</strong> · 14 条来源
+      </div>
+    </div>
+
+    <div class="hero">
+      <p class="eyebrow">今日头条 · Capital &amp; Models</p>
+      <h2>万亿美元的一周</h2>
+      <p class="deck">
+        Anthropic 走向公开市场，OpenAI 以 1.25 万亿美元估值完成新融资，Google 把 Gemini 4 Carbon 推上人类偏好榜首位。
+        资本、模型与规则在同一个时间窗口里交汇——<em>这不是一次产品更新，而是一次定价权的重新分配。</em>
+      </p>
+      <div class="dateline">
+        <div><span>Capital</span><strong>1.4 万亿美元</strong></div>
+        <div><span>Top Model</span><strong>Gemini 4 Carbon</strong></div>
+        <div><span>Research</span><strong>Signal 形式化验证</strong></div>
+        <div><span>Governance</span><strong>巴黎 AI 安全宣言</strong></div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ── 01 News ─────────────────────────── -->
+    <section class="section" aria-labelledby="news-title">
+      <div class="section-head reveal">
+        <span class="sec-no">01</span>
+        <h3 id="news-title">过去 24 小时</h3>
+        <span class="sec-note">按重要性排序 · 8 条</span>
+      </div>
+
+      <ol class="news-list">
+        <li class="story reveal">
+          <div class="story-no">01</div>
+          <div class="story-body">
+            <div class="story-meta"><span class="tag tag-capital">资本</span><span>11.11</span><span>IPO</span></div>
+            <h4><a href="https://www.anthropic.com/news" target="_blank" rel="noopener">Anthropic 启动 IPO 路演，最高估值 1.4 万亿美元</a></h4>
+            <p>
+              拟发行 8.25 亿股 A 类股、定价区间 70—78 美元，最高募资约 643.5 亿美元，并申请以代码 “ANT” 登陆纳斯达克；
+              按完全稀释口径估值最高约 1.405 万亿美元，最终定价预计 11 月 18 日公布，承销商正考虑将目标进一步上调至 1.5 万亿美元。
+            </p>
+            <div class="sources">
+              <span class="label">Sources</span>
+              <a href="https://finance.sina.com.cn/stock/t/2026-11-11/doc-iniyhwnn2330113.shtml" target="_blank" rel="noopener">新浪财经</a>
+              <a href="https://36kr.com/p/4064644055749760" target="_blank" rel="noopener">36 氪</a>
+              <a href="https://www.anthropic.com/news" target="_blank" rel="noopener">Anthropic Newsroom</a>
+            </div>
+          </div>
+        </li>
+
+        <li class="story reveal">
+          <div class="story-no">02</div>
+          <div class="story-body">
+            <div class="story-meta"><span class="tag tag-capital">融资</span><span>11.11</span><span>OpenAI</span></div>
+            <h4><a href="https://3v.org/openai-banks-11-billion-dollars-at-a-trillion-plus-valuation-after-cutting-its-round-from-30-billion-to-20/" target="_blank" rel="noopener">OpenAI 完成约 110 亿美元新融资，估值 1.25 万亿美元</a></h4>
+            <p>
+              这是最高 200 亿美元新轮次的首笔交割，SoftBank 与 MGX 参与；融资目标已从 9 月的 300 亿美元、1.4 万亿美元估值下调，
+              显示大型投资人对 frontier lab 的定价开始趋于谨慎。同日台积电董事会批准分别向 OpenAI 与 Anthropic 投资至多 5 亿美元。
+            </p>
+            <div class="sources">
+              <span class="label">Sources</span>
+              <a href="https://3v.org/openai-banks-11-billion-dollars-at-a-trillion-plus-valuation-after-cutting-its-round-from-30-billion-to-20/" target="_blank" rel="noopener">3V / Bloomberg</a>
+              <a href="https://www.morningstar.com/news/dow-jones/20261111108/tsmc-approves-up-to-1-billion-investment-plan-in-anthropic-openai" target="_blank" rel="noopener">Morningstar</a>
+            </div>
+          </div>
+        </li>
+
+        <li class="story reveal">
+          <div class="story-no">03</div>
+          <div class="story-body">
+            <div class="story-meta"><span class="tag tag-product">产品</span><span>11.10</span><span>Google</span></div>
+            <h4><a href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/" target="_blank" rel="noopener">Gemini 4 Carbon 正式开放，登顶 Arena 文本榜</a></h4>
+            <p>
+              Google 向开发者、企业与 Ultra 订阅用户开放 Gemini 4 Carbon，11 月 30 日前定价为每百万 token 输入 2 美元、输出 10 美元；
+              Cursor、GitHub Copilot、Perplexity 与 Devin 当天完成接入，CursorBench 4.0 高分版本得分 60.4%，Arena 文本偏好分 1539 暂列第一。
+            </p>
+            <div class="sources">
+              <span class="label">Sources</span>
+              <a href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/" target="_blank" rel="noopener">Google Blog</a>
+              <a href="https://jls42.org/en/news/ia-actualites-10-nov-2026" target="_blank" rel="noopener">JLS42 Brief</a>
+              <a href="https://arena.ai/leaderboard/chat/text" target="_blank" rel="noopener">Arena</a>
+            </div>
+          </div>
+        </li>
+
+        <li class="story reveal">
+          <div class="story-no">04</div>
+          <div class="story-body">
+            <div class="story-meta"><span class="tag tag-product">产品</span><span>11.11</span><span>OpenAI</span></div>
+            <h4><a href="https://openai.com/index/introducing-businesses-chatgpt/" target="_blank" rel="noopener">OpenAI 上线 “Businesses in ChatGPT”，把对话变成企业入口</a></h4>
+            <p>
+              Beta 版允许美国企业认领资料页、查看聚合互动数据，并创建品牌化的 Business Agents 回答产品与政策问题；
+              交易仍跳转商家站点完成。ChatGPT 目前周活约 12 亿，这一动作意味着 OpenAI 开始在“发现—决策”链路上直接变现流量。
+            </p>
+            <div class="sources">
+              <span class="label">Sources</span>
+              <a href="https://openai.com/index/introducing-businesses-chatgpt/" target="_blank" rel="noopener">OpenAI</a>
+              <a href="https://aistify.com/openai-businesses-chatgpt-business-hub-ai-agents/" target="_blank" rel="noopener">Aistify</a>
+            </div>
+          </div>
+        </li>
+
+        <li class="story reveal">
+          <div class="story-no">05</div>
+          <div class="story-body">
+            <div class="story-meta"><span class="tag tag-product">产品</span><span>11.12</span><span>百度</span></div>
+            <h4><a href="https://cloud.baidu.com/" target="_blank" rel="noopener">百度世界 2026：发布文心闪电深度思考与文心一镜微表情模型</a></h4>
+            <p>
+              文心闪电深度思考模型拥有 8000 亿参数，主打复杂需求理解与工具调用；文心一镜聚焦 AI 视频生成，官方称实现 1:1 实时速度。
+              两款模型同步上线百度智能云千帆平台开放 API，并宣称推理成本降低 30%。
+            </p>
+            <div class="sources">
+              <span class="label">Sources</span>
+              <a href="https://m.weibo.cn/detail/5364453168384429" target="_blank" rel="noopener">快科技</a>
+              <a href="https://m.weibo.cn/detail/5364452711203156" target="_blank" rel="noopener">觉知视频</a>
+            </div>
+          </div>
+        </li>
+
+        <li class="story reveal">
+          <div class="story-no">06</div>
+          <div class="story-body">
+            <div class="story-meta"><span class="tag tag-capital">并购</span><span>11.12</span><span>M&amp;A</span></div>
+            <h4><a href="https://36kr.com/p/4066226367632263" target="_blank" rel="noopener">并购继续升温：AMD 与 World Labs 首次同台，Oura 6.25 亿美元买下 Counsel Health</a></h4>
+            <p>
+              AMD 以约 82 亿美元全股票收购 World Labs 的交易预计年底完成，李飞飞与苏姿丰在 CoRL 2026 首次同台，详解统一世界模型 Atlas；
+              另一边，Oura 以 6.25 亿美元现金收购医疗 AI 公司 Counsel Health，OpenAI 则收购旅行规划平台 Odessia，人才与数据成为并购主标的。
+            </p>
+            <div class="sources">
+              <span class="label">Sources</span>
+              <a href="https://36kr.com/p/4066226367632263" target="_blank" rel="noopener">36 氪</a>
+              <a href="https://www.unite.ai/zh-cn/series/acquisitions/" target="_blank" rel="noopener">Unite.AI</a>
+              <a href="http://m.toutiao.com/group/7707153717841199651" target="_blank" rel="noopener">环球网</a>
+            </div>
+          </div>
+        </li>
+
+        <li class="story reveal">
+          <div class="story-no">07</div>
+          <div class="story-body">
+            <div class="story-meta"><span class="tag">研究</span><span>11.11</span><span>DeepMind</span></div>
+            <h4><a href="https://deepmind.google/" target="_blank" rel="noopener">AlphaProof Code 用 AI 智能体把 Signal 协议验证到机器码层</a></h4>
+            <p>
+              Google DeepMind 让 AI 智能体在 Lean 中形式化证明了 Signal 协议关键安全属性，并一路下探到实际机器码；
+              整个项目耗时四周，而过去专家团队通常需要数年。这是“AI 做数学证明”第一次以生产级安全代码为对象，验证深度罕见。
+            </p>
+            <div class="sources">
+              <span class="label">Sources</span>
+              <a href="https://hogby.ai/artikkel/google-deepmind-alphaproof-code-signal-2026-en" target="_blank" rel="noopener">Hogby.ai</a>
+              <a href="https://grafy.ai/news/google-deepmind-says-ai-agents-verified-signal-code" target="_blank" rel="noopener">Grafy News</a>
+            </div>
+          </div>
+        </li>
+
+        <li class="story reveal">
+          <div class="story-no">08</div>
+          <div class="story-body">
+            <div class="story-meta"><span class="tag">规范</span><span>11.09 — 11.12</span><span>Governance</span></div>
+            <h4><a href="https://www.pm.gc.ca/en/news/statements/2026/11/09/joint-declaration-paris-call-ai-safety-and-security" target="_blank" rel="noopener">治理双线：巴黎 AI 安全宣言落地，美国拟扩大芯片出口许可</a></h4>
+            <p>
+              《巴黎人工智能安全与保障呼吁》获法国、加拿大等 8 国政府、10 家企业（含 OpenAI、Anthropic、Microsoft、Mistral）与 7 家机构签署，
+              核心是模型失控时的安全停机与“关停开关”承诺；同期美国商务部被曝正敲定新规，拟将马来西亚、新加坡、泰国、巴西等 7 国纳入更严格的 AI 芯片出口许可。
+            </p>
+            <div class="sources">
+              <span class="label">Sources</span>
+              <a href="https://www.pm.gc.ca/en/news/statements/2026/11/09/joint-declaration-paris-call-ai-safety-and-security" target="_blank" rel="noopener">Government of Canada</a>
+              <a href="https://www.elysee.fr/en/all-actualities" target="_blank" rel="noopener">Élysée</a>
+              <a href="https://m.weibo.cn/detail/5364437966130464" target="_blank" rel="noopener">The Information / 微博</a>
+            </div>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <!-- ── 02 Leaderboard ─────────────────── -->
+    <section class="section" aria-labelledby="board-title">
+      <div class="section-head reveal">
+        <span class="sec-no">02</span>
+        <h3 id="board-title">模型排行榜</h3>
+        <span class="sec-note">Arena · Top 20</span>
+      </div>
+
+      <div class="board-shell reveal">
+        <div class="board-top">
+          <div>
+            <h4>人类偏好与真实任务，谁在最前面</h4>
+            <p>数据快照 2026-11-08 · 来源 arena.ai 官方榜</p>
+          </div>
+          <div class="tabs" role="tablist" aria-label="排行榜切换">
+            <button class="tab" id="tab-text" role="tab" aria-selected="true" aria-controls="panel-text">文本总榜</button>
+            <button class="tab" id="tab-agent" role="tab" aria-selected="false" aria-controls="panel-agent">Agent 榜</button>
+          </div>
+        </div>
+
+        <div class="board-stats">
+          <div><span>Text Arena</span><strong>1539 <small style="font-family:var(--mono);font-size:11px;color:var(--muted)">/ 榜首分</small></strong></div>
+          <div><span>Votes · Text</span><strong>8,900,458</strong></div>
+          <div><span>Models / Sessions</span><strong>417 / 2.75M</strong></div>
+        </div>
+
+        <!-- Text panel -->
+        <div class="panel is-active" id="panel-text" role="tabpanel" aria-labelledby="tab-text">
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Rank</th>
+                  <th>Model</th>
+                  <th>Lab</th>
+                  <th class="num">Arena Score</th>
+                  <th class="num">Votes</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="top3"><td class="rank">01</td><td><div class="model">Gemini 4 Carbon<span class="variant">High</span></div></td><td class="lab">Google</td><td class="num scorebar">1539<span class="ci">±9.5</span><span class="bar" style="--w:100%"></span></td><td class="num">4,281</td></tr>
+                <tr class="top3"><td class="rank">02</td><td><div class="model">Gemini 4 Argon<span class="variant">High</span></div></td><td class="lab">Google</td><td class="num scorebar">1530<span class="ci">±5.5</span><span class="bar" style="--w:87%"></span></td><td class="num">18,850</td></tr>
+                <tr class="top3"><td class="rank">03</td><td><div class="model">Claude Fable 5.1<span class="variant">Max</span></div></td><td class="lab">Anthropic</td><td class="num scorebar">1513<span class="ci">±5.6</span><span class="bar" style="--w:63%"></span></td><td class="num">19,755</td></tr>
+                <tr><td class="rank">04</td><td><div class="model">Claude Opus 5.5<span class="variant">High</span></div></td><td class="lab">Anthropic</td><td class="num scorebar">1513<span class="ci">±6.1</span><span class="bar" style="--w:63%"></span></td><td class="num">14,815</td></tr>
+                <tr><td class="rank">05</td><td><div class="model">Claude Opus 5<span class="variant">Max</span></div></td><td class="lab">Anthropic</td><td class="num scorebar">1506<span class="ci">±4.7</span><span class="bar" style="--w:50%"></span></td><td class="num">35,712</td></tr>
+                <tr><td class="rank">06</td><td><div class="model">Muse Wonder<span class="variant">Max</span></div></td><td class="lab">Meta</td><td class="num scorebar">1504<span class="ci">±6.4</span><span class="bar" style="--w:46%"></span></td><td class="num">11,483</td></tr>
+                <tr><td class="rank">07</td><td><div class="model">Claude Opus 5<span class="variant">High</span></div></td><td class="lab">Anthropic</td><td class="num scorebar">1502<span class="ci">±3.6</span><span class="bar" style="--w:42%"></span></td><td class="num">73,730</td></tr>
+                <tr><td class="rank">08</td><td><div class="model">Claude Opus 4.6<span class="variant">High</span></div></td><td class="lab">Anthropic</td><td class="num scorebar">1502<span class="ci">±3.2</span><span class="bar" style="--w:42%"></span></td><td class="num">84,428</td></tr>
+                <tr><td class="rank">09</td><td><div class="model">Gemini 3.8 Flash<span class="variant">High</span></div></td><td class="lab">Google</td><td class="num scorebar">1500<span class="ci">±4.2</span><span class="bar" style="--w:38%"></span></td><td class="num">59,624</td></tr>
+                <tr><td class="rank">10</td><td><div class="model">Claude Opus 4.6</div></td><td class="lab">Anthropic</td><td class="num scorebar">1497<span class="ci">±3.2</span><span class="bar" style="--w:32%"></span></td><td class="num">89,224</td></tr>
+                <tr><td class="rank">11</td><td><div class="model">MiMo-V2.6-Pro</div></td><td class="lab">Xiaomi</td><td class="num scorebar">1492<span class="ci">±9.4</span><span class="bar" style="--w:22%"></span></td><td class="num">4,069</td></tr>
+                <tr><td class="rank">12</td><td><div class="model">Claude Fable 5<span class="variant">High</span></div></td><td class="lab">Anthropic</td><td class="num scorebar">1491<span class="ci">±4.2</span><span class="bar" style="--w:20%"></span></td><td class="num">45,562</td></tr>
+                <tr><td class="rank">13</td><td><div class="model">Muse Spark 1.3<span class="variant">Max</span></div></td><td class="lab">Meta</td><td class="num scorebar">1491<span class="ci">±5.1</span><span class="bar" style="--w:20%"></span></td><td class="num">25,563</td></tr>
+                <tr><td class="rank">14</td><td><div class="model">Claude Opus 4.7<span class="variant">High</span></div></td><td class="lab">Anthropic</td><td class="num scorebar">1490<span class="ci">±3.8</span><span class="bar" style="--w:18%"></span></td><td class="num">64,295</td></tr>
+                <tr><td class="rank">15</td><td><div class="model">Gemini 3.7 Flash<span class="variant">High</span></div></td><td class="lab">Google</td><td class="num scorebar">1489<span class="ci">±4.7</span><span class="bar" style="--w:16%"></span></td><td class="num">33,306</td></tr>
+                <tr><td class="rank">16</td><td><div class="model">Qwen3.8-Max</div></td><td class="lab">Alibaba</td><td class="num scorebar">1485<span class="ci">±4.6</span><span class="bar" style="--w:8%"></span></td><td class="num">35,805</td></tr>
+                <tr><td class="rank">17</td><td><div class="model">Muse Spark 1.2<span class="variant">xHigh</span></div></td><td class="lab">Meta</td><td class="num scorebar">1484<span class="ci">±5.9</span><span class="bar" style="--w:6%"></span></td><td class="num">14,561</td></tr>
+                <tr><td class="rank">18</td><td><div class="model">Claude Opus 4.7</div></td><td class="lab">Anthropic</td><td class="num scorebar">1483<span class="ci">±3.8</span><span class="bar" style="--w:4%"></span></td><td class="num">65,387</td></tr>
+                <tr><td class="rank">19</td><td><div class="model">Gemini 3.5 Flash<span class="variant">High</span></div></td><td class="lab">Google</td><td class="num scorebar">1483<span class="ci">±3.9</span><span class="bar" style="--w:4%"></span></td><td class="num">47,646</td></tr>
+                <tr><td class="rank">20</td><td><div class="model">Gemini 3.1 Pro Preview</div></td><td class="lab">Google</td><td class="num scorebar">1480<span class="ci">±2.9</span><span class="bar" style="--w:0%"></span></td><td class="num">132,347</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Agent panel -->
+        <div class="panel" id="panel-agent" role="tabpanel" aria-labelledby="tab-agent" hidden>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Rank</th>
+                  <th>Model</th>
+                  <th>Lab</th>
+                  <th class="num">IPS Score</th>
+                  <th class="num">Cost / Task</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="top3"><td class="rank">01</td><td><div class="model">Claude Opus 5.5<span class="variant">Max</span></div></td><td class="lab">Anthropic</td><td class="num scorebar">19.96%<span class="ci">±2.1</span><span class="bar" style="--w:100%"></span></td><td class="num">$6.31</td></tr>
+                <tr class="top3"><td class="rank">02</td><td><div class="model">Gemini 4 Carbon<span class="variant">High</span></div></td><td class="lab">Google</td><td class="num scorebar">16.63%<span class="ci">±0.7</span><span class="bar" style="--w:82%"></span></td><td class="num">$1.54</td></tr>
+                <tr class="top3"><td class="rank">03</td><td><div class="model">Claude Sonnet 5.5<span class="variant">Max</span></div></td><td class="lab">Anthropic</td><td class="num scorebar">15.99%<span class="ci">±2.8</span><span class="bar" style="--w:79%"></span></td><td class="num">$3.42</td></tr>
+                <tr><td class="rank">04</td><td><div class="model">Claude Fable 5.1<span class="variant">Max</span></div></td><td class="lab">Anthropic</td><td class="num scorebar">14.34%<span class="ci">±2.0</span><span class="bar" style="--w:70%"></span></td><td class="num">$6.87</td></tr>
+                <tr><td class="rank">05</td><td><div class="model">GPT-6 Astra<span class="variant">Max</span></div></td><td class="lab">OpenAI</td><td class="num scorebar">14.24%<span class="ci">±2.0</span><span class="bar" style="--w:70%"></span></td><td class="num">$7.04</td></tr>
+                <tr><td class="rank">06</td><td><div class="model">GPT-6.1 Sol<span class="variant">Max</span></div></td><td class="lab">OpenAI</td><td class="num scorebar">12.53%<span class="ci">±1.1</span><span class="bar" style="--w:61%"></span></td><td class="num">$0.98</td></tr>
+                <tr><td class="rank">07</td><td><div class="model">GPT-6.1 Terra<span class="variant">Max</span></div></td><td class="lab">OpenAI</td><td class="num scorebar">12.10%<span class="ci">±1.4</span><span class="bar" style="--w:59%"></span></td><td class="num">$0.80</td></tr>
+                <tr><td class="rank">08</td><td><div class="model">Gemini 4 Argon<span class="variant">High</span></div></td><td class="lab">Google</td><td class="num scorebar">10.83%<span class="ci">±0.9</span><span class="bar" style="--w:52%"></span></td><td class="num">$0.82</td></tr>
+                <tr><td class="rank">09</td><td><div class="model">Muse Wonder Full<span class="variant">Max</span></div></td><td class="lab">Meta</td><td class="num scorebar">9.09%<span class="ci">±0.9</span><span class="bar" style="--w:44%"></span></td><td class="num">—</td></tr>
+                <tr><td class="rank">10</td><td><div class="model">Claude Fable 5<span class="variant">High</span></div></td><td class="lab">Anthropic</td><td class="num scorebar">7.70%<span class="ci">±1.1</span><span class="bar" style="--w:37%"></span></td><td class="num">$3.42</td></tr>
+                <tr><td class="rank">11</td><td><div class="model">Claude Opus 5<span class="variant">Max</span></div></td><td class="lab">Anthropic</td><td class="num scorebar">7.50%<span class="ci">±1.3</span><span class="bar" style="--w:36%"></span></td><td class="num">$4.14</td></tr>
+                <tr><td class="rank">12</td><td><div class="model">GPT-6 Sol<span class="variant">Max</span></div></td><td class="lab">OpenAI</td><td class="num scorebar">7.00%<span class="ci">±1.6</span><span class="bar" style="--w:34%"></span></td><td class="num">$1.76</td></tr>
+                <tr><td class="rank">13</td><td><div class="model">Kimi K3.1 Pro<span class="variant">Max</span></div></td><td class="lab">Moonshot</td><td class="num scorebar">5.24%<span class="ci">±1.1</span><span class="bar" style="--w:25%"></span></td><td class="num">$1.31</td></tr>
+                <tr><td class="rank">14</td><td><div class="model">Hy4</div></td><td class="lab">Tencent</td><td class="num scorebar">4.66%<span class="ci">±1.4</span><span class="bar" style="--w:22%"></span></td><td class="num">$0.59</td></tr>
+                <tr><td class="rank">15</td><td><div class="model">GPT-5.6 Sol<span class="variant">xHigh</span></div></td><td class="lab">OpenAI</td><td class="num scorebar">4.53%<span class="ci">±1.1</span><span class="bar" style="--w:22%"></span></td><td class="num">$1.72</td></tr>
+                <tr><td class="rank">16</td><td><div class="model">Grok 4.7<span class="variant">xHigh</span></div></td><td class="lab">xAI</td><td class="num scorebar">2.65%<span class="ci">±1.5</span><span class="bar" style="--w:13%"></span></td><td class="num">$2.91</td></tr>
+                <tr><td class="rank">17</td><td><div class="model">Gemini 3.8 Flash<span class="variant">High</span></div></td><td class="lab">Google</td><td class="num scorebar">2.38%<span class="ci">±0.8</span><span class="bar" style="--w:11%"></span></td><td class="num">$0.75</td></tr>
+                <tr><td class="rank">18</td><td><div class="model">MiMo-V2.6-Pro</div></td><td class="lab">Xiaomi</td><td class="num scorebar">2.33%<span class="ci">±0.9</span><span class="bar" style="--w:11%"></span></td><td class="num">$0.17</td></tr>
+                <tr><td class="rank">19</td><td><div class="model">Muse Spark 1.3<span class="variant">Max</span></div></td><td class="lab">Meta</td><td class="num scorebar">2.21%<span class="ci">±0.8</span><span class="bar" style="--w:10%"></span></td><td class="num">$0.47</td></tr>
+                <tr><td class="rank">20</td><td><div class="model">DeepSeek-V4.1-Flash<span class="variant">Max</span></div></td><td class="lab">DeepSeek</td><td class="num scorebar">2.07%<span class="ci">±0.5</span><span class="bar" style="--w:9%"></span></td><td class="num">$0.15</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <p class="board-foot">
+          注：文本榜为基于匿名两两对战的偏好分（Elo 类），Agent 榜为真实任务净改进（IPS）。两者量纲不同，不可跨榜比较。
+          快照为 2026-11-08 官方榜，分数会随新投票滚动；Arena 页面含动态渲染，实际名次以官方实时页面为准。
+        </p>
+      </div>
+    </section>
+
+    <!-- ── 03 Commentary ──────────────────── -->
+    <section class="commentary reveal" aria-label="今日趋势点评">
+      <div class="label">03 · 今日趋势点评</div>
+      <div>
+        <blockquote>
+          今天的信号不在某个模型又涨了几十分，而在“钱、算力和规则”同时开始给 AI 定价。Anthropic 用 IPO 把私募估值变成公开价格，OpenAI 的融资缩水则说明资本开始讨价还价；Gemini 4 Carbon 以一半价格逼近顶端，说明能力差距正在被成本曲线抹平。真正的分水岭是治理——当多国政府与 10 家公司把“安全停机”写进共同宣言，模型竞争就不再只是跑分，而是谁能在规则之内把成本做到最低。
+        </blockquote>
+        <div class="sign">— Brief Editorial · 2026.11.12</div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="foot-grid">
+      <div>
+        <h5>About</h5>
+        <p>本期覆盖 2026 年 11 月 10 日至 12 日（北京时间）的 AI 行业动态，聚焦产品、资本、研究与治理四条线。所有信息均来自公开报道，标题与摘要经编辑整理。</p>
+      </div>
+      <div>
+        <h5>主要来源</h5>
+        <ul>
+          <li><a href="https://www.anthropic.com/news" target="_blank" rel="noopener">Anthropic Newsroom</a></li>
+          <li><a href="https://openai.com/news/" target="_blank" rel="noopener">OpenAI News</a></li>
+          <li><a href="https://blog.google/innovation-and-ai/" target="_blank" rel="noopener">Google AI Blog</a></li>
+          <li><a href="https://arena.ai/leaderboard" target="_blank" rel="noopener">Arena Leaderboard</a></li>
+          <li><a href="https://www.elysee.fr/en/all-actualities" target="_blank" rel="noopener">Élysée</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>数据说明</h5>
+        <ul>
+          <li>榜单快照：2026-11-08</li>
+          <li>文本榜：417 个模型 / 8.9M 票</li>
+          <li>Agent 榜：57 个模型 / 2.75M 会话</li>
+          <li>排名按官方分数降序排列</li>
+        </ul>
+      </div>
+    </div>
+    <div class="colophon">
+      <span>AI Daily Brief · No. 041</span>
+      <span>Compiled in Beijing · 2026.11.12</span>
+      <span>For informational purposes only</span>
+    </div>
+  </footer>
+</div>
+
+<script>
+  // Tabs
+  const tabs = Array.from(document.querySelectorAll('.tab'));
+  const panels = {
+    'tab-text': document.getElementById('panel-text'),
+    'tab-agent': document.getElementById('panel-agent')
+  };
+
+  function activate(tab){
+    tabs.forEach(t => {
+      const selected = t === tab;
+      t.setAttribute('aria-selected', String(selected));
+      const panel = panels[t.id];
+      panel.classList.toggle('is-active', selected);
+      panel.hidden = !selected;
+    });
+  }
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => activate(tab));
+    tab.addEventListener('keydown', (e) => {
+      const i = tabs.indexOf(tab);
+      let next = null;
+      if (e.key === 'ArrowRight') next = tabs[(i + 1) % tabs.length];
+      if (e.key === 'ArrowLeft') next = tabs[(i - 1 + tabs.length) % tabs.length];
+      if (next){ e.preventDefault(); next.focus(); activate(next); }
+    });
+  });
+
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window){
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting){
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    revealEls.forEach(el => io.observe(el));
+  } else {
+    revealEls.forEach(el => el.classList.add('in'));
+  }
+</script>
+</body>
+</html>
