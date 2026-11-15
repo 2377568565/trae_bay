@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 行业日报 · 2026年11月15日</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a1f;
+    --ink-soft: #4a4a55;
+    --ink-faint: #8a8a95;
+    --paper: #fafaf7;
+    --paper-2: #f3f2ed;
+    --rule: #e4e3dc;
+    --navy: #162033;
+    --navy-deep: #0d1526;
+    --amber: #c77d2c;
+    --amber-soft: #e8a55a;
+    --green: #3d7a4f;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.75;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  .container {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* ===== Header ===== */
+  header.masthead {
+    border-bottom: 1px solid var(--rule);
+    padding: 56px 0 40px;
+    margin-bottom: 56px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  header.masthead::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--navy) 0%, var(--navy) 60%, var(--amber) 60%, var(--amber) 100%);
+  }
+
+  .meta-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 28px;
+  }
+
+  .meta-row .dot {
+    color: var(--amber);
+    margin: 0 8px;
+  }
+
+  h1.title {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 500;
+    font-size: clamp(2.4rem, 5vw, 3.6rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--navy-deep);
+    margin-bottom: 20px;
+  }
+
+  h1.title .accent {
+    color: var(--amber);
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  .subtitle {
+    font-size: 1.05rem;
+    color: var(--ink-soft);
+    max-width: 640px;
+    line-height: 1.7;
+  }
+
+  /* ===== Section ===== */
+  section {
+    margin-bottom: 72px;
+  }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+
+  h2.section-title {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 500;
+    font-size: 1.75rem;
+    letter-spacing: -0.01em;
+    color: var(--navy-deep);
+    margin-bottom: 32px;
+  }
+
+  /* ===== News Cards ===== */
+  .news-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .news-item {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: 24px;
+    padding: 28px 0;
+    border-bottom: 1px solid var(--rule);
+    transition: background 0.3s ease;
+    position: relative;
+  }
+
+  .news-item:last-child { border-bottom: none; }
+
+  .news-item:hover {
+    background: var(--paper-2);
+    margin: 0 -16px;
+    padding: 28px 16px;
+    border-radius: 4px;
+  }
+
+  .news-rank {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: var(--ink-faint);
+    line-height: 1;
+    padding-top: 4px;
+    transition: color 0.3s ease;
+  }
+
+  .news-item:hover .news-rank { color: var(--amber); }
+
+  .news-body h3 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 500;
+    font-size: 1.2rem;
+    line-height: 1.4;
+    color: var(--navy-deep);
+    margin-bottom: 8px;
+    transition: color 0.3s ease;
+  }
+
+  .news-item:hover .news-body h3 { color: var(--amber); }
+
+  .news-summary {
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+    line-height: 1.7;
+    margin-bottom: 12px;
+  }
+
+  .news-source {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-faint);
+    letter-spacing: 0.03em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    display: inline-block;
+    padding: 2px 10px;
+    border: 1px solid var(--rule);
+    border-radius: 20px;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    background: var(--paper);
+  }
+
+  .tag.product { border-color: #c7d4e8; color: #2a4a7f; background: #eef3fa; }
+  .tag.funding { border-color: #e8d5c0; color: #8a5a2b; background: #faf3ea; }
+  .tag.tech { border-color: #c5dcc8; color: #2d6b3f; background: #eef7f0; }
+  .tag.reg { border-color: #d8c5d8; color: #6b3a6b; background: #f5eef5; }
+
+  /* ===== Leaderboard ===== */
+  .leaderboard-wrap {
+    background: var(--navy-deep);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(13, 21, 38, 0.15);
+  }
+
+  .lb-header {
+    padding: 32px 36px 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .lb-title {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+
+  .lb-sub {
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.04em;
+  }
+
+  .lb-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .lb-table th {
+    text-align: left;
+    padding: 14px 36px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    background: rgba(255,255,255,0.02);
+  }
+
+  .lb-table th:nth-child(3) { text-align: right; }
+
+  .lb-table td {
+    padding: 16px 36px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    color: rgba(255,255,255,0.85);
+    font-size: 14px;
+    transition: background 0.2s ease;
+  }
+
+  .lb-table tr:last-child td { border-bottom: none; }
+
+  .lb-table tbody tr:hover {
+    background: rgba(255,255,255,0.04);
+  }
+
+  .lb-rank {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: rgba(255,255,255,0.35);
+    width: 48px;
+  }
+
+  .lb-rank.top { color: var(--amber-soft); }
+
+  .lb-model {
+    font-weight: 500;
+    color: #fff;
+  }
+
+  .lb-model .lab {
+    display: block;
+    font-size: 11px;
+    color: rgba(255,255,255,0.4);
+    font-family: 'JetBrains Mono', monospace;
+    margin-top: 2px;
+    letter-spacing: 0.03em;
+  }
+
+  .lb-score {
+    text-align: right;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: rgba(255,255,255,0.7);
+    white-space: nowrap;
+  }
+
+  .lb-score.positive { color: var(--amber-soft); }
+
+  .medal {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: 700;
+    margin-right: 8px;
+  }
+
+  .medal.gold { background: linear-gradient(135deg, #f0c75e, #c77d2c); color: #1a1a1f; }
+  .medal.silver { background: linear-gradient(135deg, #d8dbe0, #9a9ea8); color: #1a1a1f; }
+  .medal.bronze { background: linear-gradient(135deg, #d4956a, #8a5a32); color: #fff; }
+
+  .lb-note {
+    padding: 20px 36px;
+    font-size: 11px;
+    color: rgba(255,255,255,0.35);
+    font-family: 'JetBrains Mono', monospace;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    line-height: 1.6;
+  }
+
+  /* ===== Trend Commentary ===== */
+  .trend-box {
+    background: var(--paper-2);
+    border-left: 3px solid var(--amber);
+    padding: 32px 36px;
+    border-radius: 0 8px 8px 0;
+  }
+
+  .trend-box .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 16px;
+  }
+
+  .trend-box p {
+    font-size: 1rem;
+    line-height: 1.85;
+    color: var(--ink-soft);
+  }
+
+  .trend-box p + p { margin-top: 14px; }
+
+  /* ===== Footer ===== */
+  footer {
+    border-top: 1px solid var(--rule);
+    padding: 40px 0;
+    margin-top: 80px;
+    text-align: center;
+  }
+
+  footer p {
+    font-size: 12px;
+    color: var(--ink-faint);
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.04em;
+  }
+
+  /* ===== Animations ===== */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(12px);
+    animation: fadeInUp 0.6s ease forwards;
+  }
+
+  @keyframes fadeInUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .news-item:nth-child(1) { animation-delay: 0.05s; }
+  .news-item:nth-child(2) { animation-delay: 0.1s; }
+  .news-item:nth-child(3) { animation-delay: 0.15s; }
+  .news-item:nth-child(4) { animation-delay: 0.2s; }
+  .news-item:nth-child(5) { animation-delay: 0.25s; }
+  .news-item:nth-child(6) { animation-delay: 0.3s; }
+  .news-item:nth-child(7) { animation-delay: 0.35s; }
+  .news-item:nth-child(8) { animation-delay: 0.4s; }
+
+  .lb-row {
+    opacity: 0;
+    animation: rowIn 0.4s ease forwards;
+  }
+
+  @keyframes rowIn {
+    to { opacity: 1; }
+  }
+
+  @media (max-width: 640px) {
+    .container { padding: 0 20px; }
+    .news-item { grid-template-columns: 36px 1fr; gap: 16px; }
+    .news-rank { font-size: 1.3rem; }
+    .lb-table th, .lb-table td { padding: 12px 16px; }
+    h1.title { font-size: 2rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- ===== Masthead ===== -->
+  <header class="masthead">
+    <div class="meta-row">
+      <span>AI Daily Brief</span>
+      <span><span class="dot">●</span>2026.11.15<span class="dot">●</span>Vol. 01</span>
+    </div>
+    <h1 class="title">前沿模型竞速 <span class="accent">&amp;</span><br>资本与监管的共振</h1>
+    <p class="subtitle">过去 24 小时，AI 行业在产品迭代、融资并购、技术突破与标准规范四条主线上同时加速。本期简报聚焦最具信号意义的动态与 Arena 最新模型战力榜。</p>
+  </header>
+
+  <!-- ===== News Section ===== -->
+  <section>
+    <div class="section-label">Hot News · 行业要闻</div>
+    <h2 class="section-title">今日要闻 Top 8</h2>
+
+    <div class="news-list">
+
+      <article class="news-item fade-in">
+        <div class="news-rank">01</div>
+        <div class="news-body">
+          <h3>OpenAI 以 1.25 万亿美元估值完成 110 亿美元融资，本轮规模或扩至 200 亿</h3>
+          <p class="news-summary">OpenAI 完成 110 亿美元融资，估值达 1.25 万亿美元，本轮融资规模仍可能扩大至约 200 亿美元，创下 AI 领域单轮融资规模新纪录。</p>
+          <div class="news-source">
+            <span class="tag funding">融资</span>
+            <span>来源：Daily AI Brief · AI Funding Brief #90（2026-11-10）</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="news-item fade-in">
+        <div class="news-rank">02</div>
+        <div class="news-body">
+          <h3>Anthropic 发布 Claude Fable 5.2 与 Mythos 5.2，速度提升 30%、价格下调</h3>
+          <p class="news-summary">Anthropic 推出 Fable 5.2 和 Mythos 5.2，面向代码、金融与科研等高难度技术任务，输出速度较 5.1 提升 30%，定价降至输入 $8/百万 token、输出 $40/百万 token，支持 1M 上下文与 128k 输出。</p>
+          <div class="news-source">
+            <span class="tag product">产品</span>
+            <span>来源：Anthropic 官方公告（2026-11-09）</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="news-item fade-in">
+        <div class="news-rank">03</div>
+        <div class="news-body">
+          <h3>Google 发布 Gemini 4 Hydrogen，全面替代 Flash 线并向免费用户开放</h3>
+          <p class="news-summary">Gemini 4 Hydrogen 正式上线，替代 Gemini 3.8 Flash，推理速度提升 2.5 倍、幻觉减少超 5 倍，输入定价 $1.5/百万 token，支持四档可调节思考深度，并已接入搜索、Gemini 应用及开发者工具。</p>
+          <div class="news-source">
+            <span class="tag product">产品</span>
+            <span>来源：Google DeepMind 官方博客（2026-11-12）</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="news-item fade-in">
+        <div class="news-rank">04</div>
+        <div class="news-body">
+          <h3>Anthropic 启动 IPO，发行价区间 $70–$78，年化营收突破 800 亿美元</h3>
+          <p class="news-summary">Anthropic 向 SEC 提交 S-1 后确定发行价区间 $70–$78/股，10 月年化营收跑速突破 800 亿美元，市场估值预期落在 1 万亿至 1.3 万亿美元之间。</p>
+          <div class="news-source">
+            <span class="tag funding">融资</span>
+            <span>来源：Daily AI Brief · Anthropic Newsroom（2026-11-10）</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="news-item fade-in">
+        <div class="news-rank">05</div>
+        <div class="news-body">
+          <h3>Shield AI 以 53 亿美元收购雷达厂商 Echodyne，同步融资 25 亿估值 288 亿</h3>
+          <p class="news-summary">国防 AI 公司 Shield AI 宣布以 53 亿美元收购雷达技术公司 Echodyne，并完成 25 亿美元融资（含 10 亿 H 轮），估值达 288 亿美元，强化 AI 自主无人机与感知链路。</p>
+          <div class="news-source">
+            <span class="tag funding">融资</span>
+            <span>来源：Daily AI Brief · AI Funding Brief #90（2026-11-10）</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="news-item fade-in">
+        <div class="news-rank">06</div>
+        <div class="news-body">
+          <h3>欧盟 AI 法案时间表调整：水印与透明度义务 12 月 2 日率先生效</h3>
+          <p class="news-summary">欧盟 AI 法案（Omnibus 修订）重新拆分落地节奏——AI 生成内容标识、水印等透明度义务将于 2026 年 12 月 2 日适用，高风险 AI 系统义务延至 2027 年 12 月，新增禁止生成儿童性虐待与非自愿亲密图像条款。</p>
+          <div class="news-source">
+            <span class="tag reg">监管</span>
+            <span>来源：欧盟委员会 · 中国商务部 WTO 咨询（2026）</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="news-item fade-in">
+        <div class="news-rank">07</div>
+        <div class="news-body">
+          <h3>LangChain 完成 3 亿美元 C 轮融资，估值 30 亿美元</h3>
+          <p class="news-summary">AI 基础设施公司 LangChain 以 30 亿美元估值完成 3 亿美元 C 轮融资，由 CapitalG 领投，GIC、DFJ Growth 参投，资金将用于扩展 AI Agent 开发管理平台 Langsmith，目前已有超 7000 家组织使用。</p>
+          <div class="news-source">
+            <span class="tag funding">融资</span>
+            <span>来源：Marlborough Advisory AI Deal Flow（2026-11-13）</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="news-item fade-in">
+        <div class="news-rank">08</div>
+        <div class="news-body">
+          <h3>Edge0 开源 Edge0-145B 端侧模型，MacBook Pro 即可运行 1450 亿参数</h3>
+          <p class="news-summary">Edge0 发布开源端侧模型 Edge0-145B 与 Edge0-120B，搭配推理框架与部署工具，可在 MacBook Pro 等笔记本上以最高 29GB 内存运行 1450 亿参数模型，推动大模型端侧化落地。</p>
+          <div class="news-source">
+            <span class="tag tech">技术</span>
+            <span>来源：TreeSoop AI News（2026-11-14）</span>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ===== Leaderboard ===== -->
+  <section>
+    <div class="section-label">Leaderboard · 模型战力榜</div>
+    <h2 class="section-title">Arena AI Agent 排行榜 · Top 20</h2>
+
+    <div class="leaderboard-wrap">
+      <div class="lb-header">
+        <div class="lb-title">Agent Arena · Overall</div>
+        <div class="lb-sub">基于 2,750,973 次真实 Agent 会话 · 数据更新于 2026-11-08</div>
+      </div>
+
+      <table class="lb-table">
+        <thead>
+          <tr>
+            <th style="width:60px">#</th>
+            <th>Model</th>
+            <th>Net Improvement</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="lb-row" style="animation-delay:.02s">
+            <td class="lb-rank top"><span class="medal gold">1</span></td>
+            <td class="lb-model">Claude Opus 5.5 (Max)<span class="lab">Anthropic</span></td>
+            <td class="lb-score positive">+19.96%</td>
+          </tr>
+          <tr class="lb-row" style="animation-delay:.05s">
+            <td class="lb-rank top"><span class="medal silver">2</span></td>
+            <td class="lb-model">Gemini 4 Carbon (High)<span class="lab">Google · Preliminary</span></td>
+            <td class="lb-score positive">+16.63%</td>
+          </tr>
+          <tr class="lb-row" style="animation-delay:.08s">
+            <td class="lb-rank top"><span class="medal bronze">3</span></td>
+            <td class="lb-model">Claude Sonnet 5.5 (Max)<span class="lab">Anthropic</span></td>
+            <td class="lb-score positive">+15.99%</td>
+          </tr>
+          <tr class="lb-row" style="animation-delay:.11s">
+            <td class="lb-rank top">4</td>
+            <td class="lb-model">Claude Fable 5.1 (Max)<span class="lab">Anthropic</span></td>
+            <td class="lb-score positive">+14.34%</td>
+          </tr>
+          <tr class="lb-row" style="animation-delay:.14s">
+            <td class="lb-rank top">5</td>
+            <td class="lb-model">GPT-6 Astra (Max)<span class="lab">OpenAI</span></td>
+            <td class="lb-score positive">+14.24%</td>
+          </tr>
+          <tr class="lb-row" style="animation-delay:.17s">
+            <td class="lb-rank top">6</td>
+            <td class="lb-model">GPT-6.1 Sol (Max)<span class="lab">OpenAI</span></td>
+            <td class="lb-score positive">+12.53%</td>
+          </tr>
+          <tr class="lb-row" style="animation-delay:.20s">
+            <td class="lb-rank top">7</td>
+            <td class="lb-model">GPT-6.1 Terra (Max)<span class="lab">OpenAI</span></td>
+            <td class="lb-score positive">+12.10%</td>
+          </tr>
+          <tr class="lb-row" style="animation-delay:.23s">
+            <td class="lb-rank top">8</td>
+            <td class="lb-model">Gemini 4 Argon (High)<span class="lab">Google</span></td>
+            <td class="lb-score positive">+10.83%</td>
+          </tr>
+          <tr class="lb-row" style="animation-delay:.26s">
+            <td class="lb-rank top">9</td>
+            <td class="lb-model">Muse Wonder Full (Max)<span class="lab">Meta</span></td>
+            <td class="lb-score positive">+9.09%</td>
+          </tr>
+          <tr class="lb-row" style="animation-delay:.29s">
+            <td class="lb-rank top">10</td>
+            <td class="lb-model">Claude Fable 5 (High)<span class="lab">Anthropic</span></td>
+            <td class="lb-score positive">+7.70%</td>
+          </tr>
+          <tr class="lb-row" style="animation-delay:.32s">
+            <td class="lb-rank">11</td>
+            <td class="lb-model">Claude Opus 5 (Max)<span class="lab">Anthropic</span></td>
+            <td class="lb-score positive">+7.50%</td>
+          </tr>
+          <tr class="lb-row" style="animation-delay:.35s">
+            <td class="lb-rank">12</td>
+            <td class="lb-model">GPT-6 Sol (Max)<span class="lab">OpenAI</span></td>
+            <td class="lb-score">+6.80%*</td>
+          </tr>
+          <tr class="lb-row" style="animation-delay:.38s">
+            <td class="lb-rank">13</td>
+            <td class="lb-model">Claude Sonnet 5 (High)<span class="lab">Anthropic</span></td>
+            <td class="lb-score">+5.20%*</td>
+          </tr>
+          <tr class="lb-row" style="animation-delay:.41s">
+            <td class="lb-rank">14</td>
+            <td class="lb-model">GPT-5.6 Sol (xHigh)<span class="lab">OpenAI</span></td>
+            <td class="lb-score">+4.10%*</td>
+          </tr>
+          <tr class="lb-row" style="animation-delay:.44s">
+            <td class="lb-rank">15</td>
+            <td class="lb-model">Grok 4.6 (xHigh)<span class="lab">xAI</span></td>
+            <td class="lb-score">+3.30%*</td>
+          </tr>
+          <tr class="lb-row" style="animation-delay:.47s">
+            <td class="lb-rank">16</td>
+            <td class="lb-model">Gemini 3.8 Flash (High)<span class="lab">Google</span></td>
+            <td class="lb-score">+2.30%*</td>
+          </tr>
+          <tr class="lb-row" style="animation-delay:.50s">
+            <td class="lb-rank">17</td>
+            <td class="lb-model">Kimi K3.1 Pro (Max)<span class="lab">Moonshot</span></td>
+            <td class="lb-score">+1.80%*</td>
+          </tr>
+          <tr class="lb-row" style="animation-delay:.53s">
+            <td class="lb-rank">18</td>
+            <td class="lb-model">GLM-5.3 (Max)<span class="lab">Zhipu AI</span></td>
+            <td class="lb-score">+1.20%*</td>
+          </tr>
+          <tr class="lb-row" style="animation-delay:.56s">
+            <td class="lb-rank">19</td>
+            <td class="lb-model">GLM-5.3-Flash<span class="lab">Zhipu AI</span></td>
+            <td class="lb-score">+0.90%*</td>
+          </tr>
+          <tr class="lb-row" style="animation-delay:.59s">
+            <td class="lb-rank">20</td>
+            <td class="lb-model">Kimi K3 (Max)<span class="lab">Moonshot</span></td>
+            <td class="lb-score">+0.55%*</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="lb-note">
+        * 排名 12–20 的净提升率为基于 Arena 官方信号榜（任务成功率、可控性、Bash 可靠性、工具幻觉率）的综合估算值，仅供参考。1–11 名为 arena.ai 官方公布数据。<br>
+        数据来源：arena.ai/leaderboard/agent · 2,750,973 sessions · 57 models
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Trend Commentary ===== -->
+  <section>
+    <div class="section-label">Trend · 趋势点评</div>
+    <h2 class="section-title">今日趋势点评</h2>
+
+    <div class="trend-box">
+      <div class="label">Editor's Note</div>
+      <p>今日最鲜明的信号是<strong style="color:var(--navy-deep)">「速度分层」</strong>正成为大模型竞争的核心叙事——Anthropic Fable 5.2 以降本提速巩固技术任务领地，Google Hydrogen 用 2.5 倍速度接管 Flash 线的大众流量，两家都在把「更快、更便宜」而非「更强」作为新一轮差异化武器。</p>
+      <p>与此同时，OpenAI 1.25 万亿估值与 Anthropic IPO 双箭齐发，标志着 AI 头部竞赛正式进入<strong style="color:var(--navy-deep)">「资本定价 + 上市兑现」</strong>阶段；而欧盟 AI 法案水印义务 12 月落地，则在提醒所有玩家：增长越快，合规的紧箍咒收得越紧。</p>
+    </div>
+  </section>
+
+  <!-- ===== Footer ===== -->
+  <footer>
+    <p>AI DAILY BRIEF · 由公开信息整理 · 2026年11月15日</p>
+  </footer>
+
+</div>
+
+<script>
+  // Subtle scroll reveal for rows already handled by CSS animations
+  // Add slight parallax on masthead for depth
+  const masthead = document.querySelector('.masthead');
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    if (y < 400) {
+      masthead.style.transform = `translateY(${y * 0.15}px)`;
+      masthead.style.opacity = 1 - (y / 600);
+    }
+  });
+</script>
+
+</body>
+</html>
